@@ -8,7 +8,12 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'echo "First check"'
+                sh 'ls -ltr'
                 git 'https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git'
+                sh 'echo "Second check"'
+                sh 'ls -ltr'
+                sh 'echo "Pip Install"'
                 sh """
                 pip2 install --user .
                 pip2 install mock --user
