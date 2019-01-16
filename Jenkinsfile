@@ -8,9 +8,10 @@ pipeline {
         }
         stage('Test') {
             steps {
+                git 'https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git'
                 sh """
+                pip2 install --user .
                 pip2 install mock --user
-                git clone git@gitlab.code.dicelab.net:JAC-IDM/python-lib.git lib
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
                 ./test/unit/check_log/fetch_marker_entry.py
