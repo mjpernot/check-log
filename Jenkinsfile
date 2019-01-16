@@ -10,12 +10,12 @@ pipeline {
             steps {
                 sh 'echo "First check"'
                 sh 'ls -ltr'
-                git 'https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git'
+                git branch: "master", credentialsId: "83cbd6c2-c064-413a-aa71-f75a7795f94e", url: "https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git"
                 sh 'echo "Second check"'
                 sh 'ls -ltr'
                 sh 'echo "Pip Install"'
                 sh """
-                pip2 install --user .
+                pip2 install --user .  --target lib
                 pip2 install mock --user
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
