@@ -10,7 +10,7 @@ pipeline {
             steps {
                 sh 'echo "First check"'
                 sh 'ls -ltr'
-                git branch: "master", credentialsId: "2f384cda-b80f-460c-a656-ce24affa3d2d", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                git branch: "master", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
                 sh 'echo "Second check"'
                 sh 'ls -ltr'
                 sh 'echo "Pip Install"'
