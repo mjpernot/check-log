@@ -11,7 +11,6 @@ pipeline {
                 sh """
                 pwd
                 ls -tlr
-                // rm -rf lib
                 mkdir lib
                 cd lib
                 pwd
