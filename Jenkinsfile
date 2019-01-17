@@ -8,27 +8,17 @@ pipeline {
         }
         stage('Test') {
             steps {
-                script {
-                    sh """
-                    pwd
-                    ls -tlr
-                    """
-                    sshagent(['2cfb403c-be21-4fac-94d7-c8cd5c531feb']) {
-                        sh(script: "git clone git@gitlab.code.dicelab.net:JAC-IDM/python-lib.git lib")
-                    }
-                    sh """
-                    pwd
-                    ls -tlr
-                    """
-                }
-                // sh """
-                // echo 'First Check'
-                // pwd
-                // ls -tlr
+                sh """
+                pwd
+                ls -tlr
                 // rm -rf lib
-                // mkdir lib
-                // cd lib
-                // """
+                mkdir lib
+                cd lib
+                pwd
+                """
+                sh """
+                pwd
+                """
                 // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
                 // sh """
                 // pwd
