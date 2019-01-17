@@ -20,6 +20,7 @@ pipeline {
                 sh 'echo "Pip Install"'
                 sh """
                 pip2 install mock --user
+                pwd
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
                 ./test/unit/check_log/fetch_marker_entry.py
