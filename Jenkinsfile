@@ -11,6 +11,7 @@ pipeline {
                 sh 'echo "First check"'
                 sh 'pwd'
                 sh 'ls -ltr'
+                sh 'rm -rf test_install'
                 sh 'mkdir lib'
                 sh 'cd lib'
                 git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
@@ -21,6 +22,9 @@ pipeline {
                 sh """
                 pip2 install mock --user
                 pwd
+                ls -ltr test
+                ls -tlr test/unit
+                ls -tlr test/unit/check_log
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
                 ./test/unit/check_log/fetch_marker_entry.py
