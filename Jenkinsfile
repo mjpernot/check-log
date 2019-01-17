@@ -33,7 +33,7 @@ pipeline {
                 ls -ltr test
                 ls -tlr test/unit
                 ls -tlr test/unit/check_log
-                ./test/unit/check_log/fetch_log.py
+                ./test/unit/check_log/afetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
                 ./test/unit/check_log/fetch_marker_entry.py
                 ./test/unit/check_log/filter_data.py
