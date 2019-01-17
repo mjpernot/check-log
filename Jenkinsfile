@@ -15,6 +15,7 @@ pipeline {
                 sh 'echo "Second check"'
                 sh 'pwd'
                 sh 'ls -ltr'
+                sh 'ls -ltr ../'
                 sh 'echo "Pip Install"'
                 sh """
                 pip2 install --user .  --target lib
