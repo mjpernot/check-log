@@ -16,7 +16,6 @@ pipeline {
                     """
                     sshagent(['2cfb403c-be21-4fac-94d7-c8cd5c531feb'])
                     sh(script: "git clone git@gitlab.code.dicelab.net:JAC-IDM/python-lib.git lib"
-                    """
                     sh """
                     pwd
                     ls -tlr
