@@ -12,11 +12,16 @@ pipeline {
                 echo 'First Check'
                 pwd
                 ls -tlr
+                rm -rf lib
                 mkdir lib
                 cd lib
+                """
                 git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                sh """
                 pwd
                 ls -tlr
+                ls -ltr lib
+                rmdir lib
                 """
                 // sh 'echo "First check"'
                 // sh 'pwd'
