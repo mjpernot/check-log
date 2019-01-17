@@ -8,14 +8,24 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'echo "First check"'
-                sh 'pwd'
-                sh 'ls -ltr'
-                sh 'rmdir lib'
+                sh """
+                echo 'First Check'
+                pwd
+                ls -tlr
+                mkdir lib
+                cd lib
                 git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
-                sh 'echo "Second check"'
-                sh 'pwd'
-                sh 'ls -ltr'
+                pwd
+                ls -tlr
+                """
+                // sh 'echo "First check"'
+                // sh 'pwd'
+                // sh 'ls -ltr'
+                // sh 'rmdir lib'
+                // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                // sh 'echo "Second check"'
+                // sh 'pwd'
+                // sh 'ls -ltr'
                 sh 'echo "Pip Install"'
                 sh """
                 pip2 install mock --user
