@@ -11,11 +11,13 @@ pipeline {
                 sh 'echo "First check"'
                 sh 'pwd'
                 sh 'ls -ltr'
+                sh 'mkdir test_install'
+                sh 'cd test_install'
                 git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
                 sh 'echo "Second check"'
                 sh 'pwd'
                 sh 'ls -ltr'
-                sh 'ls -ltr check_log.py'
+                sh 'ls -ltr ../check_log.py'
                 sh 'echo "Pip Install"'
                 sh """
                 pip2 install --user .  --target lib
