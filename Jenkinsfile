@@ -8,54 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh """
-                pwd
-                ls -tlr
-                mkdir lib
-                cd lib
-                pwd
-                """
-                sh """
-                pwd
-                """
-                // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
-                // sh """
-                // pwd
-                // ls -tlr
-                // ls -ltr lib
-                // rmdir lib
-                // """
-                // sh 'echo "First check"'
-                // sh 'pwd'
-                // sh 'ls -ltr'
-                // sh 'rmdir lib'
-                // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
-                // sh 'echo "Second check"'
-                // sh 'pwd'
-                // sh 'ls -ltr'
-                sh 'echo "Pip Install"'
-                sh """
                 pip2 install mock --user
-                pwd
-                ls -ltr test
-                ls -tlr test/unit
-                ls -tlr test/unit/check_log
-                ./test/unit/check_log/afetch_log.py
-                ./test/unit/check_log/fetch_log_stdin.py
-                ./test/unit/check_log/fetch_marker_entry.py
-                ./test/unit/check_log/filter_data.py
-                ./test/unit/check_log/find_marker.py
-                ./test/unit/check_log/find_marker_array.py
-                ./test/unit/check_log/full_chk.py
-                ./test/unit/check_log/get_filter_data.py
-                ./test/unit/check_log/get_ignore_msgs.py
-                ./test/unit/check_log/help_message.py
-                ./test/unit/check_log/ignore_msgs.py
-                ./test/unit/check_log/log_2_output.py
-                ./test/unit/check_log/main.py
-                ./test/unit/check_log/open_log.py
-                ./test/unit/check_log/run_program.py
-                ./test/unit/check_log/update_marker.py
                 """
             }
         }
