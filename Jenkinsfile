@@ -8,16 +8,39 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'echo "First check"'
-                sh 'ls -ltr'
-                git branch: "master", credentialsId: "83cbd6c2-c064-413a-aa71-f75a7795f94e", url: "https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git"
-                sh 'echo "Second check"'
-                sh 'ls -ltr'
+                sh """
+                pwd
+                ls -tlr
+                mkdir lib
+                cd lib
+                pwd
+                """
+                sh """
+                pwd
+                """
+                // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                // sh """
+                // pwd
+                // ls -tlr
+                // ls -ltr lib
+                // rmdir lib
+                // """
+                // sh 'echo "First check"'
+                // sh 'pwd'
+                // sh 'ls -ltr'
+                // sh 'rmdir lib'
+                // git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                // sh 'echo "Second check"'
+                // sh 'pwd'
+                // sh 'ls -ltr'
                 sh 'echo "Pip Install"'
                 sh """
-                pip2 install --user .  --target lib
                 pip2 install mock --user
-                ./test/unit/check_log/fetch_log.py
+                pwd
+                ls -ltr test
+                ls -tlr test/unit
+                ls -tlr test/unit/check_log
+                ./test/unit/check_log/afetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
                 ./test/unit/check_log/fetch_marker_entry.py
                 ./test/unit/check_log/filter_data.py
