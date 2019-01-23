@@ -29,7 +29,7 @@ pipeline {
                     server = Artifactory.server('Artifactory')
                     server.credentialsId = 'svc-highpoint-artifactory'
                     uploadSpec = """{
-                        "files": [
+                        "files" = [
                             {
                                 "pattern": "./*.py",
                                 "recursive": false,
