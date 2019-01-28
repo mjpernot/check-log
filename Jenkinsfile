@@ -24,6 +24,7 @@ pipeline {
                 sh """
                 pip2 install mock --user
                 ./test/unit/check_log/fetch_log.py
+                """
                 // ./test/unit/check_log/afetch_log.py
                 // ./test/unit/check_log/fetch_log_stdin.py
                 // ./test/unit/check_log/fetch_marker_entry.py
@@ -40,7 +41,7 @@ pipeline {
                 // ./test/unit/check_log/open_log.py
                 // ./test/unit/check_log/run_program.py
                 // ./test/unit/check_log/update_marker.py
-                """
+                // """
             }
         }
         stage('SonarQube analysis') {
