@@ -19,7 +19,6 @@ pipeline {
                 ls -ltr
                 ls -ltr lib
                 """
-                // sh 'rmdir lib'
                 sh 'echo "Pip Install"'
                 sh """
                 pip2 install mock --user
@@ -42,6 +41,7 @@ pipeline {
                 // ./test/unit/check_log/run_program.py
                 // ./test/unit/check_log/update_marker.py
                 // """
+                sh 'rm -rf lib'
             }
         }
         stage('SonarQube analysis') {
