@@ -10,6 +10,7 @@ pipeline {
             steps {
                 sh """
                 pip2 install mock --user
+                ls -ltr
                 """
             }
         }
