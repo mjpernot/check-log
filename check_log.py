@@ -516,21 +516,21 @@ def main():
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
-    if not gen_libs.help_func(args_array, __version__, help_message):
-        if arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
-           and not arg_parser.arg_file_chk(args_array, file_chk_list,
-                                           file_crt_list):
+    if not gen_libs.help_func(args_array, __version__, help_message) \
+       and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
+       and not arg_parser.arg_file_chk(args_array, file_chk_list,
+                                       file_crt_list):
 
-            try:
-                PROG_LOCK = gen_class.ProgramLock(sys.argv,
-                                                  args_array.get("-y", ""))
+        try:
+            PROG_LOCK = gen_class.ProgramLock(sys.argv,
+                                              args_array.get("-y", ""))
 
-                run_program(args_array)
-                del PROG_LOCK
+            run_program(args_array)
+            del PROG_LOCK
 
-            except gen_class.SingleInstanceException:
-                print("WARNING:  lock in place for check_log with id of: %s"
-                      % (args_array.get("-y", "")))
+        except gen_class.SingleInstanceException:
+            print("WARNING:  lock in place for check_log with id of: %s"
+                  % (args_array.get("-y", "")))
 
 
 if __name__ == "__main__":

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.1.2] - 2019-01-22
+### Changed
+- main:  Refactored code.
+
+
 ## [2.1.1] - 2018-11-01
 ### Changed
 - log_2_output:  Made "-z" option its own "if" statement to allow for better flexibility.
