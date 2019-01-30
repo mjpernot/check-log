@@ -30,12 +30,12 @@ pipeline {
                 ./test/unit/check_log/run_program.py
                 ./test/unit/check_log/update_marker.py
                 """
-                sh 'rm -rf lib'
             }
         }
         stage('SonarQube analysis') {
             steps {
                 sh './test/unit/sonarqube_code_coverage.sh'
+                sh 'rm -rf lib'
                 script {
                     scannerHome = tool 'sonar-scanner';
                 }
