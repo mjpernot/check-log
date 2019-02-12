@@ -9,7 +9,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir ('lib') {
-                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                    git branch: "master", credentialsId: "a67ac672-de9d-4afa-9c65-28cee6f85905", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
                 }
                 sh """
                 pip2 install mock --user
