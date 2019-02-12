@@ -267,8 +267,8 @@ def log_2_output(log_array, args_array, **kwargs):
         frm_line = getpass.getuser() + "@" + host
 
         mail = gen_class.Mail(args_array["-t"],
-                               "".join(args_array.get("-s",
-                                                      "check_log: " + host)),
+                              "".join(args_array.get("-s",
+                                                     "check_log: " + host)),
                                frm_line)
         mail.add_2_msg("\n".join(log_array))
         mail.send_mail()
