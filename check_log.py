@@ -373,11 +373,12 @@ def fetch_log_stdin(args_array, **kwargs):
         the array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (output) log_array or return array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) log_array or list -> List of log entries.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     for ln in sys.stdin:
