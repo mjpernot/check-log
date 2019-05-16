@@ -206,7 +206,7 @@ def get_ignore_msgs(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (output) ignore_array -> Array of ignore messages.
+        (output) ignore_array -> List of ignore messages.
 
     """
 
@@ -227,13 +227,14 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
     Description:  Removes all ignore messages from the log array.
 
     Arguments:
-        (input) log_array -> Array of log entries.
-        (input) ignore_array -> Array of ignore messages.
-        (output) list1 -> Array of log entries.
+        (input) log_array -> List of log entries.
+        (input) ignore_array -> List of ignore messages.
+        (output) log_array -> List of log entries.
 
     """
 
-    args_array = dict(args_array)
+    log_array = list(log_array)
+    ignore_array = list(ignore_array)
 
     if ignore_array and log_array:
         log_array = [sa for sa in log_array
@@ -254,6 +255,8 @@ def log_2_output(log_array, args_array, **kwargs):
         (input) args_array -> Array of command line options and values.
 
     """
+
+    args_array = dict(args_array)
 
     # Send output to email.
     if "-t" in args_array:
