@@ -210,6 +210,7 @@ def get_ignore_msgs(args_array, **kwargs):
 
     """
 
+    args_array = dict(args_array)
     ignore_array = []
 
     if "-i" in args_array:
