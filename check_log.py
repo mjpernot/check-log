@@ -251,11 +251,12 @@ def log_2_output(log_array, args_array, **kwargs):
         option.
 
     Arguments:
-        (input) log_array -> Array of log entries.
-        (input) args_array -> Array of command line options and values.
+        (input) log_array -> List of log entries.
+        (input) args_array -> Dictionary of command line options and values.
 
     """
 
+    log_array = list(log_array)
     args_array = dict(args_array)
 
     # Send output to email.
