@@ -192,6 +192,8 @@ def update_marker(args_array, line, **kwargs):
 
     """
 
+    args_array = dict(args_array)
+
     if "-m" in args_array and "-n" not in args_array:
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 

@@ -9,6 +9,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - full_chk:  Fixed problem with mutable default arguments issue.
 - open_log:  Fixed problem with mutable default arguments issue.
 - find_marker:  Fixed problem with mutable default arguments issue.
+- update_marker:  Fixed problem with mutable default arguments issue.
 
  
 ## [2.1.2] - 2019-01-22
