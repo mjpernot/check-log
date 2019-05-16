@@ -454,10 +454,11 @@ def run_program(args_array, **kwargs):
         output.
 
     Arguments:
-        (input) args_array -> Dict of command line options and values.
+        (input) args_array -> Dictionary of command line options and values.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     if "-c" in args_array and "-m" in args_array:
@@ -516,7 +517,6 @@ def main():
         try:
             PROG_LOCK = gen_class.ProgramLock(sys.argv,
                                               args_array.get("-y", ""))
-
             run_program(args_array)
             del PROG_LOCK
 

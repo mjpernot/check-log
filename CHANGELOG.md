@@ -18,6 +18,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - fetch_log_stdin:  Fixed problem with mutable default arguments issue.
 - get_filter_data:  Fixed problem with mutable default arguments issue.
 - filter_data:  Fixed problem with mutable default arguments issue.
+- run_program:  Fixed problem with mutable default arguments issue.
 
  
 ## [2.1.2] - 2019-01-22
