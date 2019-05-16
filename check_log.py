@@ -399,11 +399,12 @@ def get_filter_data(args_array, **kwargs):
         data.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
+        (input) args_array -> Dictionary of command line options and values.
         (output) filter_str -> Formatted filter string in regex format.
 
     """
 
+    args_array = dict(args_array)
     filter_str = ""
 
     if "-F" in args_array:
