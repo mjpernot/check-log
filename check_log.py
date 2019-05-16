@@ -233,6 +233,8 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
 
     """
 
+    args_array = dict(args_array)
+
     if ignore_array and log_array:
         log_array = [sa for sa in log_array
                      if not any(sb in sa.lower() for sb in ignore_array)]

@@ -11,6 +11,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - find_marker:  Fixed problem with mutable default arguments issue.
 - update_marker:  Fixed problem with mutable default arguments issue.
 - get_ignore_msgs:  Fixed problem with mutable default arguments issue.
+- ignore_msgs:  Fixed problem with mutable default arguments issue.
 
  
 ## [2.1.2] - 2019-01-22
