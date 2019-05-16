@@ -112,8 +112,8 @@ def full_chk(args_array, **kwargs):
     Description:  Sets the full check flag depending on options selected.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (output) Returns True or False to determine full check of log.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) True|False -> Determine full check of log.
 
     """
 
@@ -136,8 +136,8 @@ def open_log(args_array, **kwargs):
         the file.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (output) Returns the log file handler to calling function.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) Log file handler.
 
     """
 
@@ -157,7 +157,7 @@ def find_marker(args_array, **kwargs):
     Description:  Locates the marker file entry in the log file.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
+        (input) args_array -> Dictionary of command line options and values.
         (output) log_file -> Log file handler.
 
     """
@@ -187,8 +187,8 @@ def update_marker(args_array, line, **kwargs):
         marker option is selected and not the no_update option.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) line -> Last line of the log file.
+        (input) args_array -> Dictionary of command line options and values.
+        (input) line -> Last line of log.
 
     """
 
@@ -205,7 +205,7 @@ def get_ignore_msgs(args_array, **kwargs):
     Description:  Copies the ignore file into the ignore array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
+        (input) args_array -> Dictionary of command line options and values.
         (output) ignore_array -> List of ignore messages.
 
     """
@@ -229,7 +229,7 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
     Arguments:
         (input) log_array -> List of log entries.
         (input) ignore_array -> List of ignore messages.
-        (output) log_array -> List of log entries.
+        (output) log_array -> Modified list of log entries.
 
     """
 
@@ -293,11 +293,12 @@ def fetch_log(args_array, **kwargs):
         passed to the calling function.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (output) log_array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) log_array -> List of log entries.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     # Sort files from oldest to newest.
