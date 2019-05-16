@@ -162,6 +162,7 @@ def find_marker(args_array, **kwargs):
 
     """
 
+    args_array = dict(args_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
     if ln_marker:
