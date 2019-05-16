@@ -113,8 +113,6 @@ def full_chk(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) Returns True or False to determine full check of log.
 
     """
@@ -139,8 +137,6 @@ def open_log(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) Returns the log file handler to calling function.
 
     """
@@ -160,8 +156,6 @@ def find_marker(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) log_file -> Log file handler.
 
     """
@@ -192,8 +186,6 @@ def update_marker(args_array, line, **kwargs):
     Arguments:
         (input) args_array -> Array of command line options and values.
         (input) line -> Last line of the log file.
-        (input) **kwargs:
-            None
 
     """
 
@@ -209,8 +201,6 @@ def get_ignore_msgs(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) ignore_array -> Array of ignore messages.
 
     """
@@ -233,8 +223,6 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
     Arguments:
         (input) log_array -> Array of log entries.
         (input) ignore_array -> Array of ignore messages.
-        (input) **kwargs:
-            None
         (output) list1 -> Array of log entries.
 
     """
@@ -256,8 +244,6 @@ def log_2_output(log_array, args_array, **kwargs):
     Arguments:
         (input) log_array -> Array of log entries.
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
 
     """
 
@@ -269,7 +255,7 @@ def log_2_output(log_array, args_array, **kwargs):
         mail = gen_class.Mail(args_array["-t"],
                               "".join(args_array.get("-s",
                                                      "check_log: " + host)),
-                               frm_line)
+                              frm_line)
         mail.add_2_msg("\n".join(log_array))
         mail.send_mail()
 
@@ -296,8 +282,6 @@ def fetch_log(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) log_array -> Array of log entries.
 
     """
@@ -331,8 +315,6 @@ def fetch_marker_entry(fname, **kwargs):
 
     Arguments:
         (input) fname -> Marker file.
-        (input) **kwargs:
-            None
         (output) ln_marker -> Marker line entry.
 
     """
@@ -350,8 +332,6 @@ def find_marker_array(args_array, log_array, **kwargs):
     Arguments:
         (input) args_array -> Array of command line options and values.
         (input) log_array -> Array of log entries.
-        (input) **kwargs:
-            None
         (output) log_array -> Array of log entries.
 
     """
@@ -378,8 +358,6 @@ def fetch_log_stdin(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) log_array or return array -> Array of log entries.
 
     """
@@ -405,8 +383,6 @@ def get_filter_data(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
         (output) filter_str -> Formatted filter string in regex format.
 
     """
@@ -434,8 +410,6 @@ def filter_data(log_array, filter_str, **kwargs):
     Arguments:
         (input) log_array -> Array of log entries.
         (input) filter_str -> Formatted filter string in regex format.
-        (input) **kwargs:
-            None
         (output) log_array -> Array of log entries.
 
     """
@@ -461,8 +435,6 @@ def run_program(args_array, **kwargs):
 
     Arguments:
         (input) args_array -> Dict of command line options and values.
-        (input) **kwargs:
-            None
 
     """
 
