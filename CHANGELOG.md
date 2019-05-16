@@ -7,6 +7,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [2.1.3] - 2019-05-16
 ### Fixed
 - full_chk:  Fixed problem with mutable default arguments issue.
+- open_log:  Fixed problem with mutable default arguments issue.
 
  
 ## [2.1.2] - 2019-01-22

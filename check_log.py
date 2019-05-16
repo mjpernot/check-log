@@ -141,6 +141,8 @@ def open_log(args_array, **kwargs):
 
     """
 
+    args_array = dict(args_array)
+
     if full_chk(args_array):
         return open(args_array["-f"][0], "r")
 
