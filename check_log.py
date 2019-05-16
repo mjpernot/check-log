@@ -343,15 +343,18 @@ def find_marker_array(args_array, log_array, **kwargs):
         the entire array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) log_array -> Array of log entries.
-        (output) log_array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (input) log_array -> List of log entries.
+        (output) log_array -> Modified list of log entries.
 
     """
 
+    args_array = dict(args_array)
+    log_array = list(log_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
     if ln_marker:
+
         # Return log array from marker onward.
         for cnt, ln in enumerate(log_array):
             if ln.rstrip() == ln_marker:
