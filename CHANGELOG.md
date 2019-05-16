@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.1.3] - 2019-05-16
+### Fixed
+- full_chk:  Fixed problem with mutable default arguments issue.
+
+ 
 ## [2.1.2] - 2019-01-22
 ### Changed
 - main:  Refactored code.
@@ -13,7 +18,6 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Changed
 - log_2_output:  Made "-z" option its own "if" statement to allow for better flexibility.
 - log_2_output:  Changed Mail instance name from "EMAIL" to "mail".
-- Documentation updates
 
 
 ## [2.1.0] - 2018-09-27
@@ -46,11 +50,10 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
-- Added "**kwargs" to all function definitions.
+- Added "kwargs" to all function definitions.
 - Changed "arg_parser" calls to new naming schema.
 - Changed "gen_libs" calls to new naming schema.
 - run_program:  Changed "gen_libs.Empty_File" to "gen_libs.clear_file" call.
-- Setup single-source version control.
 - Changed function names from uppercase to lowercase.
 
 
@@ -62,11 +65,6 @@ Breaking Change
 ### Changed
 - Help_Message:  Replace docstring with printing the programs __doc__.
 - Add classification line for Sunspear use.
-- Convert comments/documentation to docstrings.
-- Change order of library sequence to be PEP-8 compliant.
-- Change versioning information to be PEP-440 compliant.
-- Change single quotes to double quotes to be PEP-8 compliant.
-- Clean out unnesscary documentation.
 - Convert program to use local libraries from ./lib directory.
 
 
@@ -82,11 +80,10 @@ Breaking Change
 - Run_Program: Added Filter_Data function call.
 - main:  Added -F option to the argument list as the new formatting option.
 - Help_Message:  Updated documentation.
-- Library section - Added re library.
 
 ### Added
-- Get_Filter_Data function.
-- Filter_Data function.
+- Get_Filter_Data.
+- Filter_Data.
 
 
 ## [1.5.0] - 2017-03-31
@@ -97,9 +94,9 @@ Breaking Change
 
 ## [1.4.0] - 2016-04-27
 ### Added
-- Find_Marker_Entry function.
-- Find_Marker_Array function.
-- Fetch_Log_Stdin function.
+- Find_Marker_Entry.
+- Find_Marker_Array.
+- Fetch_Log_Stdin.
 
 ### Changed
 - Modified the program to accept input from 'standard in' or from log files.
@@ -111,10 +108,10 @@ Breaking Change
 
 ## [1.3.0] - 2016-04-21
 ### Added
-- Added capability to check multiple files using multiple names or wildcard expansion.
-- Fetch_Log function.
+- Fetch_Log.
 
 ### Changed
+- Added capability to check multiple files using multiple names or wildcard expansion.
 - main:  Added opt_multi_list variable, moved "-f" to opt_multi_list variable, and added named argument to Arg_Parse2 function call.
 - Find_Marker:  Made a number of changes to handle the processing of multiple log files.
 - Open_Log:  Reversed "if" statement boolean check and set "open" to handle lists.
@@ -126,14 +123,12 @@ Breaking Change
 ### Changed
 - main:  Added exit call.
 - main:  Made a number of changes to streamline the code and argument process to include converting from Arg_Parse to Arg_Parse2, add a Help_Func call, added call to Run_Program to control running of program, removed a number of "else" statements and the opt_noval_list variable.
-- Library section:  Added Version information, added gen_libs library, and modified sys library.
-- Documentation:  Modified the format to be in compliance with the standard format.
 - Full_Chk:  Replaced all returns with a single return and used a flag to determine whether a full check is required.
 - Log_2_Output:  Added "sys." to stdout.
 
 ### Added
-- Help_Message function.
-- Run_Program function:  to control running of program.
+- Help_Message.
+- Run_Program:  To control running of program.
 
 
 ## [1.1.0] - 2015-10-01

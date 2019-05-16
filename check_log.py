@@ -88,7 +88,6 @@ import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -120,6 +119,7 @@ def full_chk(args_array, **kwargs):
 
     """
 
+    args_array = dict(args_array)
     full_chk_flag = True
 
     if "-m" in args_array and "-r" not in args_array \
