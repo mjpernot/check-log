@@ -426,11 +426,13 @@ def filter_data(log_array, filter_str, **kwargs):
         formatted expression(s).
 
     Arguments:
-        (input) log_array -> Array of log entries.
+        (input) log_array -> List of log entries.
         (input) filter_str -> Formatted filter string in regex format.
-        (output) log_array -> Array of log entries.
+        (output) log_array -> Modified list of log entries.
 
     """
+
+    log_array = list(log_array)
 
     # Only filter if there is something to filter with.
     if len(filter_str) > 0:
