@@ -88,7 +88,6 @@ import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -113,13 +112,12 @@ def full_chk(args_array, **kwargs):
     Description:  Sets the full check flag depending on options selected.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
-        (output) Returns True or False to determine full check of log.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) True|False -> Determine full check of log.
 
     """
 
+    args_array = dict(args_array)
     full_chk_flag = True
 
     if "-m" in args_array and "-r" not in args_array \
@@ -138,12 +136,12 @@ def open_log(args_array, **kwargs):
         the file.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
-        (output) Returns the log file handler to calling function.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) Log file handler.
 
     """
+
+    args_array = dict(args_array)
 
     if full_chk(args_array):
         return open(args_array["-f"][0], "r")
@@ -159,13 +157,12 @@ def find_marker(args_array, **kwargs):
     Description:  Locates the marker file entry in the log file.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
+        (input) args_array -> Dictionary of command line options and values.
         (output) log_file -> Log file handler.
 
     """
 
+    args_array = dict(args_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
     if ln_marker:
@@ -190,12 +187,12 @@ def update_marker(args_array, line, **kwargs):
         marker option is selected and not the no_update option.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) line -> Last line of the log file.
-        (input) **kwargs:
-            None
+        (input) args_array -> Dictionary of command line options and values.
+        (input) line -> Last line of log.
 
     """
+
+    args_array = dict(args_array)
 
     if "-m" in args_array and "-n" not in args_array:
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
@@ -208,13 +205,12 @@ def get_ignore_msgs(args_array, **kwargs):
     Description:  Copies the ignore file into the ignore array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
-        (output) ignore_array -> Array of ignore messages.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) ignore_array -> List of ignore messages.
 
     """
 
+    args_array = dict(args_array)
     ignore_array = []
 
     if "-i" in args_array:
@@ -231,13 +227,14 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
     Description:  Removes all ignore messages from the log array.
 
     Arguments:
-        (input) log_array -> Array of log entries.
-        (input) ignore_array -> Array of ignore messages.
-        (input) **kwargs:
-            None
-        (output) list1 -> Array of log entries.
+        (input) log_array -> List of log entries.
+        (input) ignore_array -> List of ignore messages.
+        (output) log_array -> Modified list of log entries.
 
     """
+
+    log_array = list(log_array)
+    ignore_array = list(ignore_array)
 
     if ignore_array and log_array:
         log_array = [sa for sa in log_array
@@ -254,12 +251,13 @@ def log_2_output(log_array, args_array, **kwargs):
         option.
 
     Arguments:
-        (input) log_array -> Array of log entries.
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
+        (input) log_array -> List of log entries.
+        (input) args_array -> Dictionary of command line options and values.
 
     """
+
+    log_array = list(log_array)
+    args_array = dict(args_array)
 
     # Send output to email.
     if "-t" in args_array:
@@ -269,7 +267,7 @@ def log_2_output(log_array, args_array, **kwargs):
         mail = gen_class.Mail(args_array["-t"],
                               "".join(args_array.get("-s",
                                                      "check_log: " + host)),
-                               frm_line)
+                              frm_line)
         mail.add_2_msg("\n".join(log_array))
         mail.send_mail()
 
@@ -295,13 +293,12 @@ def fetch_log(args_array, **kwargs):
         passed to the calling function.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
-        (output) log_array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) log_array -> List of log entries.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     # Sort files from oldest to newest.
@@ -331,8 +328,6 @@ def fetch_marker_entry(fname, **kwargs):
 
     Arguments:
         (input) fname -> Marker file.
-        (input) **kwargs:
-            None
         (output) ln_marker -> Marker line entry.
 
     """
@@ -348,17 +343,18 @@ def find_marker_array(args_array, log_array, **kwargs):
         the entire array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) log_array -> Array of log entries.
-        (input) **kwargs:
-            None
-        (output) log_array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (input) log_array -> List of log entries.
+        (output) log_array -> Modified list of log entries.
 
     """
 
+    args_array = dict(args_array)
+    log_array = list(log_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
     if ln_marker:
+
         # Return log array from marker onward.
         for cnt, ln in enumerate(log_array):
             if ln.rstrip() == ln_marker:
@@ -377,13 +373,12 @@ def fetch_log_stdin(args_array, **kwargs):
         the array.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
-        (output) log_array or return array -> Array of log entries.
+        (input) args_array -> Dictionary of command line options and values.
+        (output) log_array or list -> List of log entries.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     for ln in sys.stdin:
@@ -404,13 +399,12 @@ def get_filter_data(args_array, **kwargs):
         data.
 
     Arguments:
-        (input) args_array -> Array of command line options and values.
-        (input) **kwargs:
-            None
+        (input) args_array -> Dictionary of command line options and values.
         (output) filter_str -> Formatted filter string in regex format.
 
     """
 
+    args_array = dict(args_array)
     filter_str = ""
 
     if "-F" in args_array:
@@ -432,13 +426,13 @@ def filter_data(log_array, filter_str, **kwargs):
         formatted expression(s).
 
     Arguments:
-        (input) log_array -> Array of log entries.
+        (input) log_array -> List of log entries.
         (input) filter_str -> Formatted filter string in regex format.
-        (input) **kwargs:
-            None
-        (output) log_array -> Array of log entries.
+        (output) log_array -> Modified list of log entries.
 
     """
+
+    log_array = list(log_array)
 
     # Only filter if there is something to filter with.
     if len(filter_str) > 0:
@@ -460,12 +454,11 @@ def run_program(args_array, **kwargs):
         output.
 
     Arguments:
-        (input) args_array -> Dict of command line options and values.
-        (input) **kwargs:
-            None
+        (input) args_array -> Dictionary of command line options and values.
 
     """
 
+    args_array = dict(args_array)
     log_array = []
 
     if "-c" in args_array and "-m" in args_array:
@@ -524,7 +517,6 @@ def main():
         try:
             PROG_LOCK = gen_class.ProgramLock(sys.argv,
                                               args_array.get("-y", ""))
-
             run_program(args_array)
             del PROG_LOCK
 

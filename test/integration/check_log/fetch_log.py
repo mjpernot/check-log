@@ -18,6 +18,7 @@
 # Standard
 import sys
 import os
+import time
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest
@@ -101,6 +102,11 @@ class UnitTest(unittest.TestCase):
                          "This is the third line", "This is the fourth line",
                          "This is the fifth line", "This is the sixth line",
                          "This is the seventh line"]
+
+        # Touch files to set correct time order, require sleep.
+        gen_libs.touch(os.path.join(self.test_path, self.logname1))
+        time.sleep(1)
+        gen_libs.touch(os.path.join(self.test_path, self.logname2))
 
     def test_fetch_log_all(self):
 
