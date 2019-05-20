@@ -49,6 +49,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Unit testing initilization.
+        test_no_log_files -> Test with no log files to scan.
         test_exit_option -> Test sys.exit check.
         test_clear_option -> Test -c and -m options.
         test_stdin_empty -> Test with standard in and with empty log array.
@@ -69,6 +70,25 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array = {}
+
+    @mock.patch("check_log.fetch_log_stdin")
+    @mock.patch("check_log.sys.stdin")
+    def test_no_log_files(self, mock_sys, mock_log):
+
+        """Function:  test_no_log_files
+
+        Description:  Test with no log files to scan.
+
+        Arguments:
+            None
+
+        """
+
+        mock_sys.isatty.return_value = True
+        mock_log.return_value = []
+
+        with gen_libs.no_std_out():
+            self.assertFalse(check_log.run_program(self.args_array))
 
     def test_exit_option(self):
 
@@ -94,7 +114,7 @@ class UnitTest(unittest.TestCase):
         Description:  Test -c and -m options.
 
         Arguments:
-            mock_lib -> Mock Ref:  check_log.gen_libs
+            None
 
         """
 
@@ -114,8 +134,7 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in and with empty log array.
 
         Arguments:
-            mock_sys -> Mock Ref:  check_log.sys.stdin.isatty
-            mock_log -> Mock Ref:  check_log.fetch_log_stdin
+            None
 
         """
 
@@ -132,7 +151,7 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -f option and with empty log array.
 
         Arguments:
-            mock_log -> Mock Ref:  check_log.fetch_log
+            None
 
         """
 
@@ -142,7 +161,22 @@ class UnitTest(unittest.TestCase):
 
         self.assertFalse(check_log.run_program(self.args_array))
 
-    @mock.patch("check_log.log_2_output")
+    def mock_out(log_array, args_array):
+
+        """Function:  mock_out
+
+        Description:  Mock of check_log.log_2_output function.
+
+        Arguments:
+            (input) log_array -> Array of log entries.
+            (input) args_array -> Array of command line options and values.
+            (output)  Return True.
+
+        """
+
+        return True
+
+    @mock.patch("check_log.log_2_output", mock_out)
     @mock.patch("check_log.filter_data")
     @mock.patch("check_log.get_filter_data")
     @mock.patch("check_log.ignore_msgs")
@@ -150,20 +184,14 @@ class UnitTest(unittest.TestCase):
     @mock.patch("check_log.update_marker")
     @mock.patch("check_log.fetch_log")
     def test_f_option_set(self, mock_log, mock_marker, mock_getign,
-                          mock_ignore, mock_getflt, mock_filter, mock_out):
+                          mock_ignore, mock_getflt, mock_filter):
 
         """Function:  test_f_option_set
 
         Description:  Test with -f option in args_array.
 
         Arguments:
-            mock_log -> Mock Ref:  check_log.fetch_log
-            mock_marker -> Mock Ref:  check_log.update_marker
-            mock_getign -> Mock Ref:  check_log.get_ignore_msgs
-            mock_ignore -> Mock Ref:  check_log.ignore_msgs
-            mock_getflt -> Mock Ref:  check_log.get_filter_data
-            mock_filter -> Mock Ref:  check_log.filter_data
-            mock_out -> Mock Ref:  check_log.log_2_output
+            None
 
         """
 
@@ -175,7 +203,6 @@ class UnitTest(unittest.TestCase):
         mock_ignore.return_value = ["2018-09-19 This is log line one"]
         mock_getflt.return_value = True
         mock_filter.return_value = ["2018-09-19 This is log line one"]
-        mock_out.return_value = True
 
         self.assertFalse(check_log.run_program(self.args_array))
 
