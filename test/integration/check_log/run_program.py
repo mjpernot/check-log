@@ -48,6 +48,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Integration testing initilization.
+        test_search_or -> Test with or search clause.
+        test_search_and -> Test with and search clause.
         test_file_suppress -> Test file logs with standard out suppression.
         test_stdin_marker_empty -> Test with standard in and empty marker file.
         test_filter_data -> Test filter data.
@@ -124,6 +126,56 @@ class UnitTest(unittest.TestCase):
             self.skipTest("Pre-conditions not met.")
 
         self.args_array = {"-f": [self.log_file1, self.log_file2]}
+        self.args_array2 = {"-f": [self.log_file1, self.log_file2],
+                            "-S": ["third", "line"], "-k": "and",
+                            "-o": self.test_out}
+        self.args_array3 = {"-f": [self.log_file1, self.log_file2],
+                            "-S": ["sixth", "new"], "-k": "or",
+                            "-o": self.test_out}
+
+    def test_search_or(self):
+
+        """Function:  test_search_or
+
+        Description:  Test with or search clause.
+
+        Arguments:
+
+        """
+
+        with gen_libs.no_std_out():
+            check_log.run_program(self.args_array3)
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.readline().rstrip()
+
+            self.assertEqual(out_str, "This is the sixth line")
+
+        else:
+            self.assertTrue(False)
+
+    def test_search_and(self):
+
+        """Function:  test_search_and
+
+        Description:  Test with and search clause.
+
+        Arguments:
+
+        """
+
+        with gen_libs.no_std_out():
+            check_log.run_program(self.args_array2)
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.readline().rstrip()
+
+            self.assertEqual(out_str, "This is the third line")
+
+        else:
+            self.assertTrue(False)
 
     def test_file_suppress(self):
 
