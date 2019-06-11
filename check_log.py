@@ -306,7 +306,7 @@ def search(log_array, key_list, func):
 
     return [item for item in log_array if func(x in item for x in key_list)]
 
-    
+
 def fetch_log(args_array, **kwargs):
 
     """Function:  fetch_log
