@@ -9,7 +9,6 @@
         test/integration/check_log/run_program.py
 
     Arguments:
-        None
 
 """
 
@@ -34,7 +33,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -46,7 +44,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
@@ -71,7 +69,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -135,7 +132,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file logs with standard out suppression.
 
         Arguments:
-            None
 
         """
 
@@ -151,7 +147,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with an empty marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -178,7 +173,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test filter data.
 
         Arguments:
-            None
 
         """
 
@@ -203,7 +197,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test ignore messages.
 
         Arguments:
-            None
 
         """
 
@@ -228,7 +221,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file log marker.
 
         Arguments:
-            None
 
         """
 
@@ -248,7 +240,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file logs.
 
         Arguments:
-            None
 
         """
 
@@ -276,7 +267,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in no data.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -293,7 +283,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -322,7 +311,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -348,7 +336,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test clearing the marker file.
 
         Arguments:
-            None
 
         """
 
@@ -371,7 +358,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 
