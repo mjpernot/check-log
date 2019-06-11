@@ -9,7 +9,6 @@
         test/integration/check_log/main.py
 
     Arguments:
-        None
 
 """
 
@@ -34,7 +33,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -50,6 +48,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Integration testing initilization.
+        test_or_search ->Test with or search clause.
+        test_and_search -> Test with and search clause.
         test_stdin_marker -> Test with standard in with marker file.
         test_stdin_marker_empty -> Test standard in with an empty marker file.
         test_stdin -> Test with standard in.
@@ -69,7 +69,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -121,6 +120,60 @@ class UnitTest(unittest.TestCase):
 
         self.argv_list = [os.path.join(self.base_dir, "main.py")]
 
+    def test_or_search(self):
+
+        """Function:  test_or_search
+
+        Description:  Test with or search clause.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(["-f", self.log_file2, "-o", self.test_out,
+                               "-S", "sixth", "tenth", "-k", "or"])
+        sys.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(
+                out_str, "This is the sixth line\n")
+
+        else:
+            self.assertTrue(False)
+
+    def test_and_search(self):
+
+        """Function:  test_and_search
+
+        Description:  Test with and search clause.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(["-f", self.log_file2, "-o", self.test_out,
+                               "-S", "is", "line", "-k", "and"])
+        sys.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(
+                out_str, "This is the sixth line\nThis is the seventh line\n")
+
+        else:
+            self.assertTrue(False)
+
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_marker(self, mock_atty):
@@ -130,7 +183,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -160,7 +212,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with an empty marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -191,7 +242,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -218,7 +268,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test clear marker file.
 
         Arguments:
-            None
 
         """
 
@@ -242,7 +291,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file log with marker.
 
         Arguments:
-            None
 
         """
 
@@ -269,7 +317,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file log.
 
         Arguments:
-            None
 
         """
 
@@ -296,7 +343,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test arg_file_chk function.
 
         Arguments:
-            None
 
         """
 
@@ -314,7 +360,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test arg_cond_req_or function.
 
         Arguments:
-            None
 
         """
 
@@ -331,7 +376,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test help_func function.
 
         Arguments:
-            None
 
         """
 
@@ -348,7 +392,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 

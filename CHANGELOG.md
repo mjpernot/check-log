@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.2.0] - 2019-06-11
+- Added ability to do keyword searching.
+
+### Added
+- search:  Returns only those log entries that match the keyword search.
+
+### Changed
+- fetch_log:  Call to search() for keyword search.
+- main:  Added -S option -> List of keywords to search for.
+- main:  Added -k option -> Type of search as 'and' or 'or'.
+
+
 ## [2.1.3] - 2019-05-16
 ### Fixed
 - full_chk:  Fixed problem with mutable default arguments issue.

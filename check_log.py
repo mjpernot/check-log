@@ -32,6 +32,10 @@
         -r => Flag option - to recheck the entire log file.
         -c => Flag option - to clear the contents in the marker file.  Requires
             -m option.
+        -S keyword(s) => Search for keywords.  List of keywords are
+            space-delimited.  Requires -f options.  Standard in searching is
+            not available.
+        -k "and"|"or" => Keyword search logic.  Default setting is "or".
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
@@ -40,8 +44,9 @@
         NOTE 1:  -v or -h overrides the other options.
         NOTE 2:  -c requires -m option to be included.
         NOTE 3:  -s requires -t option to be included.
+        NOTE 4:  -S requires -f option to be included.
 
-        NOTE 4:  Regex expression formatting.  Uses standard regex formatting.
+        NOTE 5:  Regex expression formatting.  Uses standard regex formatting.
             The regex expression can contain multiple expressions, but will use
             "or" logic to determine whether a data string is allowed through.
             Matching will only be done from the beginning of a data string.
@@ -283,6 +288,25 @@ def log_2_output(log_array, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
+def search(log_array, key_list, func):
+
+    """Function:  search
+
+    Description:  Returns only those log entries that
+        match the keyword search, but also dependent on the type of search
+        logic (and|or) invoked.
+
+    Arguments:
+        (input) log_array -> List of log entries.
+        (input) key_list -> List of keywords to search for.
+        (input) func -> Function to be called for logic search (all|any).
+        (output) List of log entries found with keywords.
+
+    """
+
+    return [item for item in log_array if func(x in item for x in key_list)]
+
+
 def fetch_log(args_array, **kwargs):
 
     """Function:  fetch_log
@@ -316,6 +340,14 @@ def fetch_log(args_array, **kwargs):
 
         log_array.extend(gen_libs.get_data(log_file))
         log_file.close()
+
+    # Keyword search
+    if "-S" in args_array.keys():
+        if args_array["-k"] == "and":
+            log_array = search(log_array, args_array["-S"], all)
+
+        else:
+            log_array = search(log_array, args_array["-S"], any)
 
     return log_array
 
@@ -493,6 +525,7 @@ def main():
         opt_con_req_dict -> contains options requiring other options.
         opt_multi_list -> contains the options that will have multiple values.
         opt_val_list -> contains options which require values.
+        opt_valid_val -> contains options with their valid values.
 
     Arguments:
         (input) argv -> Arguments from the command line.
@@ -501,18 +534,24 @@ def main():
 
     file_chk_list = ["-f", "-i", "-m", "-o", "-F"]
     file_crt_list = ["-m", "-o"]
-    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
-    opt_multi_list = ["-f", "-s", "-t"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F"]
+    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"], "-S": ["-f", "-k"]}
+    opt_multi_list = ["-f", "-s", "-t", "-S"]
+    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k"]
+    opt_valid_val = {"-k": ["and", "or"]}
 
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
+    # Set default search logic.
+    if "-S" in args_array.keys() and "-k" not in args_array.keys():
+        args_array["-k"] = "or"
+
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
        and not arg_parser.arg_file_chk(args_array, file_chk_list,
-                                       file_crt_list):
+                                       file_crt_list) \
+       and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
             PROG_LOCK = gen_class.ProgramLock(sys.argv,

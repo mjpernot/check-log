@@ -26,6 +26,7 @@ pipeline {
                 ./test/unit/check_log/ignore_msgs.py
                 ./test/unit/check_log/log_2_output.py
                 ./test/unit/check_log/main.py
+                ./test/unit/check_log/search.py
                 ./test/unit/check_log/open_log.py
                 ./test/unit/check_log/run_program.py
                 ./test/unit/check_log/update_marker.py

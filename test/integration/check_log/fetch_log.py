@@ -9,7 +9,6 @@
         test/integration/check_log/fetch_log.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,10 +43,12 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
+        test_search_and -> Return log entries with and search clause.
+        test_search_or -> Return log entries with or search clause.
         test_fetch_log_all -> Return log entries from all log files.
         test_fetch_log -> Return log entries from some log files.
         tearDown -> Clean up of integration testing.
@@ -62,7 +62,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -96,17 +95,49 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
                                   os.path.join(self.test_path, self.logname1)]}
+        self.args_array2 = {"-f": [os.path.join(self.test_path, self.logname2),
+                            os.path.join(self.test_path, self.logname1)],
+                            "-S": ["third", "sixth"], "-k": "or"}
+        self.args_array3 = {"-f": [os.path.join(self.test_path, self.logname2),
+                            os.path.join(self.test_path, self.logname1)],
+                            "-S": ["third", "line"], "-k": "and"}
 
         self.results = ["This is the sixth line", "This is the seventh line"]
         self.results2 = ["This is the first line", "This is the second line",
                          "This is the third line", "This is the fourth line",
                          "This is the fifth line", "This is the sixth line",
                          "This is the seventh line"]
+        self.results3 = ["This is the third line", "This is the sixth line"]
+        self.results4 = ["This is the third line"]
 
         # Touch files to set correct time order, require sleep.
         gen_libs.touch(os.path.join(self.test_path, self.logname1))
         time.sleep(1)
         gen_libs.touch(os.path.join(self.test_path, self.logname2))
+
+    def test_search_and(self):
+
+        """Function:  test_search_and
+
+        Description:  Return log entries with and search clause.
+
+        Arguments:
+
+        """
+
+        self.assertEqual(check_log.fetch_log(self.args_array3), self.results4)
+
+    def test_search_or(self):
+
+        """Function:  test_search_or
+
+        Description:  Return log entries with or search clause.
+
+        Arguments:
+
+        """
+
+        self.assertEqual(check_log.fetch_log(self.args_array2), self.results3)
 
     def test_fetch_log_all(self):
 
@@ -115,7 +146,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from all log files.
 
         Arguments:
-            None
 
         """
 
@@ -128,7 +158,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from some log files.
 
         Arguments:
-            None
 
         """
 
@@ -143,7 +172,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 
