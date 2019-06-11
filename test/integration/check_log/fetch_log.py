@@ -47,6 +47,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Integration testing initilization.
+        test_search_all -> Return log entries search all clause.
+        test_search_any -> Return log entries search any clause.
         test_fetch_log_all -> Return log entries from all log files.
         test_fetch_log -> Return log entries from some log files.
         tearDown -> Clean up of integration testing.
@@ -93,17 +95,49 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
                                   os.path.join(self.test_path, self.logname1)]}
+        self.args_array2 = {"-f": [os.path.join(self.test_path, self.logname2),
+            os.path.join(self.test_path, self.logname1)],
+                            "-S": ["third", "sixth"], "-k": "or"}
+        self.args_array3 = {"-f": [os.path.join(self.test_path, self.logname2),
+            os.path.join(self.test_path, self.logname1)],
+                            "-S": ["third", "line"], "-k": "and"}
 
         self.results = ["This is the sixth line", "This is the seventh line"]
         self.results2 = ["This is the first line", "This is the second line",
                          "This is the third line", "This is the fourth line",
                          "This is the fifth line", "This is the sixth line",
                          "This is the seventh line"]
+        self.results3 = ["This is the third line", "This is the sixth line"]
+        self.results4 = ["This is the third line"]
 
         # Touch files to set correct time order, require sleep.
         gen_libs.touch(os.path.join(self.test_path, self.logname1))
         time.sleep(1)
         gen_libs.touch(os.path.join(self.test_path, self.logname2))
+
+    def test_search_all(self):
+
+        """Function:  test_search_all
+
+        Description:  Return log entries search all clause.
+
+        Arguments:
+
+        """
+
+        self.assertEqual(check_log.fetch_log(self.args_array3), self.results4)
+
+    def test_search_any(self):
+
+        """Function:  test_search_any
+
+        Description:  Return log entries search any clause.
+
+        Arguments:
+
+        """
+
+        self.assertEqual(check_log.fetch_log(self.args_array2), self.results3)
 
     def test_fetch_log_all(self):
 
