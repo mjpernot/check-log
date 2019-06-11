@@ -288,6 +288,25 @@ def log_2_output(log_array, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
+def search(log_array, key_list, func):
+
+    """Function:  search
+
+    Description:  Returns only those log entries that
+        match the keyword search, but also dependent on the type of search
+        logic (and|or) invoked.
+
+    Arguments:
+        (input) log_array -> List of log entries.
+        (input) key_list -> List of keywords to search for.
+        (input) func -> Function to be called for logic search (all|any).
+        (output) List of log entries found with keywords.
+
+    """
+
+    return [item for item in log_array if func(x in item for x in key_list)]
+
+    
 def fetch_log(args_array, **kwargs):
 
     """Function:  fetch_log

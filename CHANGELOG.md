@@ -7,7 +7,10 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [2.2.0] - 2019-06-11
 - Added ability to do keyword searching.
 
-### Change
+### Added
+- search:  Returns only those log entries that match the keyword search.
+
+### Changed
 - fetch_log:  Call to search() for keyword search.
 - main:  Added -S option -> List of keywords to search for.
 - main:  Added -k option -> Type of search as 'and' or 'or'.
