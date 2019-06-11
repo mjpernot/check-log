@@ -200,3 +200,28 @@ else
 fi
 rm test/blackbox/check_log/testfiles/test7a_marker.txt
 
+printf "\n\nScenario 8:  check_log blackbox testing...Search check\n"
+printf "\tAnd search check\n"
+touch test/blackbox/check_log/logfiles/log8a.txt
+touch test/blackbox/check_log/logfiles/log8b.txt
+./check_log.py -f test/blackbox/check_log/logfiles/log8a.txt test/blackbox/check_log/logfiles/log8b.txt -o test/blackbox/check_log/testfiles/test8.out -z -S three line -k and
+$(cmp -s test/blackbox/check_log/basefiles/test8a_base.txt test/blackbox/check_log/testfiles/test8.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test8.out
+
+printf "\tOr search check\n"
+touch test/blackbox/check_log/logfiles/log8a.txt
+touch test/blackbox/check_log/logfiles/log8b.txt
+./check_log.py -f test/blackbox/check_log/logfiles/log8a.txt test/blackbox/check_log/logfiles/log8b.txt -o test/blackbox/check_log/testfiles/test8.out -z -S three six -k or
+$(cmp -s test/blackbox/check_log/basefiles/test8b_base.txt test/blackbox/check_log/testfiles/test8.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test8.out
+
