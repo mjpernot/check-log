@@ -493,6 +493,7 @@ def main():
         opt_con_req_dict -> contains options requiring other options.
         opt_multi_list -> contains the options that will have multiple values.
         opt_val_list -> contains options which require values.
+        opt_valid_val -> contains options with their valid values.
 
     Arguments:
         (input) argv -> Arguments from the command line.
@@ -501,18 +502,24 @@ def main():
 
     file_chk_list = ["-f", "-i", "-m", "-o", "-F"]
     file_crt_list = ["-m", "-o"]
-    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
-    opt_multi_list = ["-f", "-s", "-t"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F"]
+    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"], "-S": ["-f", "-k"]}
+    opt_multi_list = ["-f", "-s", "-t", "-S"]
+    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S"]
+    opt_valid_val = {"-k": ["and", "or"]}
 
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
+    # Set default search logic.
+    if "-S" in args_array.keys() and "-k" not in args_array.keys():
+        args_array["-k"] = "or"
+
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
        and not arg_parser.arg_file_chk(args_array, file_chk_list,
-                                       file_crt_list):
+                                       file_crt_list) \
+       and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
             PROG_LOCK = gen_class.ProgramLock(sys.argv,
