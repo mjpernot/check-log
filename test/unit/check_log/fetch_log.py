@@ -9,7 +9,6 @@
         test/unit/check_log/fetch_log.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -63,7 +61,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -95,8 +92,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from all log files.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -118,8 +113,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from some log files.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -139,8 +132,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return an empty log.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -160,8 +151,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from one log file.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
