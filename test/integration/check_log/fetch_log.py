@@ -47,8 +47,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Integration testing initilization.
-        test_search_all -> Return log entries search all clause.
-        test_search_any -> Return log entries search any clause.
+        test_search_and -> Return log entries search and clause.
+        test_search_or -> Return log entries search or clause.
         test_fetch_log_all -> Return log entries from all log files.
         test_fetch_log -> Return log entries from some log files.
         tearDown -> Clean up of integration testing.
@@ -115,11 +115,11 @@ class UnitTest(unittest.TestCase):
         time.sleep(1)
         gen_libs.touch(os.path.join(self.test_path, self.logname2))
 
-    def test_search_all(self):
+    def test_search_and(self):
 
-        """Function:  test_search_all
+        """Function:  test_search_and
 
-        Description:  Return log entries search all clause.
+        Description:  Return log entries search and clause.
 
         Arguments:
 
@@ -127,11 +127,11 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(check_log.fetch_log(self.args_array3), self.results4)
 
-    def test_search_any(self):
+    def test_search_or(self):
 
-        """Function:  test_search_any
+        """Function:  test_search_or
 
-        Description:  Return log entries search any clause.
+        Description:  Return log entries search or clause.
 
         Arguments:
 
