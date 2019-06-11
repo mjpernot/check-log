@@ -96,10 +96,10 @@ class UnitTest(unittest.TestCase):
         self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
                                   os.path.join(self.test_path, self.logname1)]}
         self.args_array2 = {"-f": [os.path.join(self.test_path, self.logname2),
-            os.path.join(self.test_path, self.logname1)],
+                            os.path.join(self.test_path, self.logname1)],
                             "-S": ["third", "sixth"], "-k": "or"}
         self.args_array3 = {"-f": [os.path.join(self.test_path, self.logname2),
-            os.path.join(self.test_path, self.logname1)],
+                            os.path.join(self.test_path, self.logname1)],
                             "-S": ["third", "line"], "-k": "and"}
 
         self.results = ["This is the sixth line", "This is the seventh line"]
