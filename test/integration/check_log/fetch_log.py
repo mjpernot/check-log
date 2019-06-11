@@ -9,7 +9,6 @@
         test/integration/check_log/fetch_log.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
@@ -62,7 +60,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -115,7 +112,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from all log files.
 
         Arguments:
-            None
 
         """
 
@@ -128,7 +124,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from some log files.
 
         Arguments:
-            None
 
         """
 
@@ -143,7 +138,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 
