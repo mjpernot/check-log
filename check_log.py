@@ -536,7 +536,7 @@ def main():
     file_crt_list = ["-m", "-o"]
     opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"], "-S": ["-f", "-k"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S"]
+    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k"]
     opt_valid_val = {"-k": ["and", "or"]}
 
     # Process argument list from command line.
