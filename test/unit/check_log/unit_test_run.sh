@@ -8,6 +8,7 @@ echo ""
 echo "Unit test:  check_log.py"
 test/unit/check_log/help_message.py
 test/unit/check_log/full_chk.py
+test/unit/check_log/search.py
 test/unit/check_log/open_log.py
 test/unit/check_log/find_marker.py
 test/unit/check_log/update_marker.py

@@ -10,6 +10,7 @@ echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=check_log test/unit/check_log/help_message.py
 coverage run -a --source=check_log test/unit/check_log/full_chk.py
+coverage run -a --source=check_log test/unit/check_log/search.py
 coverage run -a --source=check_log test/unit/check_log/open_log.py
 coverage run -a --source=check_log test/unit/check_log/find_marker.py
 coverage run -a --source=check_log test/unit/check_log/update_marker.py
