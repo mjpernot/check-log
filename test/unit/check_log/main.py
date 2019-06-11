@@ -9,7 +9,6 @@
         test/unit/check_log/main.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,10 +43,14 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
+        test_search_logic_present -> Test with -k option present.
+        test_search_logic_miss -> Test with missing -k option.
+        test_valid_val_true -> Test with arg_valid_val returns True.
+        test_valid_val_false -> Test with arg_valid_val returns False.
         test_programlock_id -> Test ProgramLock fails with flavor id.
         test_programlock_fail -> Test ProgramLock fails to lock.
         test_cond_req_or_true -> Test with arg_cond_req_or returns True.
@@ -67,11 +69,91 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
         self.args = {"-f": "File Place Holder", "-c": True}
+        self.args2 = {"-f": "File Place Holder", "-c": True, "-S": ["a"]}
+        self.args3 = {"-f": "File Place Holder", "-c": True, "-S": ["a"],
+                      "-k": "and"}
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser.arg_parse2")
+    def test_search_logic_present(self, mock_arg, mock_help):
+
+        """Function:  test_search_logic_present
+
+        Description:  Test with -k option present.
+
+        Arguments:
+
+        """
+
+        mock_arg.return_value = self.args3
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser.arg_parse2")
+    def test_search_logic_miss(self, mock_arg, mock_help):
+
+        """Function:  test_search_logic_miss
+
+        Description:  Test with missing -k option.
+
+        Arguments:
+
+        """
+
+        mock_arg.return_value = self.args2
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_class.ProgramLock")
+    @mock.patch("check_log.run_program")
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser")
+    def test_valid_val_true(self, mock_arg, mock_help, mock_run, mock_lock):
+
+        """Function:  test_valid_val_true
+
+        Description:  Test with arg_valid_val returns True.
+
+        Arguments:
+
+        """
+
+        mock_arg.arg_parse2.return_value = self.args
+        mock_help.return_value = False
+        mock_arg.arg_cond_req_or.return_value = True
+        mock_arg.arg_file_chk.return_value = False
+        mock_arg.arg_valid_val.return_value = True
+        mock_run.return_value = True
+        mock_lock.side_effect = None
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser")
+    def test_valid_val_false(self, mock_arg, mock_help):
+
+        """Function:  test_valid_val_false
+
+        Description:  Test with arg_valid_val returns False.
+
+        Arguments:
+
+        """
+
+        mock_arg.arg_parse2.return_value = self.args
+        mock_help.return_value = False
+        mock_arg.arg_cond_req_or.return_value = True
+        mock_arg.arg_file_chk.return_value = False
+        mock_arg.arg_valid_val.return_value = False
+
+        self.assertFalse(check_log.main())
 
     @mock.patch("check_log.gen_class.ProgramLock")
     @mock.patch("check_log.gen_libs.help_func")
@@ -83,9 +165,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test ProgramLock fails with flavor id.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
-            mock_lock -> Mock Ref:  check_log.gen_class.ProgramLock
 
         """
 
@@ -110,9 +189,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test ProgramLock fails to lock.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
-            mock_lock -> Mock Ref:  check_log.gen_class.ProgramLock
 
         """
 
@@ -134,8 +210,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with arg_cond_req_or returns True.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
 
         """
 
@@ -155,8 +229,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with arg_cond_req_or returns False.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
 
         """
 
@@ -166,21 +238,15 @@ class UnitTest(unittest.TestCase):
 
         self.assertFalse(check_log.main())
 
-    @mock.patch("check_log.gen_class.ProgramLock")
-    @mock.patch("check_log.run_program")
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.arg_parser")
-    def test_file_chk_false(self, mock_arg, mock_help, mock_run, mock_lock):
+    def test_file_chk_false(self, mock_arg, mock_help):
 
         """Function:  test_file_chk_false
 
         Description:  Test with arg_file_chk returns False.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
-            mock_run -> Mock Ref:  check_log.run_program
-            mock_lock -> Mock Ref:  check_log.gen_class.ProgramLock
 
         """
 
@@ -188,8 +254,7 @@ class UnitTest(unittest.TestCase):
         mock_help.return_value = False
         mock_arg.arg_cond_req_or.return_value = True
         mock_arg.arg_file_chk.return_value = False
-        mock_run.return_value = True
-        mock_lock.side_effect = None
+        mock_arg.arg_valid_val.return_value = False
 
         self.assertFalse(check_log.main())
 
@@ -202,8 +267,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with arg_file_chk returns True.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
 
         """
 
@@ -223,8 +286,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with help_func returns False.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
 
         """
 
@@ -243,8 +304,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with help_func returns True.
 
         Arguments:
-            mock_arg -> Mock Ref:  check_log.arg_parser.arg_parse2
-            mock_help -> Mock Ref:  check_log.gen_libs.help_func
 
         """
 

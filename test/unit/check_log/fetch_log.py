@@ -9,7 +9,6 @@
         test/unit/check_log/fetch_log.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,10 +43,12 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
+        test_or_search -> Test with "or" search logic.
+        test_and_search -> Test with "and" search logic.
         test_fetch_all_log -> Return log entries from all log files.
         test_fetch_partial_log -> Return log entries from some log files.
         test_fetch_empty_log -> Return an empty log.
@@ -63,7 +63,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -73,6 +72,10 @@ class UnitTest(unittest.TestCase):
         self.file_3 = "test/unit/check_log/testfiles/fetch_log_file3.txt"
 
         self.args_array = {"-f": [self.file_1, self.file_2, self.file_3]}
+        self.args_array2 = {"-f": [self.file_1, self.file_2, self.file_3],
+                            "-S": ["a"], "-k": "and"}
+        self.args_array3 = {"-f": [self.file_1, self.file_2, self.file_3],
+                            "-S": ["a"], "-k": "or"}
 
         self.results0 = []
         self.results1 = ["This is line one of log", "This is line two of log",
@@ -86,6 +89,52 @@ class UnitTest(unittest.TestCase):
                          "This is line five of log", "This is line six of log",
                          "This is line seven of log"]
 
+    @mock.patch("check_log.search")
+    @mock.patch("check_log.gen_libs.get_data")
+    @mock.patch("check_log.open_log")
+    def test_or_search(self, mock_open, mock_get, mock_search):
+
+        """Function:  test_or_search
+
+        Description:  Test with "or" search logic.
+
+        Arguments:
+
+        """
+
+        mock_open.return_value = open(self.args_array["-f"][0], "r")
+        second_file = open(self.args_array["-f"][1], "r")
+        third_file = open(self.args_array["-f"][2], "r")
+        mock_get.side_effect = [[x.rstrip() for x in mock_open.return_value],
+                                [x.rstrip() for x in second_file],
+                                [x.rstrip() for x in third_file]]
+        mock_search.return_value = self.results1
+
+        self.assertEqual(check_log.fetch_log(self.args_array3), self.results1)
+
+    @mock.patch("check_log.search")
+    @mock.patch("check_log.gen_libs.get_data")
+    @mock.patch("check_log.open_log")
+    def test_and_search(self, mock_open, mock_get, mock_search):
+
+        """Function:  test_and_search
+
+        Description:  Test with "and" search logic.
+
+        Arguments:
+
+        """
+
+        mock_open.return_value = open(self.args_array["-f"][0], "r")
+        second_file = open(self.args_array["-f"][1], "r")
+        third_file = open(self.args_array["-f"][2], "r")
+        mock_get.side_effect = [[x.rstrip() for x in mock_open.return_value],
+                                [x.rstrip() for x in second_file],
+                                [x.rstrip() for x in third_file]]
+        mock_search.return_value = self.results2
+
+        self.assertEqual(check_log.fetch_log(self.args_array2), self.results2)
+
     @mock.patch("check_log.gen_libs.get_data")
     @mock.patch("check_log.open_log")
     def test_fetch_all_log(self, mock_open, mock_get):
@@ -95,8 +144,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from all log files.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -118,8 +165,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from some log files.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -139,8 +184,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return an empty log.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
@@ -160,8 +203,6 @@ class UnitTest(unittest.TestCase):
         Description:  Return log entries from one log file.
 
         Arguments:
-            mock_open -> Mock Ref:  check_log.open_log
-            mock_get -> Mock Ref:  check_log.gen_libs.get_data
 
         """
 
