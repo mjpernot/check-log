@@ -344,10 +344,10 @@ def fetch_log(args_array, **kwargs):
     # Keyword search
     if "-S" in args_array.keys():
         if args_array["-k"] == "and":
-            logs_array = search(logs_array, args_array["-S"], all)
+            log_array = search(log_array, args_array["-S"], all)
 
         else:
-            logs_array = search(logs_array, args_array["-S"], any)
+            log_array = search(log_array, args_array["-S"], any)
 
     return log_array
 
