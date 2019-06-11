@@ -47,6 +47,9 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Unit testing initilization.
+        test_search_logic_present -> Test with -k option present.
+        test_search_logic_miss -> Test with missing -k option.
+        test_valid_val_true -> Test with arg_valid_val returns True.
         test_valid_val_false -> Test with arg_valid_val returns False.
         test_programlock_id -> Test ProgramLock fails with flavor id.
         test_programlock_fail -> Test ProgramLock fails to lock.
@@ -70,6 +73,43 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args = {"-f": "File Place Holder", "-c": True}
+        self.args2 = {"-f": "File Place Holder", "-c": True, "-S": ["a"]}
+        self.args3 = {"-f": "File Place Holder", "-c": True, "-S": ["a"],
+                      "-k": "and"}
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser.arg_parse2")
+    def test_search_logic_present(self, mock_arg, mock_help):
+
+        """Function:  test_search_logic_present
+
+        Description:  Test with -k option present.
+
+        Arguments:
+
+        """
+
+        mock_arg.return_value = self.args3
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser.arg_parse2")
+    def test_search_logic_miss(self, mock_arg, mock_help):
+
+        """Function:  test_search_logic_miss
+
+        Description:  Test with missing -k option.
+
+        Arguments:
+
+        """
+
+        mock_arg.return_value = self.args2
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
 
     @mock.patch("check_log.gen_class.ProgramLock")
     @mock.patch("check_log.run_program")
