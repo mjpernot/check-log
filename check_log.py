@@ -32,6 +32,10 @@
         -r => Flag option - to recheck the entire log file.
         -c => Flag option - to clear the contents in the marker file.  Requires
             -m option.
+        -S keyword(s) => Search for keywords.  List of keywords are
+            space-delimited.  Requires -f options.  Standard in searching is
+            not available.
+        -k "and"|"or" => Keyword search logic.  Default setting is "or".
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
@@ -40,8 +44,9 @@
         NOTE 1:  -v or -h overrides the other options.
         NOTE 2:  -c requires -m option to be included.
         NOTE 3:  -s requires -t option to be included.
+        NOTE 4:  -S requires -f option to be included.
 
-        NOTE 4:  Regex expression formatting.  Uses standard regex formatting.
+        NOTE 5:  Regex expression formatting.  Uses standard regex formatting.
             The regex expression can contain multiple expressions, but will use
             "or" logic to determine whether a data string is allowed through.
             Matching will only be done from the beginning of a data string.
