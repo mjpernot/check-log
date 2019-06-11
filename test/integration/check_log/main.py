@@ -9,7 +9,6 @@
         test/integration/check_log/main.py
 
     Arguments:
-        None
 
 """
 
@@ -34,7 +33,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -69,7 +67,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -130,7 +127,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -160,7 +156,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in with an empty marker file.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -191,7 +186,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in.
 
         Arguments:
-            mock_atty -> Mock Ref:  check_log.sys.stdin
 
         """
 
@@ -218,7 +212,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test clear marker file.
 
         Arguments:
-            None
 
         """
 
@@ -242,7 +235,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file log with marker.
 
         Arguments:
-            None
 
         """
 
@@ -269,7 +261,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test file log.
 
         Arguments:
-            None
 
         """
 
@@ -296,7 +287,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test arg_file_chk function.
 
         Arguments:
-            None
 
         """
 
@@ -314,7 +304,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test arg_cond_req_or function.
 
         Arguments:
-            None
 
         """
 
@@ -331,7 +320,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test help_func function.
 
         Arguments:
-            None
 
         """
 
@@ -348,7 +336,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 
