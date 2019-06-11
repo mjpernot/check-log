@@ -322,6 +322,14 @@ def fetch_log(args_array, **kwargs):
         log_array.extend(gen_libs.get_data(log_file))
         log_file.close()
 
+    # Keyword search
+    if "-S" in args_array.keys():
+        if args_array["-k"] == "and":
+            logs_array = search(logs_array, args_array["-S"], all)
+
+        else:
+            logs_array = search(logs_array, args_array["-S"], any)
+
     return log_array
 
 

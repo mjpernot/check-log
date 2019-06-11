@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Added ability to do keyword searching.
 
 ### Change
+- fetch_log:  Call to search() for keyword search.
 - main:  Added -S option -> List of keywords to search for.
 - main:  Added -k option -> Type of search as 'and' or 'or'.
 
