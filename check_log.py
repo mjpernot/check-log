@@ -8,6 +8,9 @@
         file.  The program can also setup filtering options to either ignore
         specific messages and/or allow specific formatted messages through.
         See -F and -i options below for further details.
+        NOTE:  The log files can be normal flat files or compressed files
+            (e.g. ending with .gz) or a combination there of.  Any other type
+            of compressed file will not work.
 
     Usage:
          stdin | check_log.py [-f {file* file1 file2 ...}] [-F file
@@ -16,7 +19,8 @@
 
     Arguments:
         -f file(s) => Name(s) of the log files to check.  Can also use
-            wildcard expansion for file names.
+            wildcard expansion for file names.  Can include both normal
+            flat files or .gz compressed files.
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
             filter out data that does not match the regex string.  The
@@ -149,7 +153,7 @@ def open_log(args_array, **kwargs):
     args_array = dict(args_array)
 
     if full_chk(args_array):
-        return open(args_array["-f"][0], "r")
+        return gen_libs.openfile(args_array["-f"][0], "r")
 
     else:
         return find_marker(args_array)
@@ -172,7 +176,7 @@ def find_marker(args_array, **kwargs):
 
     if ln_marker:
         for fname in args_array["-f"]:
-            log_file = open(fname, "r")
+            log_file = gen_libs.openfile(fname, "r")
 
             for line in log_file:
                 if line.rstrip() == ln_marker:
@@ -181,7 +185,7 @@ def find_marker(args_array, **kwargs):
             log_file.close()
 
     # No marker found, return first file.
-    return open(args_array["-f"][0], "r")
+    return gen_libs.openfile(args_array["-f"][0], "r")
 
 
 def update_marker(args_array, line, **kwargs):
@@ -219,7 +223,7 @@ def get_ignore_msgs(args_array, **kwargs):
     ignore_array = []
 
     if "-i" in args_array:
-        with open(args_array["-i"], "r") as f_hldr:
+        with gen_libs.openfile(args_array["-i"], "r") as f_hldr:
             ignore_array = [x.lower().rstrip() for x in f_hldr]
 
     return ignore_array
@@ -336,7 +340,7 @@ def fetch_log(args_array, **kwargs):
 
         # If file is closed, open up next one.
         if log_file.closed:
-            log_file = open(x, "r")
+            log_file = gen_libs.openfile(x, "r")
 
         log_array.extend(gen_libs.get_data(log_file))
         log_file.close()
@@ -442,7 +446,7 @@ def get_filter_data(args_array, **kwargs):
     if "-F" in args_array:
 
         # Only read the first line, all others ignored.
-        with open(args_array["-F"], "r") as f_hdlr:
+        with gen_libs.openfile(args_array["-F"], "r") as f_hdlr:
             filter_str = f_hdlr.readline().strip("\n")
 
     return filter_str
