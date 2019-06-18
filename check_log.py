@@ -337,7 +337,6 @@ def fetch_log(args_array, **kwargs):
         # If file is closed, open up next one.
         if log_file.closed:
             log_file = gen_libs.openfile(x, "r")
-            #log_file = open(x, "r")
 
         log_array.extend(gen_libs.get_data(log_file))
         log_file.close()
