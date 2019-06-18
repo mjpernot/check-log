@@ -9,7 +9,6 @@
         test/unit/check_log/run_program.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -65,7 +63,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -80,7 +77,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with no log files to scan.
 
         Arguments:
-            None
 
         """
 
@@ -97,7 +93,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test sys.exit check.
 
         Arguments:
-            None
 
         """
 
@@ -114,7 +109,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test -c and -m options.
 
         Arguments:
-            None
 
         """
 
@@ -134,7 +128,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with standard in and with empty log array.
 
         Arguments:
-            None
 
         """
 
@@ -151,7 +144,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -f option and with empty log array.
 
         Arguments:
-            None
 
         """
 
@@ -191,7 +183,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -f option in args_array.
 
         Arguments:
-            None
 
         """
 

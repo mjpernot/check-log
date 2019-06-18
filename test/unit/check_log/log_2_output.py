@@ -9,7 +9,6 @@
         test/unit/check_log/log_2_output.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -68,7 +66,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -85,7 +82,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -t and -z options set.
 
         Arguments:
-            mock_mail -> Mock Ref:  check_log.gen_class.Mail
 
         """
 
@@ -104,7 +100,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -t and -s options set.
 
         Arguments:
-            mock_mail -> Mock Ref:  check_log.gen_class.Mail
 
         """
 
@@ -124,7 +119,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -t and -o options set.
 
         Arguments:
-            mock_mail -> Mock Ref:  check_log.gen_class.Mail
 
         """
 
@@ -151,7 +145,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -t option set.
 
         Arguments:
-            mock_mail -> Mock Ref:  check_log.gen_class.Mail
 
         """
 
@@ -170,7 +163,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -z option set.
 
         Arguments:
-            None
 
         """
 
@@ -186,7 +178,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test writing data to log and empty log.
 
         Arguments:
-            None
 
         """
 
@@ -208,7 +199,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test writing data to log.
 
         Arguments:
-            None
 
         """
 
@@ -230,7 +220,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -o option and empty log.
 
         Arguments:
-            None
 
         """
 
@@ -243,7 +232,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -o option not set.
 
         Arguments:
-            None
 
         """
 
@@ -257,7 +245,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of unit testing.
 
         Arguments:
-            None
 
         """
 
