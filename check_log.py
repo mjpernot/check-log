@@ -442,7 +442,7 @@ def get_filter_data(args_array, **kwargs):
     if "-F" in args_array:
 
         # Only read the first line, all others ignored.
-        with open(args_array["-F"], "r") as f_hdlr:
+        with gen_libs.openfile(args_array["-F"], "r") as f_hdlr:
             filter_str = f_hdlr.readline().strip("\n")
 
     return filter_str
