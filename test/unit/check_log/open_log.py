@@ -81,7 +81,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(check_log.open_log(self.args_array), "File_Handler2")
 
     @mock.patch("check_log.full_chk")
-    @mock.patch("check_log.open")
+    @mock.patch("check_log.gen_libs.openfile")
     def test_fill_chk_true(self, mock_open, mock_chk):
 
         """Function:  test_fill_chk_true
