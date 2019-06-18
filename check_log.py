@@ -172,7 +172,7 @@ def find_marker(args_array, **kwargs):
 
     if ln_marker:
         for fname in args_array["-f"]:
-            log_file = open(fname, "r")
+            log_file = gen_libs.openfile(fname, "r")
 
             for line in log_file:
                 if line.rstrip() == ln_marker:
@@ -181,7 +181,7 @@ def find_marker(args_array, **kwargs):
             log_file.close()
 
     # No marker found, return first file.
-    return open(args_array["-f"][0], "r")
+    return gen_libs.openfile(args_array["-f"][0], "r")
 
 
 def update_marker(args_array, line, **kwargs):
