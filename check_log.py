@@ -8,6 +8,9 @@
         file.  The program can also setup filtering options to either ignore
         specific messages and/or allow specific formatted messages through.
         See -F and -i options below for further details.
+        NOTE:  The log files can be normal flat files or compressed files
+            (e.g. ending with .gz) or a combination there of.  Any other type
+            of compressed file will not work.
 
     Usage:
          stdin | check_log.py [-f {file* file1 file2 ...}] [-F file
@@ -16,7 +19,8 @@
 
     Arguments:
         -f file(s) => Name(s) of the log files to check.  Can also use
-            wildcard expansion for file names.
+            wildcard expansion for file names.  Can include both normal
+            flat files or .gz compressed files.
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
             filter out data that does not match the regex string.  The
