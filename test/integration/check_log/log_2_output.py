@@ -9,7 +9,6 @@
         test/integration/check_log/log_2_output.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import check_log
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
@@ -62,7 +60,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -90,7 +87,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test sending via mail.
 
         Arguments:
-            mock_mail -> Mock Ref:  check_log.gen_class.Mail.send_mail
 
         """
 
@@ -108,7 +104,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test writing data to log.
 
         Arguments:
-            None
 
         """
 
@@ -132,7 +127,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 

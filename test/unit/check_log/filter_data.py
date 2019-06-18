@@ -9,7 +9,6 @@
         test/unit/check_log/filter_data.py
 
     Arguments:
-        None
 
 """
 
@@ -31,7 +30,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -43,7 +41,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -61,7 +59,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -89,7 +86,6 @@ class UnitTest(unittest.TestCase):
         Description:  Check for empty filter string.
 
         Arguments:
-            None
 
         """
 
@@ -104,7 +100,6 @@ class UnitTest(unittest.TestCase):
         Description:  Regex matches some of the log entries.
 
         Arguments:
-            None
 
         """
 
@@ -118,7 +113,6 @@ class UnitTest(unittest.TestCase):
         Description:  Regex matches no log entries.
 
         Arguments:
-            None
 
         """
 
@@ -133,7 +127,6 @@ class UnitTest(unittest.TestCase):
         Description:  Regex matches all log entries.
 
         Arguments:
-            None
 
         """
 

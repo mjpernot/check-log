@@ -9,7 +9,6 @@
         test/integration/check_log/fetch_log_stdin.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -45,7 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
@@ -64,7 +62,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -89,7 +86,6 @@ class UnitTest(unittest.TestCase):
         Description:  Passing in multiple lines, partial find.
 
         Arguments:
-            None
 
         """
 
@@ -106,7 +102,6 @@ class UnitTest(unittest.TestCase):
         Description:  Passing in no lines.
 
         Arguments:
-            None
 
         """
 
@@ -121,7 +116,6 @@ class UnitTest(unittest.TestCase):
         Description:  Passing in multiple lines.
 
         Arguments:
-            None
 
         """
 
@@ -136,7 +130,6 @@ class UnitTest(unittest.TestCase):
         Description:  Single line from standard - no find.
 
         Arguments:
-            None
 
         """
 
@@ -153,7 +146,6 @@ class UnitTest(unittest.TestCase):
         Description:  Single line from standard - found.
 
         Arguments:
-            None
 
         """
 

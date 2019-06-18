@@ -225,3 +225,17 @@ else
 fi
 rm test/blackbox/check_log/testfiles/test8.out
 
+printf "\n\nScenario 9:  check_log blackbox testing...Compressed file check\n"
+touch test/blackbox/check_log/logfiles/log9a.txt
+touch test/blackbox/check_log/logfiles/log9b.txt
+gzip test/blackbox/check_log/logfiles/log9b.txt
+./check_log.py -f test/blackbox/check_log/logfiles/log9* -o test/blackbox/check_log/testfiles/test9.out -m test/blackbox/check_log/basefiles/test9a_marker.txt -n -z
+$(cmp -s test/blackbox/check_log/basefiles/test9a_base.txt test/blackbox/check_log/testfiles/test9.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+gunzip test/blackbox/check_log/logfiles/log9b.txt.gz
+rm test/blackbox/check_log/testfiles/test9.out
+

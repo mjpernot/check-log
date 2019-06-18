@@ -9,7 +9,6 @@
         test/unit/check_log/find_marker_array.py
 
     Arguments:
-        None
 
 """
 
@@ -32,7 +31,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -44,7 +42,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -64,7 +62,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -91,7 +88,6 @@ class UnitTest(unittest.TestCase):
         Description:  Empty line marker checked.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -109,7 +105,6 @@ class UnitTest(unittest.TestCase):
         Description:  Empty log array checked.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -126,7 +121,6 @@ class UnitTest(unittest.TestCase):
         Description:  Does not find line marker in array.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -144,7 +138,6 @@ class UnitTest(unittest.TestCase):
         Description:  Find line marker on last line of array.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -162,7 +155,6 @@ class UnitTest(unittest.TestCase):
         Description:  Find line marker in first line of array.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -180,7 +172,6 @@ class UnitTest(unittest.TestCase):
         Description:  Find the line marker in the array.
 
         Arguments:
-            mock_fetch -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 

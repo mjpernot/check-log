@@ -9,7 +9,6 @@
         test/unit/check_log/find_marker.py
 
     Arguments:
-        None
 
 """
 
@@ -32,7 +31,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -44,7 +42,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -62,7 +60,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -83,7 +80,6 @@ class UnitTest(unittest.TestCase):
         Description:  Empty line marker check.
 
         Arguments:
-            mock_marker -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -104,7 +100,6 @@ class UnitTest(unittest.TestCase):
         Description:  Does not find the marker.
 
         Arguments:
-            mock_marker -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -125,7 +120,6 @@ class UnitTest(unittest.TestCase):
         Description:  Finds the line marker in second file.
 
         Arguments:
-            mock_marker -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 
@@ -146,7 +140,6 @@ class UnitTest(unittest.TestCase):
         Description:  Finds the line marker.
 
         Arguments:
-            mock_marker -> Mock Ref:  check_log.fetch_marker_entry
 
         """
 

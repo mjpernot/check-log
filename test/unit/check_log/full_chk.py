@@ -9,7 +9,6 @@
         test/unit/check_log/full_chk.py
 
     Arguments:
-        None
 
 """
 
@@ -32,7 +31,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -44,7 +42,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -63,7 +61,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -76,7 +73,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -m and -r options selected.
 
         Arguments:
-            None
 
         """
 
@@ -92,7 +88,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test -m option with non-empty file.
 
         Arguments:
-            mock_file -> Mock Ref:  check_log.gen_libs.is_empty_file
 
         """
 
@@ -110,7 +105,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test -m option in args_array with empty file.
 
         Arguments:
-            mock_file -> Mock Ref:  check_log.gen_libs.is_empty_file
 
         """
 
@@ -127,7 +121,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with -r option in args_array only.
 
         Arguments:
-            None
 
         """
 
@@ -142,7 +135,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with no arguments in args_array.
 
         Arguments:
-            None
 
         """
 

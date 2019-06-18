@@ -9,7 +9,6 @@
         test/unit/check_log/get_ignore_msgs.py
 
     Arguments:
-        None
 
 """
 
@@ -31,7 +30,6 @@ sys.path.append(os.getcwd())
 import check_log
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -43,7 +41,7 @@ class UnitTest(unittest.TestCase):
 
     Super-Class:  unittest.TestCase
 
-    Sub-Classes:  None
+    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -61,7 +59,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -81,7 +78,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with no -i option in args_array.
 
         Arguments:
-            None
 
         """
 
@@ -94,7 +90,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with multiple lines in list.
 
         Arguments:
-            None
 
         """
 
@@ -110,7 +105,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with a single line list.
 
         Arguments:
-            None
 
         """
 
@@ -126,7 +120,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with an empty ignore list.
 
         Arguments:
-            None
 
         """
 
