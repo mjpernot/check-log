@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.2.1] - 2019-06-18
+- Added capability to open compressed (e.g. .gz) files.
+
+### Changed
+- open_log:  Replace open call with gen_libs.openfile call.
+
+
 ## [2.2.0] - 2019-06-11
 - Added ability to do keyword searching.
 
