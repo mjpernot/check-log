@@ -99,7 +99,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with all lines removed from log array.
 
         Arguments:
-            None
 
         """
 
@@ -128,7 +127,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with one ignore line found.
 
         Arguments:
-            None
 
         """
 

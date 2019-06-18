@@ -105,7 +105,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test with a single line list.
 
         Arguments:
-            None
 
         """
 
