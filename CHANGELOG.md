@@ -10,6 +10,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Changed
 - open_log:  Replace open call with gen_libs.openfile call.
 - find_marker:  Replace open calls with gen_libs.openfile calls.
+- get_ignore_msgs:  Replace open call with gen_libs.openfile call.
 
 
 ## [2.2.0] - 2019-06-11

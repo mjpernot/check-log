@@ -219,7 +219,7 @@ def get_ignore_msgs(args_array, **kwargs):
     ignore_array = []
 
     if "-i" in args_array:
-        with open(args_array["-i"], "r") as f_hldr:
+        with gen_libs.openfile(args_array["-i"], "r") as f_hldr:
             ignore_array = [x.lower().rstrip() for x in f_hldr]
 
     return ignore_array
