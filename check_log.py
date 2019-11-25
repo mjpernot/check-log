@@ -188,6 +188,39 @@ def find_marker(args_array, **kwargs):
     return gen_libs.openfile(args_array["-f"][0], "r")
 
 
+def find_marker2(log, **kwargs):
+
+    """Function:  find_marker
+
+    Description:  Locates the marker.
+
+    Arguments:
+        (input) log -> LogFile class instance.
+
+    """
+
+    #args_array = dict(args_array)
+    #ln_marker = fetch_marker_entry(args_array["-m"])
+
+    #if ln_marker:
+    if log.marker:
+        log.find_marker(update=True)
+
+    ##############################
+    #    for fname in args_array["-f"]:
+    #        log_file = gen_libs.openfile(fname, "r")
+
+    #        for line in log_file:
+    #            if line.rstrip() == ln_marker:
+    #                return log_file
+
+    #        log_file.close()
+
+    # No marker found, return first file.
+    #return gen_libs.openfile(args_array["-f"][0], "r")
+    ##############################
+
+
 def update_marker(args_array, line, **kwargs):
 
     """Function:  update_marker
@@ -356,6 +389,61 @@ def fetch_log(args_array, **kwargs):
     return log_array
 
 
+def fetch_log2(log, args_array, **kwargs):
+
+    """Function:  fetch_log
+
+    Description:  Sorts the log files from oldest to newest, finds the place to
+        start pulling the log entries; either at the marker or the
+        oldest log file.  Appends the log entries to an array which is
+        passed to the calling function.
+
+    Arguments:
+        (input) log -> LogFile class instance.
+        (input) args_array -> Dictionary of command line options and values.
+
+    """
+
+    args_array = dict(args_array)
+    #############################
+    #log_array = []
+    #############################
+
+    # Sort files from oldest to newest.
+    args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
+                              reverse=False)
+
+    #############################
+    #log_file = open_log(args_array)
+    log_file = gen_libs.openfile(args_array["-f"][0], "r")
+    #############################
+
+    # Start with the log file returned by open_log function call.
+    for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
+
+        # If file is closed, open up next one.
+        if log_file.closed:
+            log_file = gen_libs.openfile(x, "r")
+
+        #############################
+        #log_array.extend(gen_libs.get_data(log_file))
+        log.load_loglist(log_file)
+        #############################
+        log_file.close()
+
+    #############################
+    # Keyword search
+    #if "-S" in args_array.keys():
+    #    if args_array["-k"] == "and":
+    #        log_array = search(log_array, args_array["-S"], all)
+
+    #    else:
+    #        log_array = search(log_array, args_array["-S"], any)
+
+    #return log_array
+    #############################
+
+
 def fetch_marker_entry(fname, **kwargs):
 
     """Function:  fetch_marker_entry
@@ -427,6 +515,37 @@ def fetch_log_stdin(args_array, **kwargs):
         return find_marker_array(args_array, log_array, **kwargs)
 
 
+def fetch_log_stdin2(log, **kwargs):
+
+    """Function:  fetch_log_stdin
+
+    Description:  Reads 'standard in' into an array, finds the place to start
+        pulling the log entries; either at the marker or at the start of
+        the array.
+
+    Arguments:
+        (input) log -> LogFile class instance.
+        (input) args_array -> Dictionary of command line options and values.
+
+    """
+
+    #args_array = dict(args_array)
+    #log_array = []
+
+    for ln in sys.stdin:
+        #log_array.append(ln.rstrip("\n"))
+        log.load_loglist(ln)
+
+    ##############################
+    # Move this to another function.
+    #if full_chk(args_array):
+    #    return log_array
+
+    #else:
+    #    return find_marker_array(args_array, log_array, **kwargs)
+    ##############################
+
+
 def get_filter_data(args_array, **kwargs):
 
     """Function:  get_filter_data
@@ -481,6 +600,24 @@ def filter_data(log_array, filter_str, **kwargs):
     return log_array
 
 
+def load_attributes(log, args_array, **kwargs):
+
+    if "-S" in args_array.keys():
+        log.load_keywords(args_array["-S"])
+
+    if "-k" in args_array.keys():
+        log.set_predicate(args_array["-k"])
+
+    if "-m" in args_array.keys():
+        log.load_marker(args_array["-m"])
+
+    if "-F" in args_array.keys():
+        log.load_filter(args_array["-F"])
+
+    if "-i" in args_array.keys():
+        log.load_filter(args_array["-i"])
+
+
 def run_program(args_array, **kwargs):
 
     """Function:  run_program
@@ -495,25 +632,53 @@ def run_program(args_array, **kwargs):
     """
 
     args_array = dict(args_array)
-    log_array = []
 
     if "-c" in args_array and "-m" in args_array:
         gen_libs.clear_file(args_array["-m"])
 
-    elif "-f" in args_array:
-        log_array = fetch_log(args_array, **kwargs)
-
-    elif not sys.stdin.isatty():
-        log_array = fetch_log_stdin(args_array, **kwargs)
-
     else:
-        print("Warning:  No log files or 'standard in' to process.")
+        ##############################
+        log_array = []
+        #
+        log = gen_class.LogFile()
+        load_attributes(log, args_array)
+        ##############################
 
-    if log_array:
-        update_marker(args_array, log_array[len(log_array) - 1])
-        log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
-        log_array = filter_data(log_array, get_filter_data(args_array))
-        log_2_output(log_array, args_array)
+        if "-f" in args_array:
+            ##############################
+            log_array = fetch_log(args_array, **kwargs)
+            #
+            fetch_log2(log, args_array)
+            ##############################
+
+        elif not sys.stdin.isatty():
+            ##############################
+            log_array = fetch_log_stdin(args_array, **kwargs)
+            #
+            fetch_log_stdin2(log)
+            ##############################
+
+        ##############################
+        #else:
+        #    print("Warning:  No log files or 'standard in' to process.")
+        ##############################
+
+        ##############################
+        if log_array:
+            update_marker(args_array, log_array[len(log_array) - 1])
+            log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
+            log_array = filter_data(log_array, get_filter_data(args_array))
+            log_2_output(log_array, args_array)
+        #
+        if log.loglist:
+            update_marker(args_array, log.get_marker())
+            if not full_chk():
+                find_marker2(log)
+# STOPPED HERE
+            # Clear out Ignore
+            # Clear out filtered data
+            # Send data out
+        ##############################
 
 
 def main():
