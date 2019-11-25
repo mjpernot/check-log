@@ -558,10 +558,10 @@ def main():
        and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
-            PROG_LOCK = gen_class.ProgramLock(sys.argv,
+            prog_lock = gen_class.ProgramLock(sys.argv,
                                               args_array.get("-y", ""))
             run_program(args_array)
-            del PROG_LOCK
+            del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"

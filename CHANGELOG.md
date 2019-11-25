@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.0] - 2019-11-25
+Breaking Change
+- Integrating the gen_class.LogFile class into the program.
+
+### Changed
+- main:  Converted variable name to standard naming convention.
+
+
 ## [2.2.1] - 2019-06-18
 - Added capability to open compressed (e.g. .gz) files.
 
