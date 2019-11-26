@@ -325,6 +325,50 @@ def log_2_output(log_array, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
+def log_2_output2(log, args_array, **kwargs):
+
+    """Function:  log_2_output
+
+    Description:  Sends the log array to output depending on command line
+        option.
+
+    Arguments:
+        (input) log -> LogFile class instance.
+        (input) args_array -> Dictionary of command line options and values.
+
+    """
+
+    print("New code")
+    #log_array = list(log_array)
+    args_array = dict(args_array)
+
+    # Send output to email.
+    if "-t" in args_array:
+        host = socket.gethostname()
+        frm_line = getpass.getuser() + "@" + host
+
+        mail = gen_class.Mail(args_array["-t"],
+                              "".join(args_array.get("-s",
+                                                     "check_log: " + host)),
+                              frm_line)
+        #mail.add_2_msg("\n".join(log_array))
+        mail.add_2_msg("\n".join(log.loglist))
+        mail.send_mail()
+
+    # Write output to file.
+    if "-o" in args_array:
+        with open(args_array["-o"], "w") as f_hdlr:
+            #for x in log_array:
+            for x in log.loglist:
+                print(x, file=f_hdlr)
+
+    # Suppress standard out.
+    if "-z" not in args_array:
+        #for x in log_array:
+        for x in log.loglist:
+            print(x, file=sys.stdout)
+
+
 def search(log_array, key_list, func):
 
     """Function:  search
@@ -603,19 +647,19 @@ def filter_data(log_array, filter_str, **kwargs):
 def load_attributes(log, args_array, **kwargs):
 
     if "-S" in args_array.keys():
-        log.load_keywords(args_array["-S"])
+        log.load_keyword(args_array["-S"])
 
     if "-k" in args_array.keys():
         log.set_predicate(args_array["-k"])
 
     if "-m" in args_array.keys():
-        log.load_marker(args_array["-m"])
+        log.load_marker(gen_libs.openfile(args_array["-m"]))
 
     if "-F" in args_array.keys():
-        log.load_filter(args_array["-F"])
+        log.load_regex(gen_libs.openfile(args_array["-F"]))
 
     if "-i" in args_array.keys():
-        log.load_filter(args_array["-i"])
+        log.load_ignore(gen_libs.openfile(args_array["-i"]))
 
 
 def run_program(args_array, **kwargs):
@@ -672,12 +716,16 @@ def run_program(args_array, **kwargs):
         #
         if log.loglist:
             update_marker(args_array, log.get_marker())
-            if not full_chk():
+
+            if not full_chk(args_array):
                 find_marker2(log)
-# STOPPED HERE
-            # Clear out Ignore
-            # Clear out filtered data
-            # Send data out
+
+            log.filter_keyword()
+            log.filter_ignore()
+            log.filter_regex()
+            log_2_output2(log, args_array)
+            # This will replace the above update_marker()
+            #update_marker(args_array, log.lastline)
         ##############################
 
 
