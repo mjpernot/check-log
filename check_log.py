@@ -156,10 +156,10 @@ def open_log(args_array, **kwargs):
         return gen_libs.openfile(args_array["-f"][0], "r")
 
     else:
-        return find_marker(args_array)
+        return find_marker1(args_array)
 
 
-def find_marker(args_array, **kwargs):
+def find_marker1(args_array, **kwargs):
 
     """Function:  find_marker
 
@@ -188,7 +188,7 @@ def find_marker(args_array, **kwargs):
     return gen_libs.openfile(args_array["-f"][0], "r")
 
 
-def find_marker2(log, **kwargs):
+def find_marker(log, **kwargs):
 
     """Function:  find_marker
 
@@ -285,7 +285,7 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
     return log_array
 
 
-def log_2_output(log_array, args_array, **kwargs):
+def log_2_output1(log_array, args_array, **kwargs):
 
     """Function:  log_2_output
 
@@ -325,7 +325,7 @@ def log_2_output(log_array, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
-def log_2_output2(log, args_array, **kwargs):
+def log_2_output(log, args_array, **kwargs):
 
     """Function:  log_2_output
 
@@ -388,7 +388,7 @@ def search(log_array, key_list, func):
     return [item for item in log_array if func(x in item for x in key_list)]
 
 
-def fetch_log(args_array, **kwargs):
+def fetch_log1(args_array, **kwargs):
 
     """Function:  fetch_log
 
@@ -433,7 +433,7 @@ def fetch_log(args_array, **kwargs):
     return log_array
 
 
-def fetch_log2(log, args_array, **kwargs):
+def fetch_log(log, args_array, **kwargs):
 
     """Function:  fetch_log
 
@@ -532,7 +532,7 @@ def find_marker_array(args_array, log_array, **kwargs):
     return log_array
 
 
-def fetch_log_stdin(args_array, **kwargs):
+def fetch_log_stdin1(args_array, **kwargs):
 
     """Function:  fetch_log_stdin
 
@@ -559,7 +559,7 @@ def fetch_log_stdin(args_array, **kwargs):
         return find_marker_array(args_array, log_array, **kwargs)
 
 
-def fetch_log_stdin2(log, **kwargs):
+def fetch_log_stdin(log, **kwargs):
 
     """Function:  fetch_log_stdin
 
@@ -682,7 +682,7 @@ def run_program(args_array, **kwargs):
 
     else:
         ##############################
-        log_array = []
+        #log_array = []
         #
         log = gen_class.LogFile()
         load_attributes(log, args_array)
@@ -690,16 +690,16 @@ def run_program(args_array, **kwargs):
 
         if "-f" in args_array:
             ##############################
-            log_array = fetch_log(args_array, **kwargs)
+            #log_array = fetch_log1(args_array, **kwargs)
             #
-            fetch_log2(log, args_array)
+            fetch_log(log, args_array)
             ##############################
 
         elif not sys.stdin.isatty():
             ##############################
-            log_array = fetch_log_stdin(args_array, **kwargs)
+            #log_array = fetch_log_stdin1(args_array, **kwargs)
             #
-            fetch_log_stdin2(log)
+            fetch_log_stdin(log)
             ##############################
 
         ##############################
@@ -708,24 +708,21 @@ def run_program(args_array, **kwargs):
         ##############################
 
         ##############################
-        if log_array:
-            update_marker(args_array, log_array[len(log_array) - 1])
-            log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
-            log_array = filter_data(log_array, get_filter_data(args_array))
-            log_2_output(log_array, args_array)
+        #if log_array:
+        #    update_marker(args_array, log_array[len(log_array) - 1])
+        #    log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
+        #    log_array = filter_data(log_array, get_filter_data(args_array))
+        #    log_2_output1(log_array, args_array)
         #
         if log.loglist:
-            update_marker(args_array, log.get_marker())
-
             if not full_chk(args_array):
-                find_marker2(log)
+                find_marker(log)
 
             log.filter_keyword()
             log.filter_ignore()
             log.filter_regex()
-            log_2_output2(log, args_array)
-            # This will replace the above update_marker()
-            #update_marker(args_array, log.lastline)
+            log_2_output(log, args_array)
+            update_marker(args_array, log.lastline)
         ##############################
 
 
