@@ -137,7 +137,8 @@ def full_chk(args_array, **kwargs):
     return full_chk_flag
 
 
-def open_log(args_array, **kwargs):
+# This function to be removed.
+#def open_log(args_array, **kwargs):
 
     """Function:  open_log
 
@@ -150,6 +151,7 @@ def open_log(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
 
     if full_chk(args_array):
@@ -157,9 +159,11 @@ def open_log(args_array, **kwargs):
 
     else:
         return find_marker1(args_array)
+"""
 
 
-def find_marker1(args_array, **kwargs):
+# This function to be removed.
+#def find_marker1(args_array, **kwargs):
 
     """Function:  find_marker
 
@@ -171,6 +175,7 @@ def find_marker1(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
@@ -186,6 +191,7 @@ def find_marker1(args_array, **kwargs):
 
     # No marker found, return first file.
     return gen_libs.openfile(args_array["-f"][0], "r")
+"""
 
 
 def find_marker(log, **kwargs):
@@ -240,7 +246,8 @@ def update_marker(args_array, line, **kwargs):
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 
 
-def get_ignore_msgs(args_array, **kwargs):
+# This function to be removed.
+#def get_ignore_msgs(args_array, **kwargs):
 
     """Function:  get_ignore_msgs
 
@@ -252,6 +259,7 @@ def get_ignore_msgs(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     ignore_array = []
 
@@ -260,9 +268,11 @@ def get_ignore_msgs(args_array, **kwargs):
             ignore_array = [x.lower().rstrip() for x in f_hldr]
 
     return ignore_array
+"""
 
 
-def ignore_msgs(log_array, ignore_array, **kwargs):
+# This function to be removed.
+#def ignore_msgs(log_array, ignore_array, **kwargs):
 
     """Function:  ignore_msgs
 
@@ -275,6 +285,7 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
 
     """
 
+"""
     log_array = list(log_array)
     ignore_array = list(ignore_array)
 
@@ -283,9 +294,11 @@ def ignore_msgs(log_array, ignore_array, **kwargs):
                      if not any(sb in sa.lower() for sb in ignore_array)]
 
     return log_array
+"""
 
 
-def log_2_output1(log_array, args_array, **kwargs):
+# This function to be removed.
+#def log_2_output1(log_array, args_array, **kwargs):
 
     """Function:  log_2_output
 
@@ -298,6 +311,7 @@ def log_2_output1(log_array, args_array, **kwargs):
 
     """
 
+"""
     log_array = list(log_array)
     args_array = dict(args_array)
 
@@ -323,6 +337,7 @@ def log_2_output1(log_array, args_array, **kwargs):
     if "-z" not in args_array:
         for x in log_array:
             print(x, file=sys.stdout)
+"""
 
 
 def log_2_output(log, args_array, **kwargs):
@@ -369,7 +384,8 @@ def log_2_output(log, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
-def search(log_array, key_list, func):
+# This function to be removed.
+#def search(log_array, key_list, func):
 
     """Function:  search
 
@@ -385,10 +401,13 @@ def search(log_array, key_list, func):
 
     """
 
+"""
     return [item for item in log_array if func(x in item for x in key_list)]
+"""
 
 
-def fetch_log1(args_array, **kwargs):
+# This function to be removed.
+#def fetch_log1(args_array, **kwargs):
 
     """Function:  fetch_log
 
@@ -403,6 +422,7 @@ def fetch_log1(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     log_array = []
 
@@ -431,6 +451,7 @@ def fetch_log1(args_array, **kwargs):
             log_array = search(log_array, args_array["-S"], any)
 
     return log_array
+"""
 
 
 def fetch_log(log, args_array, **kwargs):
@@ -488,7 +509,8 @@ def fetch_log(log, args_array, **kwargs):
     #############################
 
 
-def fetch_marker_entry(fname, **kwargs):
+# This function to be removed.
+#def fetch_marker_entry(fname, **kwargs):
 
     """Function:  fetch_marker_entry
 
@@ -500,10 +522,13 @@ def fetch_marker_entry(fname, **kwargs):
 
     """
 
+"""
     return ''.join(gen_libs.file_2_list(fname))
+"""
 
 
-def find_marker_array(args_array, log_array, **kwargs):
+# This function to be removed.
+#def find_marker_array(args_array, log_array, **kwargs):
 
     """Function:  find_marker_array
 
@@ -517,6 +542,7 @@ def find_marker_array(args_array, log_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     log_array = list(log_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
@@ -530,9 +556,11 @@ def find_marker_array(args_array, log_array, **kwargs):
 
     # No marker found.
     return log_array
+"""
 
 
-def fetch_log_stdin1(args_array, **kwargs):
+# This function to be removed.
+#def fetch_log_stdin1(args_array, **kwargs):
 
     """Function:  fetch_log_stdin
 
@@ -546,6 +574,7 @@ def fetch_log_stdin1(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     log_array = []
 
@@ -557,6 +586,7 @@ def fetch_log_stdin1(args_array, **kwargs):
 
     else:
         return find_marker_array(args_array, log_array, **kwargs)
+"""
 
 
 def fetch_log_stdin(log, **kwargs):
@@ -590,7 +620,8 @@ def fetch_log_stdin(log, **kwargs):
     ##############################
 
 
-def get_filter_data(args_array, **kwargs):
+# This function to be removed.
+#def get_filter_data(args_array, **kwargs):
 
     """Function:  get_filter_data
 
@@ -603,6 +634,7 @@ def get_filter_data(args_array, **kwargs):
 
     """
 
+"""
     args_array = dict(args_array)
     filter_str = ""
 
@@ -613,6 +645,7 @@ def get_filter_data(args_array, **kwargs):
             filter_str = f_hdlr.readline().strip("\n")
 
     return filter_str
+"""
 
 
 # This function to be removed.

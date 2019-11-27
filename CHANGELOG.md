@@ -12,8 +12,22 @@ Breaking Change
 - load_attributes:  Load program options values into LogFile class attributes.
 
 ### Changed
-- run_program:  Refactored function to setup and use LogFile class.
+- find_marker:  Replaced args_array with LogFile class instance, fetch_marker_entry call was moved to load_attributes function, removed loop to find marker in files as it's no longer required.
+- log_2_output:  Replaced log_array with LogFile class instance.
+- fetch_log:  Replaced log_array with LogFile class instance, replace open_log call with calling the first log file, keyword search was moved to the LogFile class method.
+- fetch_log_stdin:  Replaced log_array with LogFile class instance, moved full_chk to run_program, and find marker call was moved to LogFile class method.
+- run_program:  Refactored function to setup and use LogFile class and added check for full_chk on loglist in LogFile class.
 - main:  Converted variable name to standard naming convention.
+
+### Removed
+- open_log:  No longer required by program.
+- ignore_msgs:  No longer required by program.
+- get_ignore_msgs:  No longer required by program.
+- search:  No longer required by program.
+- find_marker_array:  No longer required by program.
+- fetch_marker_entry:  No longer required by program.
+- filter_data:  No longer required by program.
+- get_filter_data:  No longer required by program.
 
 
 ## [2.2.1] - 2019-06-18
