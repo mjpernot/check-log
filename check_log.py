@@ -578,7 +578,7 @@ def fetch_log_stdin(log, **kwargs):
 
     for ln in sys.stdin:
         #log_array.append(ln.rstrip("\n"))
-        log.load_loglist(ln)
+        log.load_loglist(str(ln))
 
     ##############################
     # Move this to another function.
