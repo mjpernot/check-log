@@ -168,15 +168,13 @@ class UnitTest(unittest.TestCase):
 
         return True
 
-    @mock.patch("check_log.log_2_output", mock_out)
-    @mock.patch("check_log.filter_data")
-    @mock.patch("check_log.get_filter_data")
-    @mock.patch("check_log.ignore_msgs")
-    @mock.patch("check_log.get_ignore_msgs")
-    @mock.patch("check_log.update_marker")
-    @mock.patch("check_log.fetch_log")
-    def test_f_option_set(self, mock_log, mock_marker, mock_getign,
-                          mock_ignore, mock_getflt, mock_filter):
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=False))
+    @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    def test_f_option_set(self):
 
         """Function:  test_f_option_set
 
@@ -186,14 +184,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-f"] = "File_Place_Holder"
-
-        mock_log.return_value = ["2018-09-19 This is log line one"]
-        mock_marker.return_value = True
-        mock_getign.return_value = True
-        mock_ignore.return_value = ["2018-09-19 This is log line one"]
-        mock_getflt.return_value = True
-        mock_filter.return_value = ["2018-09-19 This is log line one"]
+        self.args_array["-f"] = "/tmp/logfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
