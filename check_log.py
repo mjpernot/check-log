@@ -615,7 +615,8 @@ def get_filter_data(args_array, **kwargs):
     return filter_str
 
 
-def filter_data(log_array, filter_str, **kwargs):
+# This function to be removed.
+#def filter_data(log_array, filter_str, **kwargs):
 
     """Function:  filter_data
 
@@ -631,6 +632,7 @@ def filter_data(log_array, filter_str, **kwargs):
 
     """
 
+"""
     log_array = list(log_array)
 
     # Only filter if there is something to filter with.
@@ -642,9 +644,21 @@ def filter_data(log_array, filter_str, **kwargs):
                 log_array.remove(x)
 
     return log_array
+"""
 
 
 def load_attributes(log, args_array, **kwargs):
+
+    """Function:  load_attributes
+
+    Description:  Checks for certain program options to be loaded into the
+        LogFile class attributes.
+
+    Arguments:
+        (input) log -> LogFile class instance.
+        (input) args_array -> Dictionary of command line options and values.
+
+    """
 
     if "-S" in args_array.keys():
         log.load_keyword(args_array["-S"])

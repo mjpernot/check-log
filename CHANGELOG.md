@@ -8,7 +8,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 - Integrating the gen_class.LogFile class into the program.
 
+### Added
+- load_attributes:  Load program options values into LogFile class attributes.
+
 ### Changed
+- run_program:  Refactored function to setup and use LogFile class.
 - main:  Converted variable name to standard naming convention.
 
 
