@@ -61,7 +61,7 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {}
 
-    @mock.patch("check_log.gen_libs.clear_files", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_libs.clear_file", mock.Mock(return_value=True))
     def test_clear_option(self):
 
         """Function:  test_clear_option
