@@ -114,6 +114,7 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/help_message.py
+test/unit/check_log/load_attributes.py
 test/unit/check_log/search.py
 test/unit/check_log/open_log.py
 test/unit/check_log/find_marker.py

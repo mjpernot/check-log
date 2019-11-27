@@ -7,6 +7,7 @@
 echo ""
 echo "Unit test:  check_log.py"
 test/unit/check_log/help_message.py
+test/unit/check_log/load_attributes.py
 test/unit/check_log/full_chk.py
 test/unit/check_log/search.py
 test/unit/check_log/open_log.py
