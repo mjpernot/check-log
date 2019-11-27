@@ -30,6 +30,7 @@ import mock
 sys.path.append(os.getcwd())
 import check_log
 import lib.gen_libs as gen_libs
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -40,10 +41,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -66,17 +63,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.log = gen_class.LogFile()
         self.file_0 = "test/unit/check_log/testfiles/fetch_log_file0.txt"
         self.file_1 = "test/unit/check_log/testfiles/fetch_log_file1.txt"
         self.file_2 = "test/unit/check_log/testfiles/fetch_log_file2.txt"
         self.file_3 = "test/unit/check_log/testfiles/fetch_log_file3.txt"
-
         self.args_array = {"-f": [self.file_1, self.file_2, self.file_3]}
         self.args_array2 = {"-f": [self.file_1, self.file_2, self.file_3],
                             "-S": ["a"], "-k": "and"}
         self.args_array3 = {"-f": [self.file_1, self.file_2, self.file_3],
                             "-S": ["a"], "-k": "or"}
-
         self.results0 = []
         self.results1 = ["This is line one of log", "This is line two of log",
                          "This is line three of log"]
