@@ -149,9 +149,6 @@ def full_chk(args_array, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) Log file handler.
 
-    """
-
-"""
     args_array = dict(args_array)
 
     if full_chk(args_array):
@@ -159,7 +156,7 @@ def full_chk(args_array, **kwargs):
 
     else:
         return find_marker1(args_array)
-"""
+    """
 
 
 # This function to be removed.
@@ -173,9 +170,6 @@ def full_chk(args_array, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) log_file -> Log file handler.
 
-    """
-
-"""
     args_array = dict(args_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
 
@@ -191,7 +185,7 @@ def full_chk(args_array, **kwargs):
 
     # No marker found, return first file.
     return gen_libs.openfile(args_array["-f"][0], "r")
-"""
+    """
 
 
 def find_marker(log, **kwargs):
@@ -257,9 +251,6 @@ def update_marker(args_array, line, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) ignore_array -> List of ignore messages.
 
-    """
-
-"""
     args_array = dict(args_array)
     ignore_array = []
 
@@ -268,7 +259,7 @@ def update_marker(args_array, line, **kwargs):
             ignore_array = [x.lower().rstrip() for x in f_hldr]
 
     return ignore_array
-"""
+    """
 
 
 # This function to be removed.
@@ -283,9 +274,6 @@ def update_marker(args_array, line, **kwargs):
         (input) ignore_array -> List of ignore messages.
         (output) log_array -> Modified list of log entries.
 
-    """
-
-"""
     log_array = list(log_array)
     ignore_array = list(ignore_array)
 
@@ -294,7 +282,7 @@ def update_marker(args_array, line, **kwargs):
                      if not any(sb in sa.lower() for sb in ignore_array)]
 
     return log_array
-"""
+    """
 
 
 # This function to be removed.
@@ -309,9 +297,6 @@ def update_marker(args_array, line, **kwargs):
         (input) log_array -> List of log entries.
         (input) args_array -> Dictionary of command line options and values.
 
-    """
-
-"""
     log_array = list(log_array)
     args_array = dict(args_array)
 
@@ -337,7 +322,7 @@ def update_marker(args_array, line, **kwargs):
     if "-z" not in args_array:
         for x in log_array:
             print(x, file=sys.stdout)
-"""
+    """
 
 
 def log_2_output(log, args_array, **kwargs):
@@ -399,11 +384,8 @@ def log_2_output(log, args_array, **kwargs):
         (input) func -> Function to be called for logic search (all|any).
         (output) List of log entries found with keywords.
 
-    """
-
-"""
     return [item for item in log_array if func(x in item for x in key_list)]
-"""
+    """
 
 
 # This function to be removed.
@@ -420,9 +402,6 @@ def log_2_output(log, args_array, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) log_array -> List of log entries.
 
-    """
-
-"""
     args_array = dict(args_array)
     log_array = []
 
@@ -451,7 +430,7 @@ def log_2_output(log, args_array, **kwargs):
             log_array = search(log_array, args_array["-S"], any)
 
     return log_array
-"""
+    """
 
 
 def fetch_log(log, args_array, **kwargs):
@@ -520,11 +499,8 @@ def fetch_log(log, args_array, **kwargs):
         (input) fname -> Marker file.
         (output) ln_marker -> Marker line entry.
 
-    """
-
-"""
     return ''.join(gen_libs.file_2_list(fname))
-"""
+    """
 
 
 # This function to be removed.
@@ -540,9 +516,6 @@ def fetch_log(log, args_array, **kwargs):
         (input) log_array -> List of log entries.
         (output) log_array -> Modified list of log entries.
 
-    """
-
-"""
     args_array = dict(args_array)
     log_array = list(log_array)
     ln_marker = fetch_marker_entry(args_array["-m"])
@@ -556,7 +529,7 @@ def fetch_log(log, args_array, **kwargs):
 
     # No marker found.
     return log_array
-"""
+    """
 
 
 # This function to be removed.
@@ -572,9 +545,6 @@ def fetch_log(log, args_array, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) log_array or list -> List of log entries.
 
-    """
-
-"""
     args_array = dict(args_array)
     log_array = []
 
@@ -586,7 +556,7 @@ def fetch_log(log, args_array, **kwargs):
 
     else:
         return find_marker_array(args_array, log_array, **kwargs)
-"""
+    """
 
 
 def fetch_log_stdin(log, **kwargs):
@@ -632,9 +602,6 @@ def fetch_log_stdin(log, **kwargs):
         (input) args_array -> Dictionary of command line options and values.
         (output) filter_str -> Formatted filter string in regex format.
 
-    """
-
-"""
     args_array = dict(args_array)
     filter_str = ""
 
@@ -645,7 +612,7 @@ def fetch_log_stdin(log, **kwargs):
             filter_str = f_hdlr.readline().strip("\n")
 
     return filter_str
-"""
+    """
 
 
 # This function to be removed.
@@ -663,9 +630,6 @@ def fetch_log_stdin(log, **kwargs):
         (input) filter_str -> Formatted filter string in regex format.
         (output) log_array -> Modified list of log entries.
 
-    """
-
-"""
     log_array = list(log_array)
 
     # Only filter if there is something to filter with.
@@ -677,7 +641,7 @@ def fetch_log_stdin(log, **kwargs):
                 log_array.remove(x)
 
     return log_array
-"""
+    """
 
 
 def load_attributes(log, args_array, **kwargs):

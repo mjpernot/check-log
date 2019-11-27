@@ -30,6 +30,7 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import check_log
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -40,10 +41,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -64,6 +61,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.log = gen_class.LogFile()
         self.args_array = {"-f": "Log file"}
 
         self.results0 = []
@@ -124,8 +122,7 @@ class UnitTest(unittest.TestCase):
                          self.results0)
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\n"))
-    @mock.patch("check_log.full_chk")
-    def test_single_line_found(self, mock_chk):
+    def test_single_line_found(self):
 
         """Function:  test_single_line_found
 
@@ -135,10 +132,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_chk.return_value = True
+        check_log.fetch_log_stdin(self.log)
 
-        self.assertEqual(check_log.fetch_log_stdin(self.args_array),
-                         self.results1)
+        self.assertEqual(self.log.loglist, self.results1)
 
 
 if __name__ == "__main__":
