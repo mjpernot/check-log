@@ -50,8 +50,7 @@ class UnitTest(unittest.TestCase):
         test_no_log_files -> Test with no log files to scan.
         test_exit_option -> Test sys.exit check.
         test_clear_option -> Test -c and -m options.
-        test_stdin_empty -> Test with standard in and with empty log array.
-        test_f_option_empty -> Test with -f option and with empty log array.
+        test_stdin -> Test with standard in option.
         test_f_option_set -> Test with -f option in args_array.
 
     """
@@ -119,54 +118,21 @@ class UnitTest(unittest.TestCase):
 
         self.assertFalse(check_log.run_program(self.args_array))
 
-    @mock.patch("check_log.fetch_log_stdin")
+    @mock.patch("check_log.fetch_log_stdin", mock.Mock(return_value=True))
     @mock.patch("check_log.sys.stdin")
-    def test_stdin_empty(self, mock_sys, mock_log):
+    def test_stdin(self, mock_sys):
 
-        """Function:  test_stdin_empty
+        """Function:  test_stdin
 
-        Description:  Test with standard in and with empty log array.
+        Description:  Test with standard in option.
 
         Arguments:
 
         """
 
         mock_sys.isatty.return_value = False
-        mock_log.return_value = []
 
         self.assertFalse(check_log.run_program(self.args_array))
-
-    @mock.patch("check_log.fetch_log")
-    def test_f_option_empty(self, mock_log):
-
-        """Function:  test_f_option_empty
-
-        Description:  Test with -f option and with empty log array.
-
-        Arguments:
-
-        """
-
-        self.args_array["-f"] = "File_Place_Holder"
-
-        mock_log.return_value = []
-
-        self.assertFalse(check_log.run_program(self.args_array))
-
-    def mock_out(log_array, args_array):
-
-        """Function:  mock_out
-
-        Description:  Mock of check_log.log_2_output function.
-
-        Arguments:
-            (input) log_array -> Array of log entries.
-            (input) args_array -> Array of command line options and values.
-            (output)  Return True.
-
-        """
-
-        return True
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
