@@ -62,8 +62,6 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log = gen_class.LogFile()
-        self.args_array = {"-f": "Log file"}
-
         self.results0 = [""]
         self.results1 = ["Line one"]
         self.results2 = ["Line one", "Line two"]
