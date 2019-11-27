@@ -46,7 +46,7 @@ class UnitTest(unittest.TestCase):
         setUp -> Unit testing initilization.
         test_no_lines -> Passing in no lines.
         test_multiple_lines -> Passing in multiple lines.
-        test_single_line_no_find -> Single line from standard - no find.
+        test_single_line_empty_line -> Single line from standard - empty line.
         test_single_line_found -> Single line from standard - found.
 
     """
@@ -64,13 +64,12 @@ class UnitTest(unittest.TestCase):
         self.log = gen_class.LogFile()
         self.args_array = {"-f": "Log file"}
 
-        self.results0 = []
+        self.results0 = [""]
         self.results1 = ["Line one"]
         self.results2 = ["Line one", "Line two"]
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u""))
-    @mock.patch("check_log.full_chk")
-    def test_no_lines(self, mock_chk):
+    def test_no_lines(self):
 
         """Function:  test_no_lines
 
@@ -80,14 +79,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_chk.return_value = True
+        check_log.fetch_log_stdin(self.log)
 
-        self.assertEqual(check_log.fetch_log_stdin(self.args_array),
-                         self.results0)
+        self.assertEqual(self.log.loglist, [])
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
-    @mock.patch("check_log.full_chk")
-    def test_multiple_lines(self, mock_chk):
+    def test_multiple_lines(self):
 
         """Function:  test_multiple_lines
 
@@ -97,29 +94,24 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_chk.return_value = True
+        check_log.fetch_log_stdin(self.log)
 
-        self.assertEqual(check_log.fetch_log_stdin(self.args_array),
-                         self.results2)
+        self.assertEqual(self.log.loglist, self.results2)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\n"))
-    @mock.patch("check_log.find_marker_array")
-    @mock.patch("check_log.full_chk")
-    def test_single_line_no_find(self, mock_chk, mock_find):
+    @mock.patch("check_log.sys.stdin", io.StringIO(u"\n"))
+    def test_single_line_empty_line(self):
 
-        """Function:  test_single_line_no_find
+        """Function:  test_single_line_empty_line
 
-        Description:  Single line from standard - no find.
+        Description:  Single line from standard - empty line.
 
         Arguments:
 
         """
 
-        mock_chk.return_value = False
-        mock_find.return_value = []
+        check_log.fetch_log_stdin(self.log)
 
-        self.assertEqual(check_log.fetch_log_stdin(self.args_array),
-                         self.results0)
+        self.assertEqual(self.log.loglist, self.results0)
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\n"))
     def test_single_line_found(self):
