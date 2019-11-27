@@ -77,7 +77,12 @@ class UnitTest(unittest.TestCase):
 
         self.assertFalse(check_log.run_program(self.args_array))
 
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=False))
     @mock.patch("check_log.fetch_log_stdin", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
     @mock.patch("check_log.sys.stdin")
     def test_stdin(self, mock_sys):
 
