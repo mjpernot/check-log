@@ -39,17 +39,11 @@ class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
 
-    Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
+    Description:  Class which is a representation of unit testing.
 
     Methods:
         setUp -> Unit testing initilization.
-        test_no_log_files -> Test with no log files to scan.
-        test_exit_option -> Test sys.exit check.
-        test_clear_option -> Test -c and -m options.
+        test_clear_option -> Test with -c and -m options.
         test_stdin -> Test with standard in option.
         test_f_option_set -> Test with -f option in args_array.
 
@@ -67,54 +61,19 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {}
 
-    @mock.patch("check_log.fetch_log_stdin")
-    @mock.patch("check_log.sys.stdin")
-    def test_no_log_files(self, mock_sys, mock_log):
-
-        """Function:  test_no_log_files
-
-        Description:  Test with no log files to scan.
-
-        Arguments:
-
-        """
-
-        mock_sys.isatty.return_value = True
-        mock_log.return_value = []
-
-        with gen_libs.no_std_out():
-            self.assertFalse(check_log.run_program(self.args_array))
-
-    def test_exit_option(self):
-
-        """Function:  test_exit_option
-
-        Description:  Test sys.exit check.
-
-        Arguments:
-
-        """
-
-        self.args_array["-c"] = True
-
-        with gen_libs.no_std_out():
-            self.assertFalse(check_log.run_program(self.args_array))
-
-    @mock.patch("check_log.gen_libs")
-    def test_clear_option(self, mock_lib):
+    @mock.patch("check_log.gen_libs.clear_files", mock.Mock(return_value=True))
+    def test_clear_option(self):
 
         """Function:  test_clear_option
 
-        Description:  Test -c and -m options.
+        Description:  Test with -c and -m options.
 
         Arguments:
 
         """
 
         self.args_array["-c"] = True
-        self.args_array["-m"] = "File Place Holder"
-
-        mock_lib.clear_files.return_value = True
+        self.args_array["-m"] = "/tmp/markerfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
