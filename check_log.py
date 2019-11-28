@@ -137,57 +137,6 @@ def full_chk(args_array, **kwargs):
     return full_chk_flag
 
 
-# This function to be removed.
-#def open_log(args_array, **kwargs):
-
-    """Function:  open_log
-
-    Description:  Opens the log file at the tag marker or at the beginning of
-        the file.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) Log file handler.
-
-    args_array = dict(args_array)
-
-    if full_chk(args_array):
-        return gen_libs.openfile(args_array["-f"][0], "r")
-
-    else:
-        return find_marker1(args_array)
-    """
-
-
-# This function to be removed.
-#def find_marker1(args_array, **kwargs):
-
-    """Function:  find_marker
-
-    Description:  Locates the marker file entry in the log file.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) log_file -> Log file handler.
-
-    args_array = dict(args_array)
-    ln_marker = fetch_marker_entry(args_array["-m"])
-
-    if ln_marker:
-        for fname in args_array["-f"]:
-            log_file = gen_libs.openfile(fname, "r")
-
-            for line in log_file:
-                if line.rstrip() == ln_marker:
-                    return log_file
-
-            log_file.close()
-
-    # No marker found, return first file.
-    return gen_libs.openfile(args_array["-f"][0], "r")
-    """
-
-
 def find_marker(log, **kwargs):
 
     """Function:  find_marker
@@ -199,26 +148,8 @@ def find_marker(log, **kwargs):
 
     """
 
-    #args_array = dict(args_array)
-    #ln_marker = fetch_marker_entry(args_array["-m"])
-
-    #if ln_marker:
     if log.marker:
         log.find_marker(update=True)
-
-    ##############################
-    #    for fname in args_array["-f"]:
-    #        log_file = gen_libs.openfile(fname, "r")
-
-    #        for line in log_file:
-    #            if line.rstrip() == ln_marker:
-    #                return log_file
-
-    #        log_file.close()
-
-    # No marker found, return first file.
-    #return gen_libs.openfile(args_array["-f"][0], "r")
-    ##############################
 
 
 def update_marker(args_array, line, **kwargs):
@@ -240,91 +171,6 @@ def update_marker(args_array, line, **kwargs):
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 
 
-# This function to be removed.
-#def get_ignore_msgs(args_array, **kwargs):
-
-    """Function:  get_ignore_msgs
-
-    Description:  Copies the ignore file into the ignore array.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) ignore_array -> List of ignore messages.
-
-    args_array = dict(args_array)
-    ignore_array = []
-
-    if "-i" in args_array:
-        with gen_libs.openfile(args_array["-i"], "r") as f_hldr:
-            ignore_array = [x.lower().rstrip() for x in f_hldr]
-
-    return ignore_array
-    """
-
-
-# This function to be removed.
-#def ignore_msgs(log_array, ignore_array, **kwargs):
-
-    """Function:  ignore_msgs
-
-    Description:  Removes all ignore messages from the log array.
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) ignore_array -> List of ignore messages.
-        (output) log_array -> Modified list of log entries.
-
-    log_array = list(log_array)
-    ignore_array = list(ignore_array)
-
-    if ignore_array and log_array:
-        log_array = [sa for sa in log_array
-                     if not any(sb in sa.lower() for sb in ignore_array)]
-
-    return log_array
-    """
-
-
-# This function to be removed.
-#def log_2_output1(log_array, args_array, **kwargs):
-
-    """Function:  log_2_output
-
-    Description:  Sends the log array to output depending on command line
-        option.
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) args_array -> Dictionary of command line options and values.
-
-    log_array = list(log_array)
-    args_array = dict(args_array)
-
-    # Send output to email.
-    if "-t" in args_array:
-        host = socket.gethostname()
-        frm_line = getpass.getuser() + "@" + host
-
-        mail = gen_class.Mail(args_array["-t"],
-                              "".join(args_array.get("-s",
-                                                     "check_log: " + host)),
-                              frm_line)
-        mail.add_2_msg("\n".join(log_array))
-        mail.send_mail()
-
-    # Write output to file.
-    if "-o" in args_array:
-        with open(args_array["-o"], "w") as f_hdlr:
-            for x in log_array:
-                print(x, file=f_hdlr)
-
-    # Suppress standard out.
-    if "-z" not in args_array:
-        for x in log_array:
-            print(x, file=sys.stdout)
-    """
-
-
 def log_2_output(log, args_array, **kwargs):
 
     """Function:  log_2_output
@@ -338,7 +184,6 @@ def log_2_output(log, args_array, **kwargs):
 
     """
 
-    #log_array = list(log_array)
     args_array = dict(args_array)
 
     # Send output to email.
@@ -350,86 +195,19 @@ def log_2_output(log, args_array, **kwargs):
                               "".join(args_array.get("-s",
                                                      "check_log: " + host)),
                               frm_line)
-        #mail.add_2_msg("\n".join(log_array))
         mail.add_2_msg("\n".join(log.loglist))
         mail.send_mail()
 
     # Write output to file.
     if "-o" in args_array:
         with open(args_array["-o"], "w") as f_hdlr:
-            #for x in log_array:
             for x in log.loglist:
                 print(x, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
-        #for x in log_array:
         for x in log.loglist:
             print(x, file=sys.stdout)
-
-
-# This function to be removed.
-#def search(log_array, key_list, func):
-
-    """Function:  search
-
-    Description:  Returns only those log entries that
-        match the keyword search, but also dependent on the type of search
-        logic (and|or) invoked.
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) key_list -> List of keywords to search for.
-        (input) func -> Function to be called for logic search (all|any).
-        (output) List of log entries found with keywords.
-
-    return [item for item in log_array if func(x in item for x in key_list)]
-    """
-
-
-# This function to be removed.
-#def fetch_log1(args_array, **kwargs):
-
-    """Function:  fetch_log
-
-    Description:  Sorts the log files from oldest to newest, finds the place to
-        start pulling the log entries; either at the marker or the
-        oldest log file.  Appends the log entries to an array which is
-        passed to the calling function.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) log_array -> List of log entries.
-
-    args_array = dict(args_array)
-    log_array = []
-
-    # Sort files from oldest to newest.
-    args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
-                              reverse=False)
-
-    log_file = open_log(args_array)
-
-    # Start with the log file returned by open_log function call.
-    for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
-
-        # If file is closed, open up next one.
-        if log_file.closed:
-            log_file = gen_libs.openfile(x, "r")
-
-        log_array.extend(gen_libs.get_data(log_file))
-        log_file.close()
-
-    # Keyword search
-    if "-S" in args_array.keys():
-        if args_array["-k"] == "and":
-            log_array = search(log_array, args_array["-S"], all)
-
-        else:
-            log_array = search(log_array, args_array["-S"], any)
-
-    return log_array
-    """
 
 
 def fetch_log(log, args_array, **kwargs):
@@ -448,18 +226,12 @@ def fetch_log(log, args_array, **kwargs):
     """
 
     args_array = dict(args_array)
-    #############################
-    #log_array = []
-    #############################
 
     # Sort files from oldest to newest.
     args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
                               reverse=False)
 
-    #############################
-    #log_file = open_log(args_array)
     log_file = gen_libs.openfile(args_array["-f"][0], "r")
-    #############################
 
     # Start with the log file returned by open_log function call.
     for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
@@ -468,94 +240,8 @@ def fetch_log(log, args_array, **kwargs):
         if log_file.closed:
             log_file = gen_libs.openfile(x, "r")
 
-        #############################
-        #log_array.extend(gen_libs.get_data(log_file))
         log.load_loglist(log_file)
-        #############################
         log_file.close()
-
-    #############################
-    # Keyword search
-    #if "-S" in args_array.keys():
-    #    if args_array["-k"] == "and":
-    #        log_array = search(log_array, args_array["-S"], all)
-
-    #    else:
-    #        log_array = search(log_array, args_array["-S"], any)
-
-    #return log_array
-    #############################
-
-
-# This function to be removed.
-#def fetch_marker_entry(fname, **kwargs):
-
-    """Function:  fetch_marker_entry
-
-    Description:  Gets and returns marker line entry from marker file.
-
-    Arguments:
-        (input) fname -> Marker file.
-        (output) ln_marker -> Marker line entry.
-
-    return ''.join(gen_libs.file_2_list(fname))
-    """
-
-
-# This function to be removed.
-#def find_marker_array(args_array, log_array, **kwargs):
-
-    """Function:  find_marker_array
-
-    Description:  Locate the marker file entry in the log file array or return
-        the entire array.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (input) log_array -> List of log entries.
-        (output) log_array -> Modified list of log entries.
-
-    args_array = dict(args_array)
-    log_array = list(log_array)
-    ln_marker = fetch_marker_entry(args_array["-m"])
-
-    if ln_marker:
-
-        # Return log array from marker onward.
-        for cnt, ln in enumerate(log_array):
-            if ln.rstrip() == ln_marker:
-                return log_array[cnt + 1:]
-
-    # No marker found.
-    return log_array
-    """
-
-
-# This function to be removed.
-#def fetch_log_stdin1(args_array, **kwargs):
-
-    """Function:  fetch_log_stdin
-
-    Description:  Reads 'standard in' into an array, finds the place to start
-        pulling the log entries; either at the marker or at the start of
-        the array.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) log_array or list -> List of log entries.
-
-    args_array = dict(args_array)
-    log_array = []
-
-    for ln in sys.stdin:
-        log_array.append(ln.rstrip("\n"))
-
-    if full_chk(args_array):
-        return log_array
-
-    else:
-        return find_marker_array(args_array, log_array, **kwargs)
-    """
 
 
 def fetch_log_stdin(log, **kwargs):
@@ -572,75 +258,8 @@ def fetch_log_stdin(log, **kwargs):
 
     """
 
-    #args_array = dict(args_array)
-    #log_array = []
-
     for ln in sys.stdin:
-        #log_array.append(ln.rstrip("\n"))
         log.load_loglist(str(ln))
-
-    ##############################
-    # Move this to another function.
-    #if full_chk(args_array):
-    #    return log_array
-
-    #else:
-    #    return find_marker_array(args_array, log_array, **kwargs)
-    ##############################
-
-
-# This function to be removed.
-#def get_filter_data(args_array, **kwargs):
-
-    """Function:  get_filter_data
-
-    Description:  Read in a formatted regex expression to be used for filtering
-        data.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) filter_str -> Formatted filter string in regex format.
-
-    args_array = dict(args_array)
-    filter_str = ""
-
-    if "-F" in args_array:
-
-        # Only read the first line, all others ignored.
-        with gen_libs.openfile(args_array["-F"], "r") as f_hdlr:
-            filter_str = f_hdlr.readline().strip("\n")
-
-    return filter_str
-    """
-
-
-# This function to be removed.
-#def filter_data(log_array, filter_str, **kwargs):
-
-    """Function:  filter_data
-
-    Description:  Filters out data of an array using regex.  Designed to match
-        from the beginning of each string line and can do multiple "or"
-        matching.  Will remove any line that does not match the regex
-        formatted expression(s).
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) filter_str -> Formatted filter string in regex format.
-        (output) log_array -> Modified list of log entries.
-
-    log_array = list(log_array)
-
-    # Only filter if there is something to filter with.
-    if len(filter_str) > 0:
-        for x in log_array[:]:
-
-            # Must match format to stay.
-            if not re.match(filter_str, x):
-                log_array.remove(x)
-
-    return log_array
-    """
 
 
 def load_attributes(log, args_array, **kwargs):
@@ -691,39 +310,15 @@ def run_program(args_array, **kwargs):
         gen_libs.clear_file(args_array["-m"])
 
     else:
-        ##############################
-        #log_array = []
-        #
         log = gen_class.LogFile()
         load_attributes(log, args_array)
-        ##############################
 
         if "-f" in args_array:
-            ##############################
-            #log_array = fetch_log1(args_array, **kwargs)
-            #
             fetch_log(log, args_array)
-            ##############################
 
         elif not sys.stdin.isatty():
-            ##############################
-            #log_array = fetch_log_stdin1(args_array, **kwargs)
-            #
             fetch_log_stdin(log)
-            ##############################
 
-        ##############################
-        #else:
-        #    print("Warning:  No log files or 'standard in' to process.")
-        ##############################
-
-        ##############################
-        #if log_array:
-        #    update_marker(args_array, log_array[len(log_array) - 1])
-        #    log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
-        #    log_array = filter_data(log_array, get_filter_data(args_array))
-        #    log_2_output1(log_array, args_array)
-        #
         if log.loglist:
             if not full_chk(args_array):
                 find_marker(log)
@@ -733,7 +328,6 @@ def run_program(args_array, **kwargs):
             log.filter_regex()
             log_2_output(log, args_array)
             update_marker(args_array, log.lastline)
-        ##############################
 
 
 def main():
