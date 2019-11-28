@@ -338,7 +338,6 @@ def log_2_output(log, args_array, **kwargs):
 
     """
 
-    print("New code")
     #log_array = list(log_array)
     args_array = dict(args_array)
 
