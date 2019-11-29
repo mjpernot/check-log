@@ -121,12 +121,6 @@ class UnitTest(unittest.TestCase):
         with gen_libs.no_std_out():
             check_log.log_2_output(self.log, self.args_array)
 
-        #if os.path.isfile(self.args_array["-o"]):
-        #    status = True
-
-        #else:
-        #    status = False
-
         self.assertTrue(os.path.isfile(self.args_array["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
@@ -173,8 +167,8 @@ class UnitTest(unittest.TestCase):
         self.log.loglist = []
         check_log.log_2_output(self.log, self.args_array)
 
-        self.assertTrue(os.path.isfile(self.args_array["-o"])
-                        and os.stat(self.args_array["-o"]).st_size == 0)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]) and
+                        os.stat(self.args_array["-o"]).st_size == 0)
 
     def test_write_to_log(self):
 
