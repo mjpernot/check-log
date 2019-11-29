@@ -88,9 +88,9 @@ class UnitTest(unittest.TestCase):
         self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
                                   os.path.join(self.test_path, self.logname1)]}
         self.args_array2 = \
-                         {"-f": [os.path.join(self.test_path, self.logname1)]}
+            {"-f": [os.path.join(self.test_path, self.logname1)]}
         self.results = ["This is the first line", "This is the second line",
-                         "This is the third line"]
+                        "This is the third line"]
         self.results2 = ["This is the first line", "This is the second line",
                          "This is the third line", "This is the fourth line",
                          "This is the fifth line", "This is the sixth line",
