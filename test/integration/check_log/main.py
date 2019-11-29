@@ -42,10 +42,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Integration testing initilization.
         test_or_search ->Test with or search clause.
@@ -74,7 +70,6 @@ class UnitTest(unittest.TestCase):
 
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
-
         filename1 = "main_base_file.txt"
         filename2 = "main_base_file2.txt"
         logname1 = "main_file.txt"
@@ -82,7 +77,6 @@ class UnitTest(unittest.TestCase):
         marker_name = "main_marker.txt"
         base_marker = "main_entry_file.txt"
         base_marker2 = "main_stdin_entry_file.txt"
-
         self.test_out = os.path.join(self.test_path, "test_out.txt")
         self.file_marker = os.path.join(self.test_path, marker_name)
         self.file_marker2 = os.path.join(self.test_path, base_marker2)
@@ -90,7 +84,6 @@ class UnitTest(unittest.TestCase):
         self.log_file2 = os.path.join(self.test_path, logname2)
         self.marker = os.path.join(self.test_path, base_marker)
         self.base_marker3 = "main_entry_file2.txt"
-
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
 
@@ -187,7 +180,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         self.argv_list.extend(["-o", self.test_out, "-n", "-z",
                                "-m", self.file_marker2])
         sys.argv = self.argv_list
@@ -216,7 +208,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         self.argv_list.extend(["-o", self.test_out, "-n", "-z",
                                "-m", os.path.join(self.test_path,
                                                   self.base_marker3)])
@@ -246,7 +237,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         self.argv_list.extend(["-o", self.test_out, "-z"])
         sys.argv = self.argv_list
 
