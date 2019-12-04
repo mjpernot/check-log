@@ -124,7 +124,7 @@ Breaking Change
 
 ## [1.7.0] - 2017-08-16
 ### Changed
-- Help_Message:  Replace docstring with printing the programs __doc__.
+- Help_Message:  Replace docstring with printing the programs \_\_doc\_\_.
 - Add classification line for Sunspear use.
 - Convert program to use local libraries from ./lib directory.
 
