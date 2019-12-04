@@ -12,6 +12,7 @@ Breaking Change
 - load_attributes:  Load program options values into LogFile class attributes.
 
 ### Changed
+- main:  Removed -S option from requiring other options as they are no longer required or handled by other sections of the code.
 - find_marker:  Replaced args_array with LogFile class instance, fetch_marker_entry call was moved to load_attributes function, removed loop to find marker in files as it's no longer required.
 - log_2_output:  Replaced log_array with LogFile class instance.
 - fetch_log:  Replaced log_array with LogFile class instance, replace open_log call with calling the first log file, keyword search was moved to the LogFile class method.
