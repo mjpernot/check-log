@@ -6,16 +6,17 @@
     Description:  The check_log program checks log files or "standard in" for
         new data since the last run as determined by the contents of the marker
         file.  The program can also setup filtering options to either ignore
-        specific messages and/or allow specific formatted messages through.
-        See -F and -i options below for further details.
-        NOTE:  The log files can be normal flat files or compressed files
-            (e.g. ending with .gz) or a combination there of.  Any other type
-            of compressed file will not work.
+        specific messages, search for specific formatted messages, and/or
+        do multiple keyword searching using the and | or predicate search.
+        See -F, -S, and -i options below for further details.
 
     Usage:
-         stdin | check_log.py [-f {file* file1 file2 ...}] [-F file
-            | -i file | -m file | -o file | -n | -r | -c | -y flavor_id]
+        check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
+            | -m file | -o file | -n | -r | -c | -y flavor_id | -z
+            | -S {keyword1 keyword2 ...}]
             [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
+
+        standard in | check_log.py ...
 
     Arguments:
         -f file(s) => Name(s) of the log files to check.  Can also use
@@ -23,40 +24,38 @@
             flat files or .gz compressed files.
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
-            filter out data that does not match the regex string.  The
-            matching will be only for the beginning of the data line.  If
-            multiple regex expressions will be using "or" logic.  See NOTE 2
-            for formatting of regex expression.
+            filter out data that does not match the regex string.  If
+            multiple regex expressions are present will use "or" logic.
+            See NOTES below for formatting of regex expressions.
         -t email_address(es) => Send output to one or more email addresses.
         -s subject_line => Subject line of email.  Requires -t option.
-        -i file => Name of the file that contains entries to be ignored.
+        -i file => Name of the file that contains entries to be ignored.  The
+            entries are case-insensitive.
         -m file => Name of the file that contains marker tag in file.
         -o file => Name of the out file.
-        -n => Flag option - not to update the marker file.
-        -r => Flag option - to recheck the entire log file.
-        -c => Flag option - to clear the contents in the marker file.  Requires
+        -n => Flag option not to update the marker file.
+        -r => Flag option to recheck the entire log file.
+        -c => Flag option to clear the contents in the marker file.  Requires
             -m option.
         -S keyword(s) => Search for keywords.  List of keywords are
-            space-delimited.  Requires -f options.  Standard in searching is
-            not available.
-        -k "and"|"or" => Keyword search logic.  Default setting is "or".
+            space-delimited and are case-insensitive.
+        -k "and"|"or" => Keyword search logic.  Default is "or".
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
         -h => Help and usage message.
 
         NOTE 1:  -v or -h overrides the other options.
-        NOTE 2:  -c requires -m option to be included.
-        NOTE 3:  -s requires -t option to be included.
-        NOTE 4:  -S requires -f option to be included.
 
-        NOTE 5:  Regex expression formatting.  Uses standard regex formatting.
+        NOTE 2:  -c requires -m option to be included.
+
+        NOTE 3:  -s requires -t option to be included.
+
+        NOTE 4:  Regex expression formatting: Uses standard regex formatting.
             The regex expression can contain multiple expressions, but will use
             "or" logic to determine whether a data string is allowed through.
-            Matching will only be done from the beginning of a data string.
-            Use the "|" as the delimitered between expressions.  All regex
-            expressions must be on a single line in a file, all other lines are
-            ignored.
+            Use the "|" as the delimitered between expressions or place each
+            regex expression on a line by itself in the file.
 
             Example of checking for a format such as this:
                 2017-04-04T11:24:32.345+0000
@@ -70,11 +69,16 @@
             Regex format strings:
                 \d{4}\-\d{2}\-\d{2}|d{2}:\d{2}:\d{2}
 
+        NOTE 5:  The log files can be normal flat files or compressed files
+            (e.g. ending with .gz) or a combination there of.  Any other type
+            of compressed file will not work.
+
     Examples:
-        File input
+        File input example:
             check_log.py -f /opt/sybase/errorlog* -o /tmp/out_file -n
-        Standard in input
-            cat errorlog | check_log.py -o /tmp/out_file -n
+
+        Standard in example:
+            cat errorlog | check_log.py -o /tmp/out_file -S Error Warn
 
 """
 

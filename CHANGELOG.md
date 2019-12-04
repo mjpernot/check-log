@@ -18,6 +18,7 @@ Breaking Change
 - fetch_log_stdin:  Replaced log_array with LogFile class instance, moved full_chk to run_program, and find marker call was moved to LogFile class method.
 - run_program:  Refactored function to setup and use LogFile class and added check for full_chk on loglist in LogFile class.
 - main:  Converted variable name to standard naming convention.
+- Documentation updates.
 
 ### Removed
 - open_log:  No longer required by program.
