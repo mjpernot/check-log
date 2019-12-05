@@ -6,16 +6,17 @@
     Description:  The check_log program checks log files or "standard in" for
         new data since the last run as determined by the contents of the marker
         file.  The program can also setup filtering options to either ignore
-        specific messages and/or allow specific formatted messages through.
-        See -F and -i options below for further details.
-        NOTE:  The log files can be normal flat files or compressed files
-            (e.g. ending with .gz) or a combination there of.  Any other type
-            of compressed file will not work.
+        specific messages, search for specific formatted messages, and/or
+        do multiple keyword searching using the and | or predicate search.
+        See -F, -S, and -i options below for further details.
 
     Usage:
-         stdin | check_log.py [-f {file* file1 file2 ...}] [-F file
-            | -i file | -m file | -o file | -n | -r | -c | -y flavor_id]
+        check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
+            | -m file | -o file | -n | -r | -c | -y flavor_id | -z
+            | -S {keyword1 keyword2 ...}]
             [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
+
+        standard in | check_log.py ...
 
     Arguments:
         -f file(s) => Name(s) of the log files to check.  Can also use
@@ -23,40 +24,38 @@
             flat files or .gz compressed files.
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
-            filter out data that does not match the regex string.  The
-            matching will be only for the beginning of the data line.  If
-            multiple regex expressions will be using "or" logic.  See NOTE 2
-            for formatting of regex expression.
+            filter out data that does not match the regex string.  If
+            multiple regex expressions are present will use "or" logic.
+            See NOTES below for formatting of regex expressions.
         -t email_address(es) => Send output to one or more email addresses.
         -s subject_line => Subject line of email.  Requires -t option.
-        -i file => Name of the file that contains entries to be ignored.
+        -i file => Name of the file that contains entries to be ignored.  The
+            entries are case-insensitive.
         -m file => Name of the file that contains marker tag in file.
         -o file => Name of the out file.
-        -n => Flag option - not to update the marker file.
-        -r => Flag option - to recheck the entire log file.
-        -c => Flag option - to clear the contents in the marker file.  Requires
+        -n => Flag option not to update the marker file.
+        -r => Flag option to recheck the entire log file.
+        -c => Flag option to clear the contents in the marker file.  Requires
             -m option.
         -S keyword(s) => Search for keywords.  List of keywords are
-            space-delimited.  Requires -f options.  Standard in searching is
-            not available.
-        -k "and"|"or" => Keyword search logic.  Default setting is "or".
+            space-delimited and are case-insensitive.
+        -k "and"|"or" => Keyword search logic.  Default is "or".
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
         -h => Help and usage message.
 
         NOTE 1:  -v or -h overrides the other options.
-        NOTE 2:  -c requires -m option to be included.
-        NOTE 3:  -s requires -t option to be included.
-        NOTE 4:  -S requires -f option to be included.
 
-        NOTE 5:  Regex expression formatting.  Uses standard regex formatting.
+        NOTE 2:  -c requires -m option to be included.
+
+        NOTE 3:  -s requires -t option to be included.
+
+        NOTE 4:  Regex expression formatting: Uses standard regex formatting.
             The regex expression can contain multiple expressions, but will use
             "or" logic to determine whether a data string is allowed through.
-            Matching will only be done from the beginning of a data string.
-            Use the "|" as the delimitered between expressions.  All regex
-            expressions must be on a single line in a file, all other lines are
-            ignored.
+            Use the "|" as the delimitered between expressions or place each
+            regex expression on a line by itself in the file.
 
             Example of checking for a format such as this:
                 2017-04-04T11:24:32.345+0000
@@ -70,11 +69,16 @@
             Regex format strings:
                 \d{4}\-\d{2}\-\d{2}|d{2}:\d{2}:\d{2}
 
+        NOTE 5:  The log files can be normal flat files or compressed files
+            (e.g. ending with .gz) or a combination there of.  Any other type
+            of compressed file will not work.
+
     Examples:
-        File input
+        File input example:
             check_log.py -f /opt/sybase/errorlog* -o /tmp/out_file -n
-        Standard in input
-            cat errorlog | check_log.py -o /tmp/out_file -n
+
+        Standard in example:
+            cat errorlog | check_log.py -o /tmp/out_file -S Error Warn
 
 """
 
@@ -137,55 +141,19 @@ def full_chk(args_array, **kwargs):
     return full_chk_flag
 
 
-def open_log(args_array, **kwargs):
-
-    """Function:  open_log
-
-    Description:  Opens the log file at the tag marker or at the beginning of
-        the file.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) Log file handler.
-
-    """
-
-    args_array = dict(args_array)
-
-    if full_chk(args_array):
-        return gen_libs.openfile(args_array["-f"][0], "r")
-
-    else:
-        return find_marker(args_array)
-
-
-def find_marker(args_array, **kwargs):
+def find_marker(log, **kwargs):
 
     """Function:  find_marker
 
-    Description:  Locates the marker file entry in the log file.
+    Description:  Locates the marker.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) log_file -> Log file handler.
+        (input) log -> LogFile class instance.
 
     """
 
-    args_array = dict(args_array)
-    ln_marker = fetch_marker_entry(args_array["-m"])
-
-    if ln_marker:
-        for fname in args_array["-f"]:
-            log_file = gen_libs.openfile(fname, "r")
-
-            for line in log_file:
-                if line.rstrip() == ln_marker:
-                    return log_file
-
-            log_file.close()
-
-    # No marker found, return first file.
-    return gen_libs.openfile(args_array["-f"][0], "r")
+    if log.marker:
+        log.find_marker(update=True)
 
 
 def update_marker(args_array, line, **kwargs):
@@ -207,52 +175,7 @@ def update_marker(args_array, line, **kwargs):
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 
 
-def get_ignore_msgs(args_array, **kwargs):
-
-    """Function:  get_ignore_msgs
-
-    Description:  Copies the ignore file into the ignore array.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) ignore_array -> List of ignore messages.
-
-    """
-
-    args_array = dict(args_array)
-    ignore_array = []
-
-    if "-i" in args_array:
-        with gen_libs.openfile(args_array["-i"], "r") as f_hldr:
-            ignore_array = [x.lower().rstrip() for x in f_hldr]
-
-    return ignore_array
-
-
-def ignore_msgs(log_array, ignore_array, **kwargs):
-
-    """Function:  ignore_msgs
-
-    Description:  Removes all ignore messages from the log array.
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) ignore_array -> List of ignore messages.
-        (output) log_array -> Modified list of log entries.
-
-    """
-
-    log_array = list(log_array)
-    ignore_array = list(ignore_array)
-
-    if ignore_array and log_array:
-        log_array = [sa for sa in log_array
-                     if not any(sb in sa.lower() for sb in ignore_array)]
-
-    return log_array
-
-
-def log_2_output(log_array, args_array, **kwargs):
+def log_2_output(log, args_array, **kwargs):
 
     """Function:  log_2_output
 
@@ -260,12 +183,11 @@ def log_2_output(log_array, args_array, **kwargs):
         option.
 
     Arguments:
-        (input) log_array -> List of log entries.
+        (input) log -> LogFile class instance.
         (input) args_array -> Dictionary of command line options and values.
 
     """
 
-    log_array = list(log_array)
     args_array = dict(args_array)
 
     # Send output to email.
@@ -277,41 +199,22 @@ def log_2_output(log_array, args_array, **kwargs):
                               "".join(args_array.get("-s",
                                                      "check_log: " + host)),
                               frm_line)
-        mail.add_2_msg("\n".join(log_array))
+        mail.add_2_msg("\n".join(log.loglist))
         mail.send_mail()
 
     # Write output to file.
     if "-o" in args_array:
         with open(args_array["-o"], "w") as f_hdlr:
-            for x in log_array:
+            for x in log.loglist:
                 print(x, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
-        for x in log_array:
+        for x in log.loglist:
             print(x, file=sys.stdout)
 
 
-def search(log_array, key_list, func):
-
-    """Function:  search
-
-    Description:  Returns only those log entries that
-        match the keyword search, but also dependent on the type of search
-        logic (and|or) invoked.
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) key_list -> List of keywords to search for.
-        (input) func -> Function to be called for logic search (all|any).
-        (output) List of log entries found with keywords.
-
-    """
-
-    return [item for item in log_array if func(x in item for x in key_list)]
-
-
-def fetch_log(args_array, **kwargs):
+def fetch_log(log, args_array, **kwargs):
 
     """Function:  fetch_log
 
@@ -321,19 +224,18 @@ def fetch_log(args_array, **kwargs):
         passed to the calling function.
 
     Arguments:
+        (input) log -> LogFile class instance.
         (input) args_array -> Dictionary of command line options and values.
-        (output) log_array -> List of log entries.
 
     """
 
     args_array = dict(args_array)
-    log_array = []
 
     # Sort files from oldest to newest.
     args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
                               reverse=False)
 
-    log_file = open_log(args_array)
+    log_file = gen_libs.openfile(args_array["-f"][0], "r")
 
     # Start with the log file returned by open_log function call.
     for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
@@ -342,65 +244,11 @@ def fetch_log(args_array, **kwargs):
         if log_file.closed:
             log_file = gen_libs.openfile(x, "r")
 
-        log_array.extend(gen_libs.get_data(log_file))
+        log.load_loglist(log_file)
         log_file.close()
 
-    # Keyword search
-    if "-S" in args_array.keys():
-        if args_array["-k"] == "and":
-            log_array = search(log_array, args_array["-S"], all)
 
-        else:
-            log_array = search(log_array, args_array["-S"], any)
-
-    return log_array
-
-
-def fetch_marker_entry(fname, **kwargs):
-
-    """Function:  fetch_marker_entry
-
-    Description:  Gets and returns marker line entry from marker file.
-
-    Arguments:
-        (input) fname -> Marker file.
-        (output) ln_marker -> Marker line entry.
-
-    """
-
-    return ''.join(gen_libs.file_2_list(fname))
-
-
-def find_marker_array(args_array, log_array, **kwargs):
-
-    """Function:  find_marker_array
-
-    Description:  Locate the marker file entry in the log file array or return
-        the entire array.
-
-    Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (input) log_array -> List of log entries.
-        (output) log_array -> Modified list of log entries.
-
-    """
-
-    args_array = dict(args_array)
-    log_array = list(log_array)
-    ln_marker = fetch_marker_entry(args_array["-m"])
-
-    if ln_marker:
-
-        # Return log array from marker onward.
-        for cnt, ln in enumerate(log_array):
-            if ln.rstrip() == ln_marker:
-                return log_array[cnt + 1:]
-
-    # No marker found.
-    return log_array
-
-
-def fetch_log_stdin(args_array, **kwargs):
+def fetch_log_stdin(log, **kwargs):
 
     """Function:  fetch_log_stdin
 
@@ -409,76 +257,42 @@ def fetch_log_stdin(args_array, **kwargs):
         the array.
 
     Arguments:
+        (input) log -> LogFile class instance.
         (input) args_array -> Dictionary of command line options and values.
-        (output) log_array or list -> List of log entries.
 
     """
-
-    args_array = dict(args_array)
-    log_array = []
 
     for ln in sys.stdin:
-        log_array.append(ln.rstrip("\n"))
-
-    if full_chk(args_array):
-        return log_array
-
-    else:
-        return find_marker_array(args_array, log_array, **kwargs)
+        log.load_loglist(str(ln))
 
 
-def get_filter_data(args_array, **kwargs):
+def load_attributes(log, args_array, **kwargs):
 
-    """Function:  get_filter_data
+    """Function:  load_attributes
 
-    Description:  Read in a formatted regex expression to be used for filtering
-        data.
+    Description:  Checks for certain program options to be loaded into the
+        LogFile class attributes.
 
     Arguments:
+        (input) log -> LogFile class instance.
         (input) args_array -> Dictionary of command line options and values.
-        (output) filter_str -> Formatted filter string in regex format.
 
     """
 
-    args_array = dict(args_array)
-    filter_str = ""
+    if "-S" in args_array.keys():
+        log.load_keyword(args_array["-S"])
 
-    if "-F" in args_array:
+    if "-k" in args_array.keys():
+        log.set_predicate(args_array["-k"])
 
-        # Only read the first line, all others ignored.
-        with gen_libs.openfile(args_array["-F"], "r") as f_hdlr:
-            filter_str = f_hdlr.readline().strip("\n")
+    if "-m" in args_array.keys():
+        log.load_marker(gen_libs.openfile(args_array["-m"]))
 
-    return filter_str
+    if "-F" in args_array.keys():
+        log.load_regex(gen_libs.openfile(args_array["-F"]))
 
-
-def filter_data(log_array, filter_str, **kwargs):
-
-    """Function:  filter_data
-
-    Description:  Filters out data of an array using regex.  Designed to match
-        from the beginning of each string line and can do multiple "or"
-        matching.  Will remove any line that does not match the regex
-        formatted expression(s).
-
-    Arguments:
-        (input) log_array -> List of log entries.
-        (input) filter_str -> Formatted filter string in regex format.
-        (output) log_array -> Modified list of log entries.
-
-    """
-
-    log_array = list(log_array)
-
-    # Only filter if there is something to filter with.
-    if len(filter_str) > 0:
-        for x in log_array[:]:
-
-            # Must match format to stay.
-            if not re.match(filter_str, x):
-                log_array.remove(x)
-
-    return log_array
+    if "-i" in args_array.keys():
+        log.load_ignore(gen_libs.openfile(args_array["-i"]))
 
 
 def run_program(args_array, **kwargs):
@@ -495,25 +309,29 @@ def run_program(args_array, **kwargs):
     """
 
     args_array = dict(args_array)
-    log_array = []
 
     if "-c" in args_array and "-m" in args_array:
         gen_libs.clear_file(args_array["-m"])
 
-    elif "-f" in args_array:
-        log_array = fetch_log(args_array, **kwargs)
-
-    elif not sys.stdin.isatty():
-        log_array = fetch_log_stdin(args_array, **kwargs)
-
     else:
-        print("Warning:  No log files or 'standard in' to process.")
+        log = gen_class.LogFile()
+        load_attributes(log, args_array)
 
-    if log_array:
-        update_marker(args_array, log_array[len(log_array) - 1])
-        log_array = ignore_msgs(log_array, get_ignore_msgs(args_array))
-        log_array = filter_data(log_array, get_filter_data(args_array))
-        log_2_output(log_array, args_array)
+        if "-f" in args_array:
+            fetch_log(log, args_array)
+
+        elif not sys.stdin.isatty():
+            fetch_log_stdin(log)
+
+        if log.loglist:
+            if not full_chk(args_array):
+                find_marker(log)
+
+            log.filter_keyword()
+            log.filter_ignore()
+            log.filter_regex()
+            log_2_output(log, args_array)
+            update_marker(args_array, log.lastline)
 
 
 def main():
@@ -538,7 +356,7 @@ def main():
 
     file_chk_list = ["-f", "-i", "-m", "-o", "-F"]
     file_crt_list = ["-m", "-o"]
-    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"], "-S": ["-f", "-k"]}
+    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k"]
     opt_valid_val = {"-k": ["and", "or"]}
@@ -558,10 +376,10 @@ def main():
        and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
-            PROG_LOCK = gen_class.ProgramLock(sys.argv,
+            prog_lock = gen_class.ProgramLock(sys.argv,
                                               args_array.get("-y", ""))
             run_program(args_array)
-            del PROG_LOCK
+            del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"

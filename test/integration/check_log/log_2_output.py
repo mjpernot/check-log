@@ -30,6 +30,7 @@ import mock
 sys.path.append(os.getcwd())
 import check_log
 import lib.gen_libs as gen_libs
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -40,10 +41,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
 
     Methods:
         setUp -> Integration testing initilization.
@@ -63,13 +60,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.log = gen_class.LogFile()
+        self.log.loglist = ["first line of log", "second line of log"]
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
-
         self.file_name = os.path.join(self.test_path, "log_2_output_file.out")
         self.args_array = {}
-
-        self.log_array = ["first line of log", "second line of log"]
 
         if os.access(self.file_name, os.W_OK):
             os.remove(self.file_name)
@@ -94,8 +90,7 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {"-t": "user@domain.name", "-z": True}
 
-        self.assertFalse(check_log.log_2_output(self.log_array,
-                                                self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     def test_write_to_log(self):
 
@@ -110,15 +105,9 @@ class UnitTest(unittest.TestCase):
         self.args_array["-o"] = self.file_name
 
         with gen_libs.no_std_out():
-            check_log.log_2_output(self.log_array, self.args_array)
+            check_log.log_2_output(self.log, self.args_array)
 
-        if os.path.isfile(self.args_array["-o"]):
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]))
 
     def tearDown(self):
 

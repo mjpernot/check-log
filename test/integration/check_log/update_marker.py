@@ -39,10 +39,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Integration testing initilization.
         test_update_marker -> Write correct entry to file marker file.

@@ -239,3 +239,32 @@ fi
 gunzip test/blackbox/check_log/logfiles/log9b.txt.gz
 rm test/blackbox/check_log/testfiles/test9.out
 
+printf "\n\nScenario 10:  check_log blackbox testing...Case-insensitive check\n"
+./check_log.py -f test/blackbox/check_log/logfiles/log10* -o test/blackbox/check_log/testfiles/test10.out -S TEST -z
+$(cmp -s test/blackbox/check_log/basefiles/test10a_base.txt test/blackbox/check_log/testfiles/test10.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test10.out
+
+printf "\n\nScenario 11:  check_log blackbox testing...multiple options check (-S and -i options)\n"
+./check_log.py -f test/blackbox/check_log/logfiles/log10* -o test/blackbox/check_log/testfiles/test10.out -S TEST -i test/blackbox/check_log/basefiles/test10a_ignore.txt -z
+$(cmp -s test/blackbox/check_log/basefiles/test10b_base.txt test/blackbox/check_log/testfiles/test10.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test10.out
+
+printf "\n\nScenario 12:  check_log blackbox testing...multiple options check (-S, -F, and -i options)\n"
+./check_log.py -f test/blackbox/check_log/logfiles/log10* -o test/blackbox/check_log/testfiles/test10.out -S TEST -i test/blackbox/check_log/basefiles/test10a_ignore.txt -F test/blackbox/check_log/basefiles/test10a_filter.txt -z
+$(cmp -s test/blackbox/check_log/basefiles/test10c_base.txt test/blackbox/check_log/testfiles/test10.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test10.out
