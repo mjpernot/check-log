@@ -9,25 +9,18 @@ pipeline {
         stage('Test') {
             steps {
                 dir ('lib') {
-                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git"
                 }
                 sh """
-                pip2 install mock --user
+                pip2 install mock==2.0.0 --user
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
-                ./test/unit/check_log/fetch_marker_entry.py
-                ./test/unit/check_log/filter_data.py
                 ./test/unit/check_log/find_marker.py
-                ./test/unit/check_log/find_marker_array.py
                 ./test/unit/check_log/full_chk.py
-                ./test/unit/check_log/get_filter_data.py
-                ./test/unit/check_log/get_ignore_msgs.py
                 ./test/unit/check_log/help_message.py
-                ./test/unit/check_log/ignore_msgs.py
+                ./test/unit/check_log/load_attributes.py
                 ./test/unit/check_log/log_2_output.py
                 ./test/unit/check_log/main.py
-                ./test/unit/check_log/search.py
-                ./test/unit/check_log/open_log.py
                 ./test/unit/check_log/run_program.py
                 ./test/unit/check_log/update_marker.py
                 """

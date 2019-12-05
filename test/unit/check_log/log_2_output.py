@@ -30,6 +30,7 @@ import mock
 sys.path.append(os.getcwd())
 import check_log
 import lib.gen_libs as gen_libs
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -40,10 +41,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
 
     Methods:
         setUp -> Unit testing initilization.
@@ -69,10 +66,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.log = gen_class.LogFile()
+        self.log.loglist = ["first line of log", "second line of log"]
         self.args_array = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out"}
-
-        self.log_array = ["first line of log", "second line of log"]
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_z_options_set(self, mock_mail):
@@ -86,11 +83,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-
         self.args_array = {"-t": "Email Addresses", "-z": True}
 
-        self.assertFalse(check_log.log_2_output(self.log_array,
-                                                self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_s_options_set(self, mock_mail):
@@ -104,12 +99,10 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-
         self.args_array = {"-t": "Email Addresses", "-s": "Subject Line"}
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log_array,
-                                                    self.args_array))
+            self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_o_options_set(self, mock_mail):
@@ -123,19 +116,12 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-
         self.args_array["-t"] = "Email Addresses"
 
         with gen_libs.no_std_out():
-            check_log.log_2_output(self.log_array, self.args_array)
+            check_log.log_2_output(self.log, self.args_array)
 
-        if os.path.isfile(self.args_array["-o"]):
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_option_set(self, mock_mail):
@@ -149,12 +135,10 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-
         self.args_array = {"-t": "Email Addresses"}
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log_array,
-                                                    self.args_array))
+            self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     def test_z_option_set(self):
 
@@ -168,8 +152,7 @@ class UnitTest(unittest.TestCase):
 
         self.args_array = {"-z": True}
 
-        self.assertFalse(check_log.log_2_output(self.log_array,
-                                                self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     def test_write_to_log_empty_log(self):
 
@@ -181,16 +164,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.log_2_output([], self.args_array)
+        self.log.loglist = []
+        check_log.log_2_output(self.log, self.args_array)
 
-        if os.path.isfile(self.args_array["-o"]) \
-           and os.stat(self.args_array["-o"]).st_size == 0:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]) and
+                        os.stat(self.args_array["-o"]).st_size == 0)
 
     def test_write_to_log(self):
 
@@ -203,15 +181,9 @@ class UnitTest(unittest.TestCase):
         """
 
         with gen_libs.no_std_out():
-            check_log.log_2_output(self.log_array, self.args_array)
+            check_log.log_2_output(self.log, self.args_array)
 
-        if os.path.isfile(self.args_array["-o"]):
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]))
 
     def test_o_option_empty_log(self):
 
@@ -223,7 +195,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(check_log.log_2_output([], {}))
+        self.log.loglist = []
+        self.assertFalse(check_log.log_2_output(self.log, {}))
 
     def test_o_option_not_set(self):
 
@@ -236,7 +209,7 @@ class UnitTest(unittest.TestCase):
         """
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log_array, {}))
+            self.assertFalse(check_log.log_2_output(self.log, {}))
 
     def tearDown(self):
 

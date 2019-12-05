@@ -28,6 +28,7 @@ else:
 # Local
 sys.path.append(os.getcwd())
 import check_log
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -39,13 +40,11 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Integration testing initilization.
-        test_no_find_marker -> Does not find the line marker.
+        test_empty_ln_marker -> Empty line marker check.
+        test_no_find_marker -> Does not find the marker.
+        test_find_marker_2 -> Finds the line marker in second file.
         test_find_marker -> Finds the line marker.
 
     """
@@ -60,32 +59,62 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.base_dir = "test/integration/check_log"
-        self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
+        data = ["This is the first line", "This is the second line",
+                "This is the third line", "This is the fourth line",
+                "This is the fifth line", "This is the sixth line",
+                "This is the seventh line"]
+        self.log = gen_class.LogFile()
+        self.log.loglist = data
+        self.result = ["This is the fourth line",
+                       "This is the fifth line",
+                       "This is the sixth line",
+                       "This is the seventh line"]
+        self.result2 = ["This is the seventh line"]
+        self.result3 = data
 
-        self.file_name1 = os.path.join(self.test_path, "find_marker_file.txt")
-        self.file_name2 = os.path.join(self.test_path, "find_marker_file2.txt")
+    def test_empty_ln_marker(self):
 
-        self.args_array = {"-f": [self.file_name1, self.file_name2]}
+        """Function:  test_empty_ln_marker
 
-    def test_no_find_marker(self):
-
-        """Function:  test_no_find_marker
-
-        Description:  Does not find the line marker.
+        Description:  Empty line marker check.
 
         Arguments:
 
         """
 
-        self.args_array["-m"] = os.path.join(self.test_path,
-                                             "find_marker_entry_file2.txt")
+        check_log.find_marker(self.log)
 
-        f_hdlr = check_log.find_marker(self.args_array)
-        file_name = f_hdlr.name
-        f_hdlr.close()
+        self.assertEqual(self.log.loglist, self.result3)
 
-        self.assertEqual(file_name, self.file_name1)
+    def test_no_find_marker(self):
+
+        """Function:  test_no_find_marker
+
+        Description:  Does not find the marker.
+
+        Arguments:
+
+        """
+
+        self.log.marker = "This is the tenth line"
+        check_log.find_marker(self.log)
+
+        self.assertEqual(self.log.loglist, self.result3)
+
+    def test_find_marker_2(self):
+
+        """Function:  test_find_marker_2
+
+        Description:  Finds the line marker.
+
+        Arguments:
+
+        """
+
+        self.log.marker = "This is the sixth line"
+        check_log.find_marker(self.log)
+
+        self.assertEqual(self.log.loglist, self.result2)
 
     def test_find_marker(self):
 
@@ -97,14 +126,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-m"] = os.path.join(self.test_path,
-                                             "find_marker_entry_file.txt")
+        self.log.marker = "This is the third line"
+        check_log.find_marker(self.log)
 
-        f_hdlr = check_log.find_marker(self.args_array)
-        file_name = f_hdlr.name
-        f_hdlr.close()
-
-        self.assertEqual(file_name, self.file_name2)
+        self.assertEqual(self.log.loglist, self.result)
 
 
 if __name__ == "__main__":

@@ -113,22 +113,16 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 
 ```
 cd {Python_Project}/check-log
-test/unit/check_log/help_message.py
-test/unit/check_log/search.py
-test/unit/check_log/open_log.py
-test/unit/check_log/find_marker.py
-test/unit/check_log/update_marker.py
-test/unit/check_log/get_ignore_msgs.py
-test/unit/check_log/ignore_msgs.py
-test/unit/check_log/log_2_output.py
 test/unit/check_log/fetch_log.py
-test/unit/check_log/fetch_marker_entry.py
-test/unit/check_log/find_marker_array.py
 test/unit/check_log/fetch_log_stdin.py
-test/unit/check_log/get_filter_data.py
-test/unit/check_log/filter_data.py
-test/unit/check_log/run_program.py
+test/unit/check_log/find_marker.py
+test/unit/check_log/full_chk.py
+test/unit/check_log/help_message.py
+test/unit/check_log/load_attributes.py
+test/unit/check_log/log_2_output.py
 test/unit/check_log/main.py
+test/unit/check_log/run_program.py
+test/unit/check_log/update_marker.py
 ```
 
 ### All unit testing
@@ -178,19 +172,14 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 
 ```
 cd {Python_Project}/check-log
-test/integration/check_log/full_chk.py
-test/integration/check_log/update_marker.py
-test/integration/check_log/get_ignore_msgs.py
-test/integration/check_log/fetch_marker_entry.py
-test/integration/check_log/find_marker_array.py
-test/integration/check_log/get_filter_data.py
-test/integration/check_log/find_marker.py
-test/integration/check_log/open_log.py
-test/integration/check_log/log_2_output.py
 test/integration/check_log/fetch_log.py
 test/integration/check_log/fetch_log_stdin.py
-test/integration/check_log/run_program.py
+test/integration/check_log/find_marker.py
+test/integration/check_log/full_chk.py
+test/integration/check_log/log_2_output.py
 test/integration/check_log/main.py
+test/integration/check_log/run_program.py
+test/integration/check_log/update_marker.py
 ```
 
 ### All integration testing

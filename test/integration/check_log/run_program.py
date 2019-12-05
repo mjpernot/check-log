@@ -42,10 +42,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Integration testing initilization.
         test_search_or -> Test with or search clause.
@@ -76,18 +72,14 @@ class UnitTest(unittest.TestCase):
 
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
-
         filename1 = "run_program_base_file.txt"
         filename2 = "run_program_base_file2.txt"
-
         logname1 = "run_program_file.txt"
         logname2 = "run_program_file2.txt"
-
         base_marker = "run_program_entry_file.txt"
         base_marker2 = "run_program_stdin_entry_file.txt"
         self.base_marker3 = "run_program_entry_file2.txt"
         marker_name = "run_program_marker.txt"
-
         self.test_out = os.path.join(self.test_path, "test_out.txt")
         self.ignore_msgs = os.path.join(self.test_path,
                                         "run_program_ignore_file.txt")
@@ -97,7 +89,6 @@ class UnitTest(unittest.TestCase):
         self.file_marker2 = os.path.join(self.test_path, base_marker2)
         self.log_file1 = os.path.join(self.test_path, logname1)
         self.log_file2 = os.path.join(self.test_path, logname2)
-
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
 
@@ -203,7 +194,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         args_array = {"-o": self.test_out, "-n": True, "-z": True,
                       "-m": os.path.join(self.test_path, self.base_marker3)}
 
@@ -339,7 +329,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         args_array = {"-o": self.test_out, "-m": self.file_marker2, "-n": True,
                       "-z": True}
 
@@ -367,7 +356,6 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-
         args_array = {"-o": self.test_out, "-z": True}
 
         check_log.run_program(args_array)
@@ -394,14 +382,7 @@ class UnitTest(unittest.TestCase):
         args_array = {"-c": True, "-m": self.file_marker}
 
         check_log.run_program(args_array)
-
-        if os.stat(self.file_marker).st_size == 0:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.stat(self.file_marker).st_size == 0)
 
     def tearDown(self):
 
