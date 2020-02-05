@@ -51,6 +51,7 @@ class UnitTest(unittest.TestCase):
         test_filter_data -> Test filter data.
         test_ignore_msg -> Test ignore messages.
         test_marker -> Test file log marker.
+        test_file_w_option_empty -> Test file logs with -w option and no data.
         test_file_w_option -> Test file logs with -w option.
         test_file -> Test file logs.
         test_stdin_empty -> Test with standard in no data.
@@ -77,6 +78,7 @@ class UnitTest(unittest.TestCase):
         filename2 = "run_program_base_file2.txt"
         logname1 = "run_program_file.txt"
         logname2 = "run_program_file2.txt"
+        logname3 = "full_chk_empty.txt"
         base_marker = "run_program_entry_file.txt"
         base_marker2 = "run_program_stdin_entry_file.txt"
         self.base_marker3 = "run_program_entry_file2.txt"
@@ -90,6 +92,7 @@ class UnitTest(unittest.TestCase):
         self.file_marker2 = os.path.join(self.test_path, base_marker2)
         self.log_file1 = os.path.join(self.test_path, logname1)
         self.log_file2 = os.path.join(self.test_path, logname2)
+        self.log_file3 = os.path.join(self.test_path, logname3)
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
 
@@ -276,6 +279,22 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(out_str, "This is the seventh line")
 
+    def test_file_w_option_empty(self):
+
+        """Function:  test_file_w_option_empty
+
+        Description:  Test file logs with -w option and no data.
+
+        Arguments:
+
+        """
+
+        self.args_array.update({"-f": [self.log_file3], "-o": self.test_out},
+                               "-z", "-w")
+        check_log.run_program(self.args_array)
+
+        self.assertFalse(os.path.isfile(self.test_out))
+
     def test_file_w_option(self):
 
         """Function:  test_file_w_option
@@ -288,7 +307,6 @@ class UnitTest(unittest.TestCase):
 
         self.args_array.update({"-f": [self.log_file2], "-o": self.test_out},
                                "-z", "-w")
-
         check_log.run_program(self.args_array)
 
         if os.path.isfile(self.test_out):
