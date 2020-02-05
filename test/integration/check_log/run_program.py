@@ -51,6 +51,7 @@ class UnitTest(unittest.TestCase):
         test_filter_data -> Test filter data.
         test_ignore_msg -> Test ignore messages.
         test_marker -> Test file log marker.
+        test_file_w_option -> Test file logs with -w option.
         test_file -> Test file logs.
         test_stdin_empty -> Test with standard in no data.
         test_stdin_marker -> Test with standard in with marker file.
@@ -274,6 +275,31 @@ class UnitTest(unittest.TestCase):
             out_str = f_hdlr.readline().rstrip()
 
         self.assertEqual(out_str, "This is the seventh line")
+
+    def test_file_w_option(self):
+
+        """Function:  test_file_w_option
+
+        Description:  Test file logs with -w option.
+
+        Arguments:
+
+        """
+
+        self.args_array.update({"-f": [self.log_file2], "-o": self.test_out},
+                               "-z", "-w")
+
+        check_log.run_program(self.args_array)
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(
+                out_str, "This is the sixth line\nThis is the seventh line\n")
+
+        else:
+            self.assertTrue(False)
 
     def test_file(self):
 
