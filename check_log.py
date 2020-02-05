@@ -203,9 +203,10 @@ def log_2_output(log, args_array, **kwargs):
 
     # Write output to file.
     if "-o" in args_array:
-        with open(args_array["-o"], "w") as f_hdlr:
-            for x in log.loglist:
-                print(x, file=f_hdlr)
+        if log.loglist or "-w" not in args_array:
+            with open(args_array["-o"], "w") as f_hdlr:
+                for x in log.loglist:
+                    print(x, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
