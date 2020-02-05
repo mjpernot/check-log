@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.0] - 2020-02-05
+### Changed
+- Documentation update.
+
+
 ## [3.0.0] - 2019-11-25
 Breaking Change
 - Integrating the gen_class.LogFile class into the program.
