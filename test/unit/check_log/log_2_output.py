@@ -44,6 +44,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Unit testing initilization.
+        test_g_option_append -> Test with -g option with append value.
         test_w_option_data_log -> Test with -w option and data log.
         test_w_option_empty_log -> Test with -w option and empty log.
         test_t_z_options_set -> Test with -t and -z options set.
@@ -75,6 +76,62 @@ class UnitTest(unittest.TestCase):
         self.args_array2 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
             "-z", "-w"}
+        self.args_array3 = \
+            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
+            "-z", "-g": "a"}
+        self.args_array4 = \
+            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
+            "-z", "-g": "w"}
+
+    def test_g_option_write(self):
+
+        """Function:  test_g_option_write
+
+        Description:  Test with -g option with write value.
+
+        Arguments:
+
+        """
+
+        self.log.loglist = ["first line of log"]
+        check_log.log_2_output(self.log, self.args_array4)
+        self.log.loglist = ["second line of log"]
+        check_log.log_2_output(self.log, self.args_array4)
+
+        if os.path.isfile(self.args_array2["-o"]):
+            with open(self.args_array2["-o"]) as f_hdlr:
+                out_str = f_hdlr.readline().rstrip()
+
+            self.assertEqual(out_str,
+                "second line of log\n")
+
+        else:
+            self.assertTrue(False)
+
+    def test_g_option_append(self):
+
+        """Function:  test_g_option_append
+
+        Description:  Test with -g option with append value.
+
+        Arguments:
+
+        """
+
+        self.log.loglist = ["first line of log"]
+        check_log.log_2_output(self.log, self.args_array3)
+        self.log.loglist = ["second line of log"]
+        check_log.log_2_output(self.log, self.args_array3)
+
+        if os.path.isfile(self.args_array2["-o"]):
+            with open(self.args_array2["-o"]) as f_hdlr:
+                out_str = f_hdlr.readline().rstrip()
+
+            self.assertEqual(out_str,
+                "first line of log\nsecond line of log\n")
+
+        else:
+            self.assertTrue(False)
 
     def test_w_option_data_log(self):
 
@@ -87,7 +144,7 @@ class UnitTest(unittest.TestCase):
         """
 
         check_log.log_2_output(self.log, self.args_array2)
-        self.assertTrue(os.path.isfile(self.args_array["-o"]))
+        self.assertTrue(os.path.isfile(self.args_array2["-o"]))
 
     def test_w_option_empty_log(self):
 
@@ -101,7 +158,7 @@ class UnitTest(unittest.TestCase):
 
         self.log.loglist = []
         check_log.log_2_output(self.log, self.args_array2)
-        self.assertFalse(os.path.isfile(self.args_array["-o"]))
+        self.assertFalse(os.path.isfile(self.args_array2["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_z_options_set(self, mock_mail):
