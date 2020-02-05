@@ -353,8 +353,8 @@ def main():
 
     """
 
-    file_chk_list = ["-f", "-i", "-m", "-o", "-F"]
-    file_crt_list = ["-m", "-o"]
+    file_chk_list = ["-f", "-i", "-m", "-F"]
+    file_crt_list = ["-m"]
     opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k"]
