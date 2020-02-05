@@ -13,7 +13,7 @@
     Usage:
         check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
             | -m file | -o file | -n | -r | -c | -y flavor_id | -z
-            | -S {keyword1 keyword2 ...}]
+            | -S {keyword1 keyword2 ...} | -g {a|w} | -w]
             [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
 
         standard in | check_log.py ...
@@ -40,17 +40,16 @@
         -S keyword(s) => Search for keywords.  List of keywords are
             space-delimited and are case-insensitive.
         -k "and"|"or" => Keyword search logic.  Default is "or".
+        -g "a"|"w" => Append or write (overwrite) to a log file.  Default is w.
+        -w => No write if empty.  Do not write to a file if no data was found.
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
         -h => Help and usage message.
 
         NOTE 1:  -v or -h overrides the other options.
-
         NOTE 2:  -c requires -m option to be included.
-
         NOTE 3:  -s requires -t option to be included.
-
         NOTE 4:  Regex expression formatting: Uses standard regex formatting.
             The regex expression can contain multiple expressions, but will use
             "or" logic to determine whether a data string is allowed through.
