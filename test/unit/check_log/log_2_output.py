@@ -44,6 +44,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Unit testing initilization.
+        test_w_option_data_log -> Test with -w option and data log.
+        test_w_option_empty_log -> Test with -w option and empty log.
         test_t_z_options_set -> Test with -t and -z options set.
         test_t_s_options_set -> Test with -t and -s options set.
         test_t_o_options_set -> Test with -t and -o options set.
@@ -70,6 +72,36 @@ class UnitTest(unittest.TestCase):
         self.log.loglist = ["first line of log", "second line of log"]
         self.args_array = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out"}
+        self.args_array2 = \
+            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
+            "-z", "-w"}
+
+    def test_w_option_data_log(self):
+
+        """Function:  test_w_option_data_log
+
+        Description:  Test with -w option and data log.
+
+        Arguments:
+
+        """
+
+        check_log.log_2_output(self.log, self.args_array2)
+        self.assertTrue(os.path.isfile(self.args_array["-o"]))
+
+    def test_w_option_empty_log(self):
+
+        """Function:  test_w_option_empty_log
+
+        Description:  Test with -w option and empty log.
+
+        Arguments:
+
+        """
+
+        self.log.loglist = []
+        check_log.log_2_output(self.log, self.args_array2)
+        self.assertFalse(os.path.isfile(self.args_array["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_z_options_set(self, mock_mail):
