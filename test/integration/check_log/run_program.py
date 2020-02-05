@@ -51,6 +51,8 @@ class UnitTest(unittest.TestCase):
         test_filter_data -> Test filter data.
         test_ignore_msg -> Test ignore messages.
         test_marker -> Test file log marker.
+        test_file_g_option_write -> Test file logs with -w option with write.
+        test_file_g_option_append -> Test file logs with -w option with append.
         test_file_w_option_empty -> Test file logs with -w option and no data.
         test_file_w_option -> Test file logs with -w option.
         test_file -> Test file logs.
@@ -77,6 +79,8 @@ class UnitTest(unittest.TestCase):
         filename1 = "run_program_base_file.txt"
         filename2 = "run_program_base_file2.txt"
         filename3 = "run_program_base_file3.txt"
+        filename4 = "run_program_base_file4.txt"
+        filename5 = "run_program_base_file5.txt"
         logname1 = "run_program_file.txt"
         logname2 = "run_program_file2.txt"
         base_marker = "run_program_entry_file.txt"
@@ -93,6 +97,8 @@ class UnitTest(unittest.TestCase):
         self.log_file1 = os.path.join(self.test_path, logname1)
         self.log_file2 = os.path.join(self.test_path, logname2)
         self.log_file3 = os.path.join(self.test_path, filename3)
+        self.log_file4 = os.path.join(self.test_path, filename4)
+        self.log_file5 = os.path.join(self.test_path, filename5)
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
 
@@ -279,6 +285,58 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(out_str, "This is the seventh line")
 
+    def test_file_g_option_write(self):
+
+        """Function:  test_file_g_option_write
+
+        Description:  Test file logs with -w option with write value.
+
+        Arguments:
+
+        """
+
+        self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
+                               "-z": True, "-g": "w"})
+        check_log.run_program(self.args_array)
+        self.args_array["-f"] = [self.log_file5]
+        check_log.run_program(self.args_array)
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(
+                out_str, "Line 2\n")
+
+        else:
+            self.assertTrue(False)
+
+    def test_file_g_option_append(self):
+
+        """Function:  test_file_g_option_append
+
+        Description:  Test file logs with -w option with append value.
+
+        Arguments:
+
+        """
+
+        self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
+                               "-z": True, "-g": "a"})
+        check_log.run_program(self.args_array)
+        self.args_array["-f"] = [self.log_file5]
+        check_log.run_program(self.args_array)
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(
+                out_str, "Line 1\nLine 2\n")
+
+        else:
+            self.assertTrue(False)
+
     def test_file_w_option_empty(self):
 
         """Function:  test_file_w_option_empty
@@ -289,8 +347,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file3], "-o": self.test_out},
-                               "-z", "-w")
+        self.args_array.update({"-f": [self.log_file3], "-o": self.test_out,
+                               "-z": True, "-w": True})
         check_log.run_program(self.args_array)
 
         self.assertFalse(os.path.isfile(self.test_out))
