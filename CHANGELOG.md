@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.1.0] - 2020-02-05
 ### Changed
+- log_2_output:  Added -w option not to write no data to a log file.
 - main:  Removed output file being checked and created immediately at start of program.
 - Documentation update.
 
