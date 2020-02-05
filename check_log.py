@@ -369,6 +369,10 @@ def main():
     # Set default search logic.
     if "-S" in args_array.keys() and "-k" not in args_array.keys():
         args_array["-k"] = "or"
+    
+    # Set default write file mode.
+    if "-g" in not in args_array.keys():
+        args_array["-g"] = "w"
 
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
