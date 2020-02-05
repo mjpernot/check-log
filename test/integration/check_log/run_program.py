@@ -76,9 +76,9 @@ class UnitTest(unittest.TestCase):
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
         filename1 = "run_program_base_file.txt"
         filename2 = "run_program_base_file2.txt"
+        filename3 = "run_program_base_file3.txt"
         logname1 = "run_program_file.txt"
         logname2 = "run_program_file2.txt"
-        logname3 = "full_chk_empty.txt"
         base_marker = "run_program_entry_file.txt"
         base_marker2 = "run_program_stdin_entry_file.txt"
         self.base_marker3 = "run_program_entry_file2.txt"
@@ -92,7 +92,7 @@ class UnitTest(unittest.TestCase):
         self.file_marker2 = os.path.join(self.test_path, base_marker2)
         self.log_file1 = os.path.join(self.test_path, logname1)
         self.log_file2 = os.path.join(self.test_path, logname2)
-        self.log_file3 = os.path.join(self.test_path, logname3)
+        self.log_file3 = os.path.join(self.test_path, filename3)
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
 
