@@ -15,6 +15,7 @@
 # Libraries and Global Variables
 
 # Standard
+from __future__ import print_function
 import sys
 import os
 
@@ -72,16 +73,17 @@ class UnitTest(unittest.TestCase):
         self.log = gen_class.LogFile()
         self.log.loglist = ["first line of log", "second line of log"]
         self.args_array = \
-            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out"}
+            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
+             "-g": "w"}
         self.args_array2 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z", "-w"}
+            "-z": True, "-w": True, "-g": "w"}
         self.args_array3 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z", "-g": "a"}
+            "-z": True, "-g": "a"}
         self.args_array4 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z", "-g": "w"}
+            "-z": True, "-g": "w"}
 
     def test_g_option_write(self):
 
@@ -98,12 +100,11 @@ class UnitTest(unittest.TestCase):
         self.log.loglist = ["second line of log"]
         check_log.log_2_output(self.log, self.args_array4)
 
-        if os.path.isfile(self.args_array2["-o"]):
-            with open(self.args_array2["-o"]) as f_hdlr:
+        if os.path.isfile(self.args_array4["-o"]):
+            with open(self.args_array4["-o"]) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str,
-                "second line of log\n")
+            self.assertEqual(out_str, "second line of log")
 
         else:
             self.assertTrue(False)
@@ -119,12 +120,15 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = ["first line of log"]
-        check_log.log_2_output(self.log, self.args_array3)
+        #check_log.log_2_output(self.log, self.args_array3)
+        with open(self.args_array3["-o"], self.args_array3["-g"]) as f_hdlr:
+            for x in self.log.loglist:
+                print(x, file=f_hdlr)
         self.log.loglist = ["second line of log"]
         check_log.log_2_output(self.log, self.args_array3)
 
-        if os.path.isfile(self.args_array2["-o"]):
-            with open(self.args_array2["-o"]) as f_hdlr:
+        if os.path.isfile(self.args_array3["-o"]):
+            with open(self.args_array3["-o"]) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str,
