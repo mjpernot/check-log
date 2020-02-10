@@ -45,6 +45,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Unit testing initilization.
+        test_g_option_write -> Test with -g option with write value.
         test_g_option_append -> Test with -g option with append value.
         test_w_option_data_log -> Test with -w option and data log.
         test_w_option_empty_log -> Test with -w option and empty log.
