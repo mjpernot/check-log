@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.0] - 2020-02-05
+### Changed
+- log_2_output:  Changed the file mode on the output log file to be dynamic.
+- log_2_output:  Added -w option not to write no data to a log file.
+- main:  Added -g option and set default write file mode.
+- main:  Removed output file being checked and created immediately at start of program.
+- Documentation update.
+
+
 ## [3.0.0] - 2019-11-25
 Breaking Change
 - Integrating the gen_class.LogFile class into the program.
