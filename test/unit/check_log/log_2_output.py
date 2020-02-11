@@ -78,13 +78,13 @@ class UnitTest(unittest.TestCase):
              "-g": "w"}
         self.args_array2 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z": True, "-w": True, "-g": "w"}
+             "-z": True, "-w": True, "-g": "w"}
         self.args_array3 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z": True, "-g": "a"}
+             "-z": True, "-g": "a"}
         self.args_array4 = \
             {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-            "-z": True, "-g": "w"}
+             "-z": True, "-g": "w"}
 
     def test_g_option_write(self):
 
@@ -122,7 +122,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = ["first line of log"]
-        #check_log.log_2_output(self.log, self.args_array3)
+        # check_log.log_2_output(self.log, self.args_array3)
         with open(self.args_array3["-o"], self.args_array3["-g"]) as f_hdlr:
             for x in self.log.loglist:
                 print(x, file=f_hdlr)
@@ -134,7 +134,7 @@ class UnitTest(unittest.TestCase):
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str,
-                "first line of log\nsecond line of log\n")
+                             "first line of log\nsecond line of log\n")
 
         else:
             self.assertTrue(False)
