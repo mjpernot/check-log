@@ -126,13 +126,13 @@ class UnitTest(unittest.TestCase):
                   % (self.err_msg))
             self.skipTest("Pre-conditions not met.")
 
-        self.args_array = {"-f": [self.log_file1, self.log_file2]}
+        self.args_array = {"-f": [self.log_file1, self.log_file2], "-g": "w"}
         self.args_array2 = {"-f": [self.log_file1, self.log_file2],
                             "-S": ["third", "line"], "-k": "and",
-                            "-o": self.test_out}
+                            "-o": self.test_out, "-g": "w"}
         self.args_array3 = {"-f": [self.log_file1, self.log_file2],
                             "-S": ["sixth", "new"], "-k": "or",
-                            "-o": self.test_out}
+                            "-o": self.test_out, "-g": "w"}
 
     def test_search_or(self):
 
@@ -205,7 +205,8 @@ class UnitTest(unittest.TestCase):
 
         mock_atty.isatty.return_value = False
         args_array = {"-o": self.test_out, "-n": True, "-z": True,
-                      "-m": os.path.join(self.test_path, self.base_marker3)}
+                      "-m": os.path.join(self.test_path, self.base_marker3),
+                      "-g": "w"}
 
         check_log.run_program(args_array)
 
@@ -363,8 +364,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file2], "-o": self.test_out},
-                               "-z", "-w")
+        self.args_array.update({"-f": [self.log_file2], "-o": self.test_out,
+                               "-z": True, "-w": True, "-g": "w"})
         check_log.run_program(self.args_array)
 
         if os.path.isfile(self.test_out):
@@ -432,7 +433,7 @@ class UnitTest(unittest.TestCase):
 
         mock_atty.isatty.return_value = False
         args_array = {"-o": self.test_out, "-m": self.file_marker2, "-n": True,
-                      "-z": True}
+                      "-z": True, "-g": "w"}
 
         check_log.run_program(args_array)
 
@@ -458,7 +459,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-        args_array = {"-o": self.test_out, "-z": True}
+        args_array = {"-o": self.test_out, "-z": True, "-g": "w"}
 
         check_log.run_program(args_array)
 
