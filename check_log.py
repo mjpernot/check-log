@@ -203,11 +203,10 @@ def log_2_output(log, args_array, **kwargs):
         mail.send_mail()
 
     # Write output to file.
-    if "-o" in args_array:
-        if log.loglist or "-w" not in args_array:
-            with open(args_array["-o"], args_array["-g"]) as f_hdlr:
-                for x in log.loglist:
-                    print(x, file=f_hdlr)
+    if "-o" in args_array and (log.loglist or "-w" not in args_array):
+        with open(args_array["-o"], args_array["-g"]) as f_hdlr:
+            for x in log.loglist:
+                print(x, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
