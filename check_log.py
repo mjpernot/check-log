@@ -13,7 +13,7 @@
     Usage:
         check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
             | -m file | -o file | -n | -r | -c | -y flavor_id | -z
-            | -S {keyword1 keyword2 ...}]
+            | -S {keyword1 keyword2 ...} | -g {a|w} | -w]
             [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
 
         standard in | check_log.py ...
@@ -40,15 +40,15 @@
         -S keyword(s) => Search for keywords.  List of keywords are
             space-delimited and are case-insensitive.
         -k "and"|"or" => Keyword search logic.  Default is "or".
+        -g "a"|"w" => Append or write (overwrite) to a log file.  Default is w.
+        -w => No write if empty.  Do not write to a file if no data was found.
         -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
         -v => Display version of this program.
         -h => Help and usage message.
 
         NOTE 1:  -v or -h overrides the other options.
-
         NOTE 2:  -c requires -m option to be included.
-
         NOTE 3:  -s requires -t option to be included.
 
         NOTE 4:  Regex expression formatting: Uses standard regex formatting.
@@ -203,8 +203,8 @@ def log_2_output(log, args_array, **kwargs):
         mail.send_mail()
 
     # Write output to file.
-    if "-o" in args_array:
-        with open(args_array["-o"], "w") as f_hdlr:
+    if "-o" in args_array and (log.loglist or "-w" not in args_array):
+        with open(args_array["-o"], args_array["-g"]) as f_hdlr:
             for x in log.loglist:
                 print(x, file=f_hdlr)
 
@@ -354,12 +354,12 @@ def main():
 
     """
 
-    file_chk_list = ["-f", "-i", "-m", "-o", "-F"]
-    file_crt_list = ["-m", "-o"]
+    file_chk_list = ["-f", "-i", "-m", "-F"]
+    file_crt_list = ["-m"]
     opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k"]
-    opt_valid_val = {"-k": ["and", "or"]}
+    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+    opt_valid_val = {"-k": ["and", "or"], "-g": {"a", "w"}}
 
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
@@ -368,6 +368,10 @@ def main():
     # Set default search logic.
     if "-S" in args_array.keys() and "-k" not in args_array.keys():
         args_array["-k"] = "or"
+
+    # Set default write file mode.
+    if "-g" not in args_array.keys():
+        args_array["-g"] = "w"
 
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \

@@ -103,6 +103,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array["-o"] = self.file_name
+        self.args_array["-g"] = "w"
 
         with gen_libs.no_std_out():
             check_log.log_2_output(self.log, self.args_array)
