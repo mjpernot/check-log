@@ -359,7 +359,7 @@ def main():
     opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
-    opt_valid_val = {"-k": ["and", "or"], "-g": {"a", "w"}}
+    opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
 
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
