@@ -6,8 +6,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.1.1] - 2020-02-14
 ### Fixed
-- main:  Fixed incorrect format for opt_valid_val variable.
--   Note:  This fix is only required for Python 2.6.6, old code will work in Python 2.7.5 and above.
+- main:  Fixed a formatting issue with the opt_valid_val variable.
+-   NOTE:  This fix is only required for Python 2.6.6.  Original code will work in Python 2.7.5 without issue.
 
 
 ## [3.1.0] - 2020-02-05
