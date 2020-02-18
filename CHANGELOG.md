@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.1] - 2020-02-14
+### Fixed
+- main:  Fixed a formatting issue with the opt_valid_val variable.
+-   NOTE:  This fix is only required for Python 2.6.6.  Original code will work in Python 2.7.5 without issue.
+
+
 ## [3.1.0] - 2020-02-05
 ### Changed
 - log_2_output:  Changed the file mode on the output log file to be dynamic.
