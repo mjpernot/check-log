@@ -8,6 +8,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Added
 - \_\_init\_\_.py:  Added file to allow check_log to support other programs as a library module
 
+### Changed
+- setup.py:  Added py_modules section to allow check_log to be pip installed.
+
 
 ## [3.1.1] - 2020-02-14
 ### Fixed
