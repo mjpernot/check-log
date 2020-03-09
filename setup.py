@@ -34,6 +34,11 @@ setuptools.setup(
     platforms=["Linux"],
     long_description=LONG_DESCRIPTION,
 
+    py_modules=[
+        "check_log",
+        "__init__",
+        "version"],
+
     classifiers=[
         # Common Values:
         #  1 - Pre-Alpha
