@@ -111,27 +111,15 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 # Unit test runs for check_log.py:
   * Replace **{Python_Project}** with the baseline path of the python program.
 
+### Unit testing:
 ```
 cd {Python_Project}/check-log
-test/unit/check_log/fetch_log.py
-test/unit/check_log/fetch_log_stdin.py
-test/unit/check_log/find_marker.py
-test/unit/check_log/full_chk.py
-test/unit/check_log/help_message.py
-test/unit/check_log/load_attributes.py
-test/unit/check_log/log_2_output.py
-test/unit/check_log/main.py
-test/unit/check_log/run_program.py
-test/unit/check_log/update_marker.py
-```
-
-### All unit testing
-```
 test/unit/check_log/unit_test_run.sh
 ```
 
-### Code coverage program
+### Code coverage unit testing:
 ```
+cd {Python_Project}/check-log
 test/unit/check_log/code_coverage.sh
 ```
 
@@ -170,25 +158,15 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 # Integration test runs for check_log.py:
   * Replace **{Python_Project}** with the baseline path of the python program.
 
+### Integration testing:
 ```
 cd {Python_Project}/check-log
-test/integration/check_log/fetch_log.py
-test/integration/check_log/fetch_log_stdin.py
-test/integration/check_log/find_marker.py
-test/integration/check_log/full_chk.py
-test/integration/check_log/log_2_output.py
-test/integration/check_log/main.py
-test/integration/check_log/run_program.py
-test/integration/check_log/update_marker.py
-```
-
-### All integration testing
-```
 test/integration/check_log/integration_test_run.sh
 ```
 
-### Code coverage program
+### Code coverage integration testing:
 ```
+cd {Python_Project}/check-log
 test/integration/check_log/code_coverage.sh
 ```
 
@@ -227,12 +205,9 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 # Blackbox test run for check_log.py:
   * Replace **{Python_Project}** with the baseline path of the python program.
 
+### Blackbox:testing:  
 ```
 cd {Python_Project}/check-log
-```
-
-### Blackbox:  
-```
 test/blackbox/check_log/blackbox_test.sh
 ```
 
