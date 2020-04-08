@@ -360,9 +360,10 @@ def main():
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
+    cmdline = gen_libs.get_inst(sys)
 
     # Process argument list from command line.
-    args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
+    args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
     # Set default search logic.
@@ -380,7 +381,7 @@ def main():
        and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
-            prog_lock = gen_class.ProgramLock(sys.argv,
+            prog_lock = gen_class.ProgramLock(cmdline.argv,
                                               args_array.get("-y", ""))
             run_program(args_array)
             del prog_lock
