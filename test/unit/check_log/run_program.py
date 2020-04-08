@@ -78,7 +78,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array["-c"] = True
-        self.args_array["-m"] = "/tmp/markerfile"
+        self.args_array["-m"] = "/opt/local/check-log/markerfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -100,7 +100,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = "/opt/local/check-log/logfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -121,7 +121,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = "/opt/local/check-log/logfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -154,7 +154,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = "/opt/local/check-log/logfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
