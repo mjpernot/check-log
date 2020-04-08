@@ -110,7 +110,6 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertTrue(False)
 
-    @unittest.skip("Program works fine, but test fails to append data.")
     def test_g_option_append(self):
 
         """Function:  test_g_option_append
@@ -122,19 +121,16 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = ["first line of log"]
-        # check_log.log_2_output(self.log, self.args_array3)
-        with open(self.args_array3["-o"], self.args_array3["-g"]) as f_hdlr:
-            for x in self.log.loglist:
-                print(x, file=f_hdlr)
+        check_log.log_2_output(self.log, self.args_array3)
         self.log.loglist = ["second line of log"]
         check_log.log_2_output(self.log, self.args_array3)
 
         if os.path.isfile(self.args_array3["-o"]):
             with open(self.args_array3["-o"]) as f_hdlr:
-                out_str = f_hdlr.readline().rstrip()
+                out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str,
-                             "first line of log\nsecond line of log\n")
+                             "first line of log\nsecond line of log")
 
         else:
             self.assertTrue(False)
