@@ -262,7 +262,9 @@ def fetch_log_stdin(log, **kwargs):
 
     """
 
-    for ln in sys.stdin:
+    inst = gen_libs.get_inst(sys)
+
+    for ln in inst.stdin:
         log.load_loglist(str(ln))
 
 
