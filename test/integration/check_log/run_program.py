@@ -104,7 +104,7 @@ class UnitTest(unittest.TestCase):
 
         if not status:
             print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
+                  % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
         status, err_msg = gen_libs.cp_file(filename1, self.test_path,
@@ -113,7 +113,7 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(self.file_marker)
             print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
+                  % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
             os.remove(self.file_marker)
             os.remove(self.log_file1)
             print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
+                  % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
         self.args_array = {"-f": [self.log_file1, self.log_file2], "-g": "w"}
@@ -297,7 +297,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
-                               "-z": True, "-g": "w"})
+                                "-z": True, "-g": "w"})
         check_log.run_program(self.args_array)
         self.args_array["-f"] = [self.log_file5]
         check_log.run_program(self.args_array)
@@ -323,7 +323,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
-                               "-z": True, "-g": "a"})
+                                "-z": True, "-g": "a"})
         check_log.run_program(self.args_array)
         self.args_array["-f"] = [self.log_file5]
         check_log.run_program(self.args_array)
@@ -349,7 +349,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array.update({"-f": [self.log_file3], "-o": self.test_out,
-                               "-z": True, "-w": True})
+                                "-z": True, "-w": True})
         check_log.run_program(self.args_array)
 
         self.assertFalse(os.path.isfile(self.test_out))
@@ -365,7 +365,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array.update({"-f": [self.log_file2], "-o": self.test_out,
-                               "-z": True, "-w": True, "-g": "w"})
+                                "-z": True, "-w": True, "-g": "w"})
         check_log.run_program(self.args_array)
 
         if os.path.isfile(self.test_out):
