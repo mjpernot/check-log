@@ -68,6 +68,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.prt_format = "ERROR:  Test environment setup failed. Message: %s"
+        self.skip_msg = "Pre-conditions not met."
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
         filename1 = "main_base_file.txt"
@@ -88,18 +90,16 @@ class UnitTest(unittest.TestCase):
                                            self.test_path, marker_name)
 
         if not status:
-            print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
-            self.skipTest("Pre-conditions not met.")
+            print(self.prt_format % (self.err_msg))
+            self.skipTest(self.skip_msg)
 
         status, err_msg = gen_libs.cp_file(filename1, self.test_path,
                                            self.test_path, logname1)
 
         if not status:
             os.remove(self.file_marker)
-            print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
-            self.skipTest("Pre-conditions not met.")
+            print(self.prt_format % (self.err_msg))
+            self.skipTest(self.skip_msg)
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
                                            self.test_path, logname2)
@@ -107,9 +107,8 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(self.file_marker)
             os.remove(self.log_file1)
-            print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
-            self.skipTest("Pre-conditions not met.")
+            print(self.prt_format % (self.err_msg))
+            self.skipTest(self.skip_msg)
 
         self.argv_list = [os.path.join(self.base_dir, "main.py")]
 
