@@ -71,20 +71,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.line1 = "first line of log"
+        self.line2 = "second line of log"
+        self.outfile = "test/unit/check_log/testfiles/log_2_output_file.out"
         self.log = gen_class.LogFile()
-        self.log.loglist = ["first line of log", "second line of log"]
-        self.args_array = \
-            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-             "-g": "w"}
-        self.args_array2 = \
-            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-             "-z": True, "-w": True, "-g": "w"}
-        self.args_array3 = \
-            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-             "-z": True, "-g": "a"}
-        self.args_array4 = \
-            {"-o": "test/unit/check_log/testfiles/log_2_output_file.out",
-             "-z": True, "-g": "w"}
+        self.log.loglist = [self.line1, self.line2]
+        self.args_array = {"-o": self.outfile, "-g": "w"}
+        self.args_array2 = {"-o": self.outfile, "-z": True, "-w": True,
+                            "-g": "w"}
+        self.args_array3 = {"-o": self.outfile, "-z": True, "-g": "a"}
+        self.args_array4 = {"-o": self.outfile, "-z": True, "-g": "w"}
+        self.msg = "Email Addresses"
 
     def test_g_option_write(self):
 
@@ -96,16 +93,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.log.loglist = ["first line of log"]
+        self.log.loglist = [self.line1]
         check_log.log_2_output(self.log, self.args_array4)
-        self.log.loglist = ["second line of log"]
+        self.log.loglist = [self.line2]
         check_log.log_2_output(self.log, self.args_array4)
 
         if os.path.isfile(self.args_array4["-o"]):
             with open(self.args_array4["-o"]) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str, "second line of log")
+            self.assertEqual(out_str, self.line2)
 
         else:
             self.assertTrue(False)
@@ -120,9 +117,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.log.loglist = ["first line of log"]
+        self.log.loglist = [self.line1]
         check_log.log_2_output(self.log, self.args_array3)
-        self.log.loglist = ["second line of log"]
+        self.log.loglist = [self.line2]
         check_log.log_2_output(self.log, self.args_array3)
 
         if os.path.isfile(self.args_array3["-o"]):
@@ -174,7 +171,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": "Email Addresses", "-z": True}
+        self.args_array = {"-t": self.msg, "-z": True}
 
         self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
@@ -190,7 +187,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": "Email Addresses", "-s": "Subject Line"}
+        self.args_array = {"-t": self.msg, "-s": "Subject Line"}
 
         with gen_libs.no_std_out():
             self.assertFalse(check_log.log_2_output(self.log, self.args_array))
@@ -207,7 +204,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array["-t"] = "Email Addresses"
+        self.args_array["-t"] = self.msg
 
         with gen_libs.no_std_out():
             check_log.log_2_output(self.log, self.args_array)
@@ -226,7 +223,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": "Email Addresses"}
+        self.args_array = {"-t": self.msg}
 
         with gen_libs.no_std_out():
             self.assertFalse(check_log.log_2_output(self.log, self.args_array))
