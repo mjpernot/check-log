@@ -60,17 +60,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.line6 = "This is the sixth line"
+        self.line7 = "This is the seventh line"
         data = ["This is the first line", "This is the second line",
                 "This is the third line", "This is the fourth line",
-                "This is the fifth line", "This is the sixth line",
-                "This is the seventh line"]
+                "This is the fifth line", self.line6, self.line7]
         self.log = gen_class.LogFile()
         self.log.loglist = data
-        self.result = ["This is the fourth line",
-                       "This is the fifth line",
-                       "This is the sixth line",
-                       "This is the seventh line"]
-        self.result2 = ["This is the seventh line"]
+        self.result = ["This is the fourth line", "This is the fifth line",
+                       self.line6, self.line7]
+        self.result2 = [self.line7]
         self.result3 = data
 
     def test_empty_ln_marker(self):
@@ -112,7 +111,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.log.marker = "This is the sixth line"
+        self.log.marker = self.line6
         check_log.find_marker(self.log)
 
         self.assertEqual(self.log.loglist, self.result2)
