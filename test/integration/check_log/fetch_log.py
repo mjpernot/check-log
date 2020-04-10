@@ -73,7 +73,7 @@ class UnitTest(unittest.TestCase):
 
         if not status:
             print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
+                  % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
@@ -82,7 +82,7 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(os.path.join(self.test_path, self.logname1))
             print("ERROR:  Test environment setup failed. Message: %s"
-                  % (self.err_msg))
+                  % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
         self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
