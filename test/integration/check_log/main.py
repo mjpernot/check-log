@@ -90,7 +90,7 @@ class UnitTest(unittest.TestCase):
                                            self.test_path, marker_name)
 
         if not status:
-            print(self.prt_format % (self.err_msg))
+            print(self.prt_format % (err_msg))
             self.skipTest(self.skip_msg)
 
         status, err_msg = gen_libs.cp_file(filename1, self.test_path,
@@ -98,7 +98,7 @@ class UnitTest(unittest.TestCase):
 
         if not status:
             os.remove(self.file_marker)
-            print(self.prt_format % (self.err_msg))
+            print(self.prt_format % (err_msg))
             self.skipTest(self.skip_msg)
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
@@ -107,7 +107,7 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(self.file_marker)
             os.remove(self.log_file1)
-            print(self.prt_format % (self.err_msg))
+            print(self.prt_format % (err_msg))
             self.skipTest(self.skip_msg)
 
         self.argv_list = [os.path.join(self.base_dir, "main.py")]
@@ -343,8 +343,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argv_list.extend(["-f",
-                              os.path.join(self.test_path, "main_dummy.txt")])
+        self.argv_list.extend(["-f", os.path.join(self.test_path,
+                                                  "main_dummy.txt")])
         cmdline = gen_libs.get_inst(sys)
         cmdline.argv = self.argv_list
 
