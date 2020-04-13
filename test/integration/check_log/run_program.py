@@ -102,10 +102,11 @@ class UnitTest(unittest.TestCase):
         status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
                                            self.test_path, marker_name)
         self.prt_format = "ERROR:  Test environment setup failed. Message: %s"
+        self.pre_cond = "Pre-conditions not met."
 
         if not status:
             print(prt_format % (err_msg))
-            self.skipTest("Pre-conditions not met.")
+            self.skipTest(self.pre_cond)
 
         status, err_msg = gen_libs.cp_file(filename1, self.test_path,
                                            self.test_path, logname1)
@@ -113,7 +114,7 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(self.file_marker)
             print(prt_format % (err_msg))
-            self.skipTest("Pre-conditions not met.")
+            self.skipTest(self.pre_cond)
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
                                            self.test_path, logname2)
@@ -122,7 +123,7 @@ class UnitTest(unittest.TestCase):
             os.remove(self.file_marker)
             os.remove(self.log_file1)
             print(prt_format  % (err_msg))
-            self.skipTest("Pre-conditions not met.")
+            self.skipTest(self.pre_cond)
 
         self.args_array = {"-f": [self.log_file1, self.log_file2], "-g": "w"}
         self.args_array2 = {"-f": [self.log_file1, self.log_file2],
