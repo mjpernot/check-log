@@ -106,7 +106,7 @@ class UnitTest(unittest.TestCase):
         self.pre_cond = "Pre-conditions not met."
 
         if not status:
-            print(prt_format % (err_msg))
+            print(self.prt_format % (err_msg))
             self.skipTest(self.pre_cond)
 
         status, err_msg = gen_libs.cp_file(filename1, self.test_path,
@@ -114,7 +114,7 @@ class UnitTest(unittest.TestCase):
 
         if not status:
             os.remove(self.file_marker)
-            print(prt_format % (err_msg))
+            print(self.prt_format % (err_msg))
             self.skipTest(self.pre_cond)
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
         if not status:
             os.remove(self.file_marker)
             os.remove(self.log_file1)
-            print(prt_format  % (err_msg))
+            print(self.prt_format  % (err_msg))
             self.skipTest(self.pre_cond)
 
         self.args_array = {"-f": [self.log_file1, self.log_file2], "-g": "w"}
