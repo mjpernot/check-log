@@ -74,6 +74,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.line3 = "This is the third line"
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
         filename1 = "run_program_base_file.txt"
@@ -172,7 +173,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str, "This is the third line")
+            self.assertEqual(out_str, self.line3)
 
         else:
             self.assertTrue(False)
@@ -237,7 +238,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str, "This is the third line")
+            self.assertEqual(out_str, self.line3)
 
         else:
             self.assertTrue(False)
@@ -261,7 +262,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str, "This is the third line")
+            self.assertEqual(out_str, self.line3)
 
         else:
             self.assertTrue(False)
