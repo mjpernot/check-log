@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import check_log
-import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
 
