@@ -107,13 +107,13 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-### Unit testing:
+### Testing:
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/unit_test_run.sh
 ```
 
-### Code coverage testing:
+### Code Coverage:
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/code_coverage.sh
@@ -151,13 +151,13 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-### Integration testing:
+### Testing:
 ```
 cd {Python_Project}/check-log
 test/integration/check_log/integration_test_run.sh
 ```
 
-### Code coverage testing:
+### Code Coverage:
 ```
 cd {Python_Project}/check-log
 test/integration/check_log/code_coverage.sh
@@ -195,7 +195,7 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-### Blackbox:testing:  
+### Testing:  
 ```
 cd {Python_Project}/check-log
 test/blackbox/check_log/blackbox_test.sh
