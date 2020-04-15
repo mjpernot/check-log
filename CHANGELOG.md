@@ -5,7 +5,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [3.1.3] - 2020-04-07
-###Fixed
+### Changed
+- Removed "re" module, not required any more.
+- Documentation update.
+
+### Fixed
 - fetch_log_stdin:  Fixed handling command standard in from SonarQube scan finding.
 - main:  Fixed handling command line arguments from SonarQube scan finding.
 
