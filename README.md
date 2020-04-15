@@ -22,13 +22,12 @@
   * Filter out specific entries.
   * Regular expression capability for message searching.
   * Keyword searching of files using 'and|or' search logic.
+  * Can search gzipped files.
 
 
 # Prerequisites:
 
   * List of Linux packages that need to be installed on the server.
-    - python-libs
-    - python-devel
     - git
     - python-pip
 
