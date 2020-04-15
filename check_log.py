@@ -61,13 +61,13 @@
                 2017-04-04T11:24:32.345+0000
 
             Regex format string:
-                \d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+0000
+                \\d{4}\\-\\d{2}\\-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000
 
             Example of checking for a date or time format such as:
                 2017-04-04
                 22:24:32
             Regex format strings:
-                \d{4}\-\d{2}\-\d{2}|d{2}:\d{2}:\d{2}
+                \\d{4}\\-\\d{2}\\-\\d{2}|d{2}:\\d{2}:\\d{2}
 
         NOTE 5:  The log files can be normal flat files or compressed files
             (e.g. ending with .gz) or a combination there of.  Any other type
@@ -89,7 +89,6 @@
 from __future__ import print_function
 import sys
 import os
-import re
 import socket
 import getpass
 
