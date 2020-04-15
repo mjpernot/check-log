@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import check_log
-import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
 
@@ -65,6 +64,7 @@ class UnitTest(unittest.TestCase):
         self.args_array = {}
         self.log = gen_class.LogFile()
         self.log.loglist = ["Testdata"]
+        self.log_file = "/opt/local/check-log/logfile"
 
     @mock.patch("check_log.gen_libs.clear_file", mock.Mock(return_value=True))
     def test_clear_option(self):
@@ -78,7 +78,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.args_array["-c"] = True
-        self.args_array["-m"] = "/tmp/markerfile"
+        self.args_array["-m"] = "/opt/local/check-log/markerfile"
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -100,7 +100,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = self.log_file
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -121,7 +121,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = self.log_file
 
         self.assertFalse(check_log.run_program(self.args_array))
 
@@ -154,7 +154,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-f"] = "/tmp/logfile"
+        self.args_array["-f"] = self.log_file
 
         self.assertFalse(check_log.run_program(self.args_array))
 

@@ -68,10 +68,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args = {"-f": "File Place Holder", "-c": True}
-        self.args2 = {"-f": "File Place Holder", "-c": True, "-S": ["a"]}
-        self.args3 = {"-f": "File Place Holder", "-c": True, "-S": ["a"],
-                      "-k": "and"}
+        self.key_msg = "File Place Holder"
+        self.args = {"-f": self.key_msg, "-c": True}
+        self.args2 = {"-f": self.key_msg, "-c": True, "-S": ["a"]}
+        self.args3 = {"-f": self.key_msg, "-c": True, "-S": ["a"], "-k": "and"}
 
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.arg_parser.arg_parse2")

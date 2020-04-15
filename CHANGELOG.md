@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.3] - 2020-04-07
+### Changed
+- Removed "re" module, not required any more.
+- Documentation update.
+
+### Fixed
+- fetch_log_stdin:  Fixed handling command standard in from SonarQube scan finding.
+- main:  Fixed handling command line arguments from SonarQube scan finding.
+
+
 ## [3.1.2] - 2020-03-04
 ### Added
 - \_\_init\_\_.py:  Added file to allow check_log to support other programs as a library module

@@ -24,12 +24,10 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
 import check_log
-import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
 
@@ -93,7 +91,7 @@ class UnitTest(unittest.TestCase):
         self.args_array["-F"] = "test/unit/check_log/testfiles/loadregex.txt"
         check_log.load_attributes(self.log, self.args_array)
 
-        self.assertEqual(self.log.regex, "\d{4}\-\d{2}\-\d{2}")
+        self.assertEqual(self.log.regex, "\\d{4}\\-\\d{2}\\-\\d{2}")
 
     def test_load_marker(self):
 
