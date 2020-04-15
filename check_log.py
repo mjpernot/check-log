@@ -61,13 +61,13 @@
                 2017-04-04T11:24:32.345+0000
 
             Regex format string:
-                \d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+0000
+                \\d{4}\\-\\d{2}\\-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000
 
             Example of checking for a date or time format such as:
                 2017-04-04
                 22:24:32
             Regex format strings:
-                \d{4}\-\d{2}\-\d{2}|d{2}:\d{2}:\d{2}
+                \\d{4}\\-\\d{2}\\-\\d{2}|d{2}:\\d{2}:\\d{2}
 
         NOTE 5:  The log files can be normal flat files or compressed files
             (e.g. ending with .gz) or a combination there of.  Any other type
@@ -89,7 +89,6 @@
 from __future__ import print_function
 import sys
 import os
-import re
 import socket
 import getpass
 
@@ -262,7 +261,9 @@ def fetch_log_stdin(log, **kwargs):
 
     """
 
-    for ln in sys.stdin:
+    inst = gen_libs.get_inst(sys)
+
+    for ln in inst.stdin:
         log.load_loglist(str(ln))
 
 
@@ -360,9 +361,10 @@ def main():
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
+    cmdline = gen_libs.get_inst(sys)
 
     # Process argument list from command line.
-    args_array = arg_parser.arg_parse2(sys.argv, opt_val_list,
+    args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
     # Set default search logic.
@@ -380,7 +382,7 @@ def main():
        and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
         try:
-            prog_lock = gen_class.ProgramLock(sys.argv,
+            prog_lock = gen_class.ProgramLock(cmdline.argv,
                                               args_array.get("-y", ""))
             run_program(args_array)
             del prog_lock
