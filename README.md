@@ -107,16 +107,15 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-# Unit test runs for check_log.py:
+### Unit testing:
   * Replace **{Python_Project}** with the baseline path of the python program.
 
-### Unit testing:
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/unit_test_run.sh
 ```
 
-### Code coverage unit testing:
+### Code coverage testing:
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/code_coverage.sh
@@ -154,16 +153,15 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-# Integration test runs for check_log.py:
+### Integration testing:
   * Replace **{Python_Project}** with the baseline path of the python program.
 
-### Integration testing:
 ```
 cd {Python_Project}/check-log
 test/integration/check_log/integration_test_run.sh
 ```
 
-### Code coverage integration testing:
+### Code coverage testing:
 ```
 cd {Python_Project}/check-log
 test/integration/check_log/code_coverage.sh
@@ -201,10 +199,9 @@ Install supporting classes and libraries.
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
-# Blackbox test run for check_log.py:
+### Blackbox:testing:  
   * Replace **{Python_Project}** with the baseline path of the python program.
 
-### Blackbox:testing:  
 ```
 cd {Python_Project}/check-log
 test/blackbox/check_log/blackbox_test.sh
