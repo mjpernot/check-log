@@ -108,8 +108,6 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 ```
 
 ### Unit testing:
-  * Replace **{Python_Project}** with the baseline path of the python program.
-
 ```
 cd {Python_Project}/check-log
 test/unit/check_log/unit_test_run.sh
@@ -154,8 +152,6 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 ```
 
 ### Integration testing:
-  * Replace **{Python_Project}** with the baseline path of the python program.
-
 ```
 cd {Python_Project}/check-log
 test/integration/check_log/integration_test_run.sh
@@ -200,8 +196,6 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 ```
 
 ### Blackbox:testing:  
-  * Replace **{Python_Project}** with the baseline path of the python program.
-
 ```
 cd {Python_Project}/check-log
 test/blackbox/check_log/blackbox_test.sh
