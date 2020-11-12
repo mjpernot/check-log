@@ -12,6 +12,8 @@ pipeline {
                     git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git"
                 }
                 sh """
+                virtualenv test_env
+                source test_env/bin/activate
                 pip2 install mock==2.0.0 --user
                 ./test/unit/check_log/fetch_log.py
                 ./test/unit/check_log/fetch_log_stdin.py
@@ -23,6 +25,8 @@ pipeline {
                 ./test/unit/check_log/main.py
                 ./test/unit/check_log/run_program.py
                 ./test/unit/check_log/update_marker.py
+                deactivate
+                rm -rf test_env
                 """
             }
         }
@@ -43,32 +47,32 @@ pipeline {
             steps {
                 script {
                     server = Artifactory.server('Artifactory')
-                    server.credentialsId = 'svc-highpoint-artifactory'
+                    server.credentialsId = 'art-svc-highpoint-dev'
                     uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "./*.py",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/check-log/"
+                                "target": "pypi-proj-local/highpoint/check-log/"
                             },
                             {
                                 "pattern": "./*.txt",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/check-log/"
+                                "target": "pypi-proj-local/highpoint/check-log/"
                             },
                             {
                                 "pattern": "./*.md",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/check-log/"
+                                "target": "pypi-proj-local/highpoint/check-log/"
                             },
                             {
                                 "pattern": "*.TEMPLATE",
                                 "recursive": true,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/check-log/config/"
+                                "target": "pypi-proj-local/highpoint/check-log/config/"
                             }
                         ]
                     }"""
