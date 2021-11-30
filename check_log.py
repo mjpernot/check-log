@@ -11,10 +11,14 @@
         See -F, -S, and -i options below for further details.
 
     Usage:
-        check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
-            | -m file | -o file | -n | -r | -c | -y flavor_id | -z
-            | -S {keyword1 keyword2 ...} | -g {a|w} | -w]
-            [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
+        check_log.py [-f {file* file1 file2 ...}] |
+            -F file |
+            -S {keyword1 keyword2 ...} {-k "and"|"or"} |
+            -m file {-n} {-c} {-r} |
+            -t email {email2 email3 ...} {-s subject_line} {-u} |
+            -o file {-g {a|w}} {-w} |
+            -i file | -y flavor_id | -z ]
+           [-v | -h]
 
         standard in | check_log.py ...
 
@@ -22,28 +26,36 @@
         -f file(s) => Name(s) of the log files to check.  Can also use
             wildcard expansion for file names.  Can include both normal
             flat files or .gz compressed files.
+
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
             filter out data that does not match the regex string.  If
             multiple regex expressions are present will use "or" logic.
             See NOTES below for formatting of regex expressions.
+
+        -S keyword(s) => Search for keywords.  List of keywords are
+                space-delimited and are case-insensitive.
+            -k "and"|"or" => Keyword search logic.  Default is "or".
+
+        -m file => Name of the file that contains marker tag in file.
+            -n => Flag option not to update the marker file.
+            -c => Flag option to clear the contents in the marker file.
+            -r => Flag option to recheck the entire log file.
+
         -t email_address(es) => Send output to one or more email addresses.
-        -s subject_line => Subject line of email.  Requires -t option.
+            -s subject_line => Subject line of email.
+            -u => Override the default mail command and use mailx.
+
+        -o file => Name of the out file.
+            -g "a"|"w" => Append or write/overwrite to a log file. Default: w.
+            -w => No write if empty.  Do not write to a file if no data was
+                found.
+
         -i file => Name of the file that contains entries to be ignored.  The
             entries are case-insensitive.
-        -m file => Name of the file that contains marker tag in file.
-        -o file => Name of the out file.
-        -n => Flag option not to update the marker file.
-        -r => Flag option to recheck the entire log file.
-        -c => Flag option to clear the contents in the marker file.  Requires
-            -m option.
-        -S keyword(s) => Search for keywords.  List of keywords are
-            space-delimited and are case-insensitive.
-        -k "and"|"or" => Keyword search logic.  Default is "or".
-        -g "a"|"w" => Append or write (overwrite) to a log file.  Default is w.
-        -w => No write if empty.  Do not write to a file if no data was found.
-        -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
+        -y value => A flavor id for the program lock.  To create unique lock.
+
         -v => Display version of this program.
         -h => Help and usage message.
 
@@ -117,7 +129,7 @@ def help_message():
     print(__doc__)
 
 
-def full_chk(args_array, **kwargs):
+def full_chk(args_array):
 
     """Function:  full_chk
 
@@ -140,7 +152,7 @@ def full_chk(args_array, **kwargs):
     return full_chk_flag
 
 
-def find_marker(log, **kwargs):
+def find_marker(log):
 
     """Function:  find_marker
 
@@ -155,7 +167,7 @@ def find_marker(log, **kwargs):
         log.find_marker(update=True)
 
 
-def update_marker(args_array, line, **kwargs):
+def update_marker(args_array, line):
 
     """Function:  update_marker
 
@@ -174,7 +186,7 @@ def update_marker(args_array, line, **kwargs):
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 
 
-def log_2_output(log, args_array, **kwargs):
+def log_2_output(log, args_array):
 
     """Function:  log_2_output
 
@@ -199,21 +211,21 @@ def log_2_output(log, args_array, **kwargs):
                                                      "check_log: " + host)),
                               frm_line)
         mail.add_2_msg("\n".join(log.loglist))
-        mail.send_mail()
+        mail.send_mail(use_mailx=args_array.get("-u", False))
 
     # Write output to file.
     if "-o" in args_array and (log.loglist or "-w" not in args_array):
         with open(args_array["-o"], args_array["-g"]) as f_hdlr:
-            for x in log.loglist:
-                print(x, file=f_hdlr)
+            for item in log.loglist:
+                print(item, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
-        for x in log.loglist:
-            print(x, file=sys.stdout)
+        for item in log.loglist:
+            print(item, file=sys.stdout)
 
 
-def fetch_log(log, args_array, **kwargs):
+def fetch_log(log, args_array):
 
     """Function:  fetch_log
 
@@ -237,17 +249,17 @@ def fetch_log(log, args_array, **kwargs):
     log_file = gen_libs.openfile(args_array["-f"][0], "r")
 
     # Start with the log file returned by open_log function call.
-    for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
+    for item in args_array["-f"][args_array["-f"].index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:
-            log_file = gen_libs.openfile(x, "r")
+            log_file = gen_libs.openfile(item, "r")
 
         log.load_loglist(log_file)
         log_file.close()
 
 
-def fetch_log_stdin(log, **kwargs):
+def fetch_log_stdin(log):
 
     """Function:  fetch_log_stdin
 
@@ -263,11 +275,11 @@ def fetch_log_stdin(log, **kwargs):
 
     inst = gen_libs.get_inst(sys)
 
-    for ln in inst.stdin:
-        log.load_loglist(str(ln))
+    for item in inst.stdin:
+        log.load_loglist(str(item))
 
 
-def load_attributes(log, args_array, **kwargs):
+def load_attributes(log, args_array):
 
     """Function:  load_attributes
 
@@ -296,7 +308,7 @@ def load_attributes(log, args_array, **kwargs):
         log.load_ignore(gen_libs.openfile(args_array["-i"]))
 
 
-def run_program(args_array, **kwargs):
+def run_program(args_array):
 
     """Function:  run_program
 

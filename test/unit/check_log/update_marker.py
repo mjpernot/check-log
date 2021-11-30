@@ -40,11 +40,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_m_option_not_set -> Test with -m option not set.
-        test_n_option_set -> Test with -n option set to True.
-        test_update_marker -> Write correct entry to file marker file.
-        tearDown -> Clean up of unit testing.
+        setUp
+        test_m_option_not_set
+        test_n_option_set
+        test_update_marker
+        tearDown
 
     """
 

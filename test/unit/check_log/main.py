@@ -35,6 +35,33 @@ import version
 __version__ = version.__version__
 
 
+class ProgramLock(object):
+
+    """Class:  ProgramLock
+
+    Description:  Class stub holder for gen_class.ProgramLock class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self, cmdline, flavor):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+            (input) cmdline
+            (input) flavor
+
+        """
+
+        self.cmdline = cmdline
+        self.flavor = flavor
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -42,19 +69,20 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_search_logic_present -> Test with -k option present.
-        test_search_logic_miss -> Test with missing -k option.
-        test_valid_val_true -> Test with arg_valid_val returns True.
-        test_valid_val_false -> Test with arg_valid_val returns False.
-        test_programlock_id -> Test ProgramLock fails with flavor id.
-        test_programlock_fail -> Test ProgramLock fails to lock.
-        test_cond_req_or_true -> Test with arg_cond_req_or returns True.
-        test_cond_req_or_false -> Test with arg_cond_req_or returns False.
-        test_file_chk_false -> Test with arg_file_chk returns False.
-        test_file_chk_true -> Test with arg_file_chk returns True.
-        test_help_false ->  Test with help_func returns False.
-        test_help_true -> Test with help_func returns True.
+        setUp
+        test_search_logic_present
+        test_search_logic_miss
+        test_valid_val_true
+        test_valid_val_false
+        test_programlock_true
+        test_programlock_id
+        test_programlock_fail
+        test_cond_req_or_true
+        test_cond_req_or_false
+        test_file_chk_false
+        test_file_chk_true
+        test_help_false
+        test_help_true
 
     """
 
@@ -72,6 +100,7 @@ class UnitTest(unittest.TestCase):
         self.args = {"-f": self.key_msg, "-c": True}
         self.args2 = {"-f": self.key_msg, "-c": True, "-S": ["a"]}
         self.args3 = {"-f": self.key_msg, "-c": True, "-S": ["a"], "-k": "and"}
+        self.proglock = ProgramLock(["cmdline"], "FlavorID")
 
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.arg_parser.arg_parse2")
@@ -127,7 +156,7 @@ class UnitTest(unittest.TestCase):
         mock_arg.arg_file_chk.return_value = False
         mock_arg.arg_valid_val.return_value = True
         mock_run.return_value = True
-        mock_lock.side_effect = None
+        mock_lock.return_value = self.proglock
 
         self.assertFalse(check_log.main())
 
@@ -152,9 +181,34 @@ class UnitTest(unittest.TestCase):
         self.assertFalse(check_log.main())
 
     @mock.patch("check_log.gen_class.ProgramLock")
+    @mock.patch("check_log.run_program")
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.arg_parser")
-    def test_programlock_id(self, mock_arg, mock_help, mock_lock):
+    def test_programlock_true(self, mock_arg, mock_help, mock_run, mock_lock):
+
+        """Function:  test_programlock_true
+
+        Description:  Test with ProgramLock returns True.
+
+        Arguments:
+
+        """
+
+        mock_arg.arg_parse2.return_value = self.args
+        mock_help.return_value = False
+        mock_arg.arg_cond_req_or.return_value = True
+        mock_arg.arg_file_chk.return_value = False
+        mock_arg.arg_valid_val.return_value = True
+        mock_run.return_value = True
+        mock_lock.return_value = self.proglock
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_class.ProgramLock")
+    @mock.patch("check_log.run_program")
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.arg_parser")
+    def test_programlock_id(self, mock_arg, mock_help, mock_run, mock_lock):
 
         """Function:  test_programlock_id
 
@@ -168,12 +222,13 @@ class UnitTest(unittest.TestCase):
         mock_help.return_value = False
         mock_arg.arg_cond_req_or.return_value = True
         mock_arg.arg_file_chk.return_value = False
-        mock_lock.side_effect = check_log.gen_class.SingleInstanceException
+        mock_arg.arg_valid_val.return_value = True
+        mock_run.return_value = True
+        mock_lock.return_value = self.proglock
 
         self.args["-y"] = "FlavorID"
 
-        with gen_libs.no_std_out():
-            self.assertFalse(check_log.main())
+        self.assertFalse(check_log.main())
 
     @mock.patch("check_log.gen_class.ProgramLock")
     @mock.patch("check_log.gen_libs.help_func")

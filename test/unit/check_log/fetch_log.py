@@ -42,11 +42,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_fetch_all_log -> Return log entries from all log files.
-        test_fetch_partial_log -> Return log entries from some log files.
-        test_fetch_empty_log -> Return an empty log.
-        test_fetch_one_log -> Return log entries from one log file.
+        setUp
+        test_fetch_all_log
+        test_fetch_partial_log
+        test_fetch_empty_log
+        test_fetch_one_log
 
     """
 

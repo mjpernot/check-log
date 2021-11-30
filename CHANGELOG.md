@@ -4,14 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.4] - 2021-11-30
+-  Allow to override the default sendmail (postfix) and use mailx command.
+
+### Changed
+- Changed a number of variables to conform to standard naming convention.
+- log_2_output: Determine whether to use sendmail or mailx when using the mail option.
+- Removed non-required \*\*kwargs from function parameter lists.
+- Documentation updates.
+
+
 ## [3.1.3] - 2020-04-07
 ### Changed
 - Removed "re" module, not required any more.
 - Documentation update.
 
 ### Fixed
-- fetch_log_stdin:  Fixed handling command standard in from SonarQube scan finding.
-- main:  Fixed handling command line arguments from SonarQube scan finding.
+- main, fetch_log_stdin:  Fixed handling command standard in.
 
 
 ## [3.1.2] - 2020-03-04
@@ -24,16 +33,13 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.1.1] - 2020-02-14
 ### Fixed
-- main:  Fixed a formatting issue with the opt_valid_val variable.
--   NOTE:  This fix is only required for Python 2.6.6.  Original code will work in Python 2.7.5 without issue.
+- main:  Fixed a formatting issue with the opt_valid_val variable for Python 2.6.6.
 
 
 ## [3.1.0] - 2020-02-05
 ### Changed
-- log_2_output:  Changed the file mode on the output log file to be dynamic.
-- log_2_output:  Added -w option not to write no data to a log file.
-- main:  Added -g option and set default write file mode.
-- main:  Removed output file being checked and created immediately at start of program.
+- log_2_output:  Changed the file mode on the output log file to be dynamic and added -w option not to write no data to a log file.
+- main:  Added -g option and set default write file mode and removed output file being checked and created immediately at start of program.
 - Documentation update.
 
 
@@ -45,35 +51,30 @@ Breaking Change
 - load_attributes:  Load program options values into LogFile class attributes.
 
 ### Changed
-- main:  Removed -S option from requiring other options as they are no longer required or handled by other sections of the code.
-- find_marker:  Replaced args_array with LogFile class instance, fetch_marker_entry call was moved to load_attributes function, removed loop to find marker in files as it's no longer required.
+- main:  Converted variable name to standard naming convention and removed -S option from requiring other options as they are no longer required or handled by other sections of the code.
+- find_marker:  Replaced args_array with LogFile class instance, fetch_marker_entry call was moved to load_attributes function, removed loop to find marker in files as it is no longer required.
 - log_2_output:  Replaced log_array with LogFile class instance.
 - fetch_log:  Replaced log_array with LogFile class instance, replace open_log call with calling the first log file, keyword search was moved to the LogFile class method.
 - fetch_log_stdin:  Replaced log_array with LogFile class instance, moved full_chk to run_program, and find marker call was moved to LogFile class method.
 - run_program:  Refactored function to setup and use LogFile class and added check for full_chk on loglist in LogFile class.
-- main:  Converted variable name to standard naming convention.
 - Documentation updates.
 
 ### Removed
-- open_log:  No longer required by program.
-- ignore_msgs:  No longer required by program.
-- get_ignore_msgs:  No longer required by program.
-- search:  No longer required by program.
-- find_marker_array:  No longer required by program.
-- fetch_marker_entry:  No longer required by program.
-- filter_data:  No longer required by program.
-- get_filter_data:  No longer required by program.
+- open_log
+- ignore_msgs
+- get_ignore_msgs
+- search
+- find_marker_array
+- fetch_marker_entry
+- filter_data
+- get_filter_data
 
 
 ## [2.2.1] - 2019-06-18
 - Added capability to open compressed (e.g. .gz) files.
 
 ### Changed
-- open_log:  Replace open call with gen_libs.openfile call.
-- find_marker:  Replace open calls with gen_libs.openfile calls.
-- get_ignore_msgs:  Replace open call with gen_libs.openfile call.
-- fetch_log:  Replace open call with gen_libs.openfile call.
-- get_filter_data:  Replace open call with gen_libs.openfile call.
+- open_log, find_marker, get_ignore_msgs, fetch_log, get_filter_data:  Replace open call with gen_libs.openfile call.
 
 
 ## [2.2.0] - 2019-06-11
@@ -84,25 +85,12 @@ Breaking Change
 
 ### Changed
 - fetch_log:  Call to search() for keyword search.
-- main:  Added -S option -> List of keywords to search for.
-- main:  Added -k option -> Type of search as 'and' or 'or'.
+- main:  Added -S option -> List of keywords to search for and added -k option -> Type of search as 'and' or 'or'.
 
 
 ## [2.1.3] - 2019-05-16
 ### Fixed
-- full_chk:  Fixed problem with mutable default arguments issue.
-- open_log:  Fixed problem with mutable default arguments issue.
-- find_marker:  Fixed problem with mutable default arguments issue.
-- update_marker:  Fixed problem with mutable default arguments issue.
-- get_ignore_msgs:  Fixed problem with mutable default arguments issue.
-- ignore_msgs:  Fixed problem with mutable default arguments issue.
-- log_2_output:  Fixed problem with mutable default arguments issue.
-- fetch_log:  Fixed problem with mutable default arguments issue.
-- find_marker_array:  Fixed problem with mutable default arguments issue.
-- fetch_log_stdin:  Fixed problem with mutable default arguments issue.
-- get_filter_data:  Fixed problem with mutable default arguments issue.
-- filter_data:  Fixed problem with mutable default arguments issue.
-- run_program:  Fixed problem with mutable default arguments issue.
+- Fixed problem with mutable default arguments issues in multiple functions.
 
  
 ## [2.1.2] - 2019-01-22
@@ -112,29 +100,21 @@ Breaking Change
 
 ## [2.1.1] - 2018-11-01
 ### Changed
-- log_2_output:  Made "-z" option its own "if" statement to allow for better flexibility.
-- log_2_output:  Changed Mail instance name from "EMAIL" to "mail".
+- log_2_output:  Made "-z" option its own "if" statement to allow for better flexibility and changed Mail instance name from "EMAIL" to "mail".
 
 
 ## [2.1.0] - 2018-09-27
 ### Changed
-- find_marker:  Added check for ln_marker to improve performance.
-- find_marker_array:  Added check for ln_marker to improve performance.
+- find_marker:  Added check for ln_marker to improve performance and added check for ln_marker to improve performance.
 - ignore_msgs:  Added log_array to check to improve performance.
 - get_ignore_msgs:  Changed "open/close" to "with open" command and changed "for" loop to loop comphrension.
-- log_2_output:  Refactored code - made cleaner and easier to understand.
-- log_2_output:  Added "-t" option to email output and also to suppress standard out.
-- main:  Setup a conditional requirement check for "-c" option.
-- main:  Added new options -s, -t, -y and -z to the program.
-- main:  Added program lock functionality to program.
+- log_2_output:  Refactored code - made cleaner and easier to understand and added "-t" option to email output and also to suppress standard out.
+- main:  Setup a conditional requirement check for "-c" option, added new options -s, -t, -y and -z to the program and added program lock functionality to program.
 - update_marker:  Replaced open write with "gen_libs.write_file" call.
 - fetch_marker_entry:  Refactored to use "gen_libs.file_2_list" function.
 - filter_data:  Added check to ensure the filter string has data.
-- full_chk:  Refactored function to improve performance and readability.
-- full_chk:  Removed "-c" option from the full check.
-- run_program:  Initialized log_array and replaced sys.exit error with warning.
-- run_program:  Removed "clr_files" call.
-- run_program:  Moved check for "-c" and "-m" options to forefront.
+- full_chk:  Refactored function to improve performance and readability and removed "-c" option from the full check.
+- run_program:  Initialized log_array and replaced sys.exit error with warning, removed "clr_files" call and moved check for "-c" and "-m" options to forefront.
 - fetch_log:  Replaced "get_log" call with "gen_libs.get_data" call.
 
 ### Removed
@@ -175,11 +155,11 @@ Breaking Change
 - Added functionality to allow the log data to be checked for a specific format at the beginning of each line.  If the data line does not match that format, then it is dropped.  Multiple formats are allowed, but will use "or" logic to determine if the line matches the format.  The format line is a regex expression.
 - Run_Program: Added Filter_Data function call.
 - main:  Added -F option to the argument list as the new formatting option.
-- Help_Message:  Updated documentation.
+- Updated documentation.
 
 ### Added
-- Get_Filter_Data.
-- Filter_Data.
+- Get_Filter_Data
+- Filter_Data
 
 
 ## [1.5.0] - 2017-03-31
@@ -190,9 +170,9 @@ Breaking Change
 
 ## [1.4.0] - 2016-04-27
 ### Added
-- Find_Marker_Entry.
-- Find_Marker_Array.
-- Fetch_Log_Stdin.
+- Find_Marker_Entry
+- Find_Marker_Array
+- Fetch_Log_Stdin
 
 ### Changed
 - Modified the program to accept input from 'standard in' or from log files.
@@ -204,7 +184,7 @@ Breaking Change
 
 ## [1.3.0] - 2016-04-21
 ### Added
-- Fetch_Log.
+- Fetch_Log
 
 ### Changed
 - Added capability to check multiple files using multiple names or wildcard expansion.
@@ -223,8 +203,8 @@ Breaking Change
 - Log_2_Output:  Added "sys." to stdout.
 
 ### Added
-- Help_Message.
-- Run_Program:  To control running of program.
+- Help_Message
+- Run_Program
 
 
 ## [1.1.0] - 2015-10-01
