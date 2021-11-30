@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 -  Allow to override the default sendmail (postfix) and use mailx command.
 
 ### Changed
+- Changed a number of variables to conform to standard naming convention.
 - log_2_output: Determine whether to use sendmail or mailx when using the mail option.
 - Removed non-required \*\*kwargs from function parameter lists.
 - Documentation updates.

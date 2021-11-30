@@ -216,13 +216,13 @@ def log_2_output(log, args_array):
     # Write output to file.
     if "-o" in args_array and (log.loglist or "-w" not in args_array):
         with open(args_array["-o"], args_array["-g"]) as f_hdlr:
-            for x in log.loglist:
-                print(x, file=f_hdlr)
+            for item in log.loglist:
+                print(item, file=f_hdlr)
 
     # Suppress standard out.
     if "-z" not in args_array:
-        for x in log.loglist:
-            print(x, file=sys.stdout)
+        for item in log.loglist:
+            print(item, file=sys.stdout)
 
 
 def fetch_log(log, args_array):
@@ -249,11 +249,11 @@ def fetch_log(log, args_array):
     log_file = gen_libs.openfile(args_array["-f"][0], "r")
 
     # Start with the log file returned by open_log function call.
-    for x in args_array["-f"][args_array["-f"].index(log_file.name):]:
+    for item in args_array["-f"][args_array["-f"].index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:
-            log_file = gen_libs.openfile(x, "r")
+            log_file = gen_libs.openfile(item, "r")
 
         log.load_loglist(log_file)
         log_file.close()
@@ -275,8 +275,8 @@ def fetch_log_stdin(log):
 
     inst = gen_libs.get_inst(sys)
 
-    for ln in inst.stdin:
-        log.load_loglist(str(ln))
+    for item in inst.stdin:
+        log.load_loglist(str(item))
 
 
 def load_attributes(log, args_array):
