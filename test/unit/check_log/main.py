@@ -74,6 +74,7 @@ class UnitTest(unittest.TestCase):
         test_search_logic_miss
         test_valid_val_true
         test_valid_val_false
+        test_programlock_true
         test_programlock_id
         test_programlock_fail
         test_cond_req_or_true
@@ -183,11 +184,11 @@ class UnitTest(unittest.TestCase):
     @mock.patch("check_log.run_program")
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.arg_parser")
-    def test_valid_val_true(self, mock_arg, mock_help, mock_run, mock_lock):
+    def test_programlock_true(self, mock_arg, mock_help, mock_run, mock_lock):
 
-        """Function:  test_valid_val_true
+        """Function:  test_programlock_true
 
-        Description:  Test with arg_valid_val returns True.
+        Description:  Test with ProgramLock returns True.
 
         Arguments:
 
