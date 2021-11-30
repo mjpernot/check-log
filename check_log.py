@@ -15,7 +15,7 @@
             -F file |
             -S {keyword1 keyword2 ...} {-k "and"|"or"} |
             -m file {-n} {-c} {-r} |
-            -t email {email2 email3 ...} {-s subject_line} |
+            -t email {email2 email3 ...} {-s subject_line} {-u} |
             -o file {-g {a|w}} {-w} |
             -i file | -y flavor_id | -z ]
            [-v | -h]
@@ -44,6 +44,7 @@
 
         -t email_address(es) => Send output to one or more email addresses.
             -s subject_line => Subject line of email.
+            -u => Override the default mail command and use mailx.
 
         -o file => Name of the out file.
             -g "a"|"w" => Append or write/overwrite to a log file. Default: w.
