@@ -43,10 +43,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Integration testing initilization.
-        test_mail -> Test sending via mail.
-        test_write_to_log -> Test writing data to log.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_mail
+        test_write_to_log
+        tearDown
 
     """
 
