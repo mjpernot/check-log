@@ -11,10 +11,14 @@
         See -F, -S, and -i options below for further details.
 
     Usage:
-        check_log.py [-f {file* file1 file2 ...}] [-F file | -i file
-            | -m file | -o file | -n | -r | -c | -y flavor_id | -z
-            | -S {keyword1 keyword2 ...} | -g {a|w} | -w]
-            [-t email {email2 email3 ...} {-s subject_line}] [-v | -h]
+        check_log.py [-f {file* file1 file2 ...}] |
+            -F file |
+            -S {keyword1 keyword2 ...} {-k "and"|"or"} |
+            -m file {-n} {-c} {-r} |
+            -t email {email2 email3 ...} {-s subject_line} |
+            -o file {-g {a|w}} {-w} |
+            -i file | -y flavor_id | -z ]
+           [-v | -h]
 
         standard in | check_log.py ...
 
@@ -22,28 +26,35 @@
         -f file(s) => Name(s) of the log files to check.  Can also use
             wildcard expansion for file names.  Can include both normal
             flat files or .gz compressed files.
+
         -F file => Name of file that contains regex format expression.  The
             file will contain one or more regex expressions to be used to
             filter out data that does not match the regex string.  If
             multiple regex expressions are present will use "or" logic.
             See NOTES below for formatting of regex expressions.
+
+        -S keyword(s) => Search for keywords.  List of keywords are
+                space-delimited and are case-insensitive.
+            -k "and"|"or" => Keyword search logic.  Default is "or".
+
+        -m file => Name of the file that contains marker tag in file.
+            -n => Flag option not to update the marker file.
+            -c => Flag option to clear the contents in the marker file.
+            -r => Flag option to recheck the entire log file.
+
         -t email_address(es) => Send output to one or more email addresses.
-        -s subject_line => Subject line of email.  Requires -t option.
+            -s subject_line => Subject line of email.
+
+        -o file => Name of the out file.
+            -g "a"|"w" => Append or write/overwrite to a log file. Default: w.
+            -w => No write if empty.  Do not write to a file if no data was
+                found.
+
         -i file => Name of the file that contains entries to be ignored.  The
             entries are case-insensitive.
-        -m file => Name of the file that contains marker tag in file.
-        -o file => Name of the out file.
-        -n => Flag option not to update the marker file.
-        -r => Flag option to recheck the entire log file.
-        -c => Flag option to clear the contents in the marker file.  Requires
-            -m option.
-        -S keyword(s) => Search for keywords.  List of keywords are
-            space-delimited and are case-insensitive.
-        -k "and"|"or" => Keyword search logic.  Default is "or".
-        -g "a"|"w" => Append or write (overwrite) to a log file.  Default is w.
-        -w => No write if empty.  Do not write to a file if no data was found.
-        -y value => A flavor id for the program lock.  To create unique lock.
         -z => Suppress standard out.
+        -y value => A flavor id for the program lock.  To create unique lock.
+
         -v => Display version of this program.
         -h => Help and usage message.
 
