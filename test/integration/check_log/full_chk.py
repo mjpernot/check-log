@@ -40,9 +40,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Integration testing initilization.
-        test_file_not_empty -> Test if file is not empty.
-        test_file_is_empty -> Test if file is empty.
+        setUp
+        test_file_not_empty
+        test_file_is_empty
 
     """
 
