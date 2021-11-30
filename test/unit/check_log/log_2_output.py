@@ -45,6 +45,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_t_u_options_set
         test_g_option_write
         test_g_option_append
         test_w_option_data_log
@@ -82,6 +83,22 @@ class UnitTest(unittest.TestCase):
         self.args_array3 = {"-o": self.outfile, "-z": True, "-g": "a"}
         self.args_array4 = {"-o": self.outfile, "-z": True, "-g": "w"}
         self.msg = "Email Addresses"
+
+    @mock.patch("check_log.gen_class.Mail")
+    def test_t_u_options_set(self, mock_mail):
+
+        """Function:  test_t_u_options_set
+
+        Description:  Test with -t and -u options set.
+
+        Arguments:
+
+        """
+
+        mock_mail.send_mail.return_value = True
+        self.args_array = {"-t": self.msg, "-z": True, "-u": True}
+
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     def test_g_option_write(self):
 
