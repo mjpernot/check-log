@@ -211,7 +211,7 @@ def log_2_output(log, args_array):
                                                      "check_log: " + host)),
                               frm_line)
         mail.add_2_msg("\n".join(log.loglist))
-        mail.send_mail()
+        mail.send_mail(use_mailx=args_array.get("-u", False))
 
     # Write output to file.
     if "-o" in args_array and (log.loglist or "-w" not in args_array):
