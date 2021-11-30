@@ -117,7 +117,7 @@ def help_message():
     print(__doc__)
 
 
-def full_chk(args_array, **kwargs):
+def full_chk(args_array):
 
     """Function:  full_chk
 
@@ -140,7 +140,7 @@ def full_chk(args_array, **kwargs):
     return full_chk_flag
 
 
-def find_marker(log, **kwargs):
+def find_marker(log):
 
     """Function:  find_marker
 
@@ -155,7 +155,7 @@ def find_marker(log, **kwargs):
         log.find_marker(update=True)
 
 
-def update_marker(args_array, line, **kwargs):
+def update_marker(args_array, line):
 
     """Function:  update_marker
 
@@ -174,7 +174,7 @@ def update_marker(args_array, line, **kwargs):
         gen_libs.write_file(args_array["-m"], mode="w", data=line)
 
 
-def log_2_output(log, args_array, **kwargs):
+def log_2_output(log, args_array):
 
     """Function:  log_2_output
 
@@ -213,7 +213,7 @@ def log_2_output(log, args_array, **kwargs):
             print(x, file=sys.stdout)
 
 
-def fetch_log(log, args_array, **kwargs):
+def fetch_log(log, args_array):
 
     """Function:  fetch_log
 
@@ -247,7 +247,7 @@ def fetch_log(log, args_array, **kwargs):
         log_file.close()
 
 
-def fetch_log_stdin(log, **kwargs):
+def fetch_log_stdin(log):
 
     """Function:  fetch_log_stdin
 
@@ -267,7 +267,7 @@ def fetch_log_stdin(log, **kwargs):
         log.load_loglist(str(ln))
 
 
-def load_attributes(log, args_array, **kwargs):
+def load_attributes(log, args_array):
 
     """Function:  load_attributes
 
@@ -296,7 +296,7 @@ def load_attributes(log, args_array, **kwargs):
         log.load_ignore(gen_libs.openfile(args_array["-i"]))
 
 
-def run_program(args_array, **kwargs):
+def run_program(args_array):
 
     """Function:  run_program
 
