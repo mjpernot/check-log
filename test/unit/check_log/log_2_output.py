@@ -44,20 +44,20 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_g_option_write -> Test with -g option with write value.
-        test_g_option_append -> Test with -g option with append value.
-        test_w_option_data_log -> Test with -w option and data log.
-        test_w_option_empty_log -> Test with -w option and empty log.
-        test_t_z_options_set -> Test with -t and -z options set.
-        test_t_s_options_set -> Test with -t and -s options set.
-        test_t_o_options_set -> Test with -t and -o options set.
-        test_t_option_set -> Test with -t option set.
-        test_write_to_log_empty_log -> Test writing data to log and empty log.
-        test_write_to_log -> Test writing data to log.
-        test_o_option_empty_log -> Test with -o option and empty log.
-        test_o_option_not_set -> Test with -o option not set.
-        tearDown -> Clean up of unit testing.
+        setUp
+        test_g_option_write
+        test_g_option_append
+        test_w_option_data_log
+        test_w_option_empty_log
+        test_t_z_options_set
+        test_t_s_options_set
+        test_t_o_options_set
+        test_t_option_set
+        test_write_to_log_empty_log
+        test_write_to_log
+        test_o_option_empty_log
+        test_o_option_not_set
+        tearDown
 
     """
 
