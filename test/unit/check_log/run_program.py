@@ -42,12 +42,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_clear_option -> Test with -c and -m options.
-        test_full_chk -> Test with full_chk returning True.
-        test_loglist_data -> Test with loglist having data.
-        test_stdin -> Test with standard in option.
-        test_f_option_set -> Test with -f option in args_array.
+        setUp
+        test_clear_option
+        test_full_chk
+        test_loglist_data
+        test_stdin
+        test_f_option_set
 
     """
 
