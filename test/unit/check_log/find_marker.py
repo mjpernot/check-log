@@ -41,11 +41,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_empty_ln_marker -> Empty line marker check.
-        test_no_find_marker -> Does not find the marker.
-        test_find_marker_2 -> Finds the line marker in second file.
-        test_find_marker -> Finds the line marker.
+        setUp
+        test_empty_ln_marker
+        test_no_find_marker
+        test_find_marker_2
+        test_find_marker
 
     """
 

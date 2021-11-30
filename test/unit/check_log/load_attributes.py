@@ -41,12 +41,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_load_ignore -> Test loading the ignore entries.
-        test_load_regex -> Test loading the regex statement.
-        test_load_marker -> Test loading the log marker.
-        test_set_predicate -> Test setting the predicate.
-        test_load_keyword -> Test loading keyword.
+        setUp
+        test_load_ignore
+        test_load_regex
+        test_load_marker
+        test_set_predicate
+        test_load_keyword
 
     """
 

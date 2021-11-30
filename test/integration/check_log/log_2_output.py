@@ -43,10 +43,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Integration testing initilization.
-        test_mail -> Test sending via mail.
-        test_write_to_log -> Test writing data to log.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_mail
+        test_write_to_log
+        tearDown
 
     """
 
@@ -74,6 +74,23 @@ class UnitTest(unittest.TestCase):
             print("ERROR:  Test environment not clean - file: %s exists"
                   % (self.file_name))
             self.skipTest("Pre-conditions not met.")
+
+    @mock.patch("check_log.gen_class.Mail.send_mail")
+    def test_mail2(self, mock_mail):
+
+        """Function:  test_mail2
+
+        Description:  Test sending via mail with -u option.
+
+        Arguments:
+
+        """
+
+        mock_mail.return_value = True
+
+        self.args_array = {"-t": "user@domain.name", "-z": True, "-u": True}
+
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
 
     @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail(self, mock_mail):
