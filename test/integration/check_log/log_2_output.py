@@ -76,6 +76,23 @@ class UnitTest(unittest.TestCase):
             self.skipTest("Pre-conditions not met.")
 
     @mock.patch("check_log.gen_class.Mail.send_mail")
+    def test_mail2(self, mock_mail):
+
+        """Function:  test_mail2
+
+        Description:  Test sending via mail with -u option.
+
+        Arguments:
+
+        """
+
+        mock_mail.return_value = True
+
+        self.args_array = {"-t": "user@domain.name", "-z": True, "-u": True}
+
+        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+
+    @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail(self, mock_mail):
 
         """Function:  test_mail
