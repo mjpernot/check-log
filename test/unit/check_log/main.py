@@ -42,19 +42,19 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_search_logic_present -> Test with -k option present.
-        test_search_logic_miss -> Test with missing -k option.
-        test_valid_val_true -> Test with arg_valid_val returns True.
-        test_valid_val_false -> Test with arg_valid_val returns False.
-        test_programlock_id -> Test ProgramLock fails with flavor id.
-        test_programlock_fail -> Test ProgramLock fails to lock.
-        test_cond_req_or_true -> Test with arg_cond_req_or returns True.
-        test_cond_req_or_false -> Test with arg_cond_req_or returns False.
-        test_file_chk_false -> Test with arg_file_chk returns False.
-        test_file_chk_true -> Test with arg_file_chk returns True.
-        test_help_false ->  Test with help_func returns False.
-        test_help_true -> Test with help_func returns True.
+        setUp
+        test_search_logic_present
+        test_search_logic_miss
+        test_valid_val_true
+        test_valid_val_false
+        test_programlock_id
+        test_programlock_fail
+        test_cond_req_or_true
+        test_cond_req_or_false
+        test_file_chk_false
+        test_file_chk_true
+        test_help_false
+        test_help_true
 
     """
 
