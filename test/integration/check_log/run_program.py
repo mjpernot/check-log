@@ -43,24 +43,24 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Integration testing initilization.
-        test_search_or -> Test with or search clause.
-        test_search_and -> Test with and search clause.
-        test_file_suppress -> Test file logs with standard out suppression.
-        test_stdin_marker_empty -> Test with standard in and empty marker file.
-        test_filter_data -> Test filter data.
-        test_ignore_msg -> Test ignore messages.
-        test_marker -> Test file log marker.
-        test_file_g_option_write -> Test file logs with -w option with write.
-        test_file_g_option_append -> Test file logs with -w option with append.
-        test_file_w_option_empty -> Test file logs with -w option and no data.
-        test_file_w_option -> Test file logs with -w option.
-        test_file -> Test file logs.
-        test_stdin_empty -> Test with standard in no data.
-        test_stdin_marker -> Test with standard in with marker file.
-        test_stdin -> Test with standard in.
-        test_clear_marker -> Test clearing the marker file.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_search_or
+        test_search_and
+        test_file_suppress
+        test_stdin_marker_empty
+        test_filter_data
+        test_ignore_msg
+        test_marker
+        test_file_g_option_write
+        test_file_g_option_append
+        test_file_w_option_empty
+        test_file_w_option
+        test_file
+        test_stdin_empty
+        test_stdin_marker
+        test_stdin
+        test_clear_marker
+        tearDown
 
     """
 
