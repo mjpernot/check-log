@@ -41,12 +41,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_m_and_r_options -> Test with -m and -r options selected.
-        test_m_option_selected2 -> Test -m option with non-empty file.
-        test_m_option_selected -> Test -m option in args_array with empty file.
-        test_r_option_selected -> Test with -r option in args_array only.
-        test_no_options_selected -> Test with no arguments in args_array.
+        setUp
+        test_m_and_r_options
+        test_m_option_selected2
+        test_m_option_selected
+        test_r_option_selected
+        test_no_options_selected
 
     """
 
