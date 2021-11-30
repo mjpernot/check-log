@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.1.4] - 2021-11-30
+
+
 ## [3.1.3] - 2020-04-07
 ### Changed
 - Removed "re" module, not required any more.
