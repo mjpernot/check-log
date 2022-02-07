@@ -367,32 +367,86 @@ def main():
 
     """
 
+    defaults = {"-g": "w"}
+    file_chk = ["-f", "-i", "-m", "-F"]
+    file_crt = ["-m"]
+    multi_val = ["-f", "-s", "-t", "-S"]
+    opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
+    opt_def = {"-k": "or"}
+    opt_req = ["-g"]
+    opt_val = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+    # opt_valid_val same as the original, rename after mods and testing
+    opt_valid_val2 = {"-k": ["and", "or"], "-g": ["a", "w"]}
+
     file_chk_list = ["-f", "-i", "-m", "-F"]
     file_crt_list = ["-m"]
     opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
     opt_multi_list = ["-f", "-s", "-t", "-S"]
     opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
+
     cmdline = gen_libs.get_inst(sys)
 
+    ########################################
+    # First
+    ########################################
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list,
                                        multi_val=opt_multi_list)
 
+    args2 = gen_class.ArgParser(
+        cmdline.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
+
+    if args_array == args2.args_array:
+        print("Arrays match1")
+
+    else:
+        print("Array mismatch1")
+
+    ########################################
+    # Second
+    ########################################
     # Set default search logic.
     if "-S" in args_array.keys() and "-k" not in args_array.keys():
         args_array["-k"] = "or"
 
+    if "-S" in args2.args_array.keys() \
+       and "-k" not in args2.args_array.keys():
+        args2.arg_default("-k", opt_def=opt_def)
+
+    if args_array == args2.args_array:
+        print("Arrays match2")
+
+    else:
+        print("Array mismatch2")
+
+    ########################################
+    # Third
+    ########################################
     # Set default write file mode.
     if "-g" not in args_array.keys():
         args_array["-g"] = "w"
 
+    args2.arg_add_def(defaults=defaults, opt_req=opt_req)
+
+    if args_array == args2.args_array:
+        print("Arrays match3")
+
+    else:
+        print("Array mismatch3")
+
+    ########################################
+    # Fourth
+    ########################################
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
        and not arg_parser.arg_file_chk(args_array, file_chk_list,
                                        file_crt_list) \
        and arg_parser.arg_valid_val(args_array, opt_valid_val):
 
+        print("Completed original code...")
+
+        """
         try:
             prog_lock = gen_class.ProgramLock(cmdline.argv,
                                               args_array.get("-y", ""))
@@ -402,6 +456,29 @@ def main():
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"
                   % (args_array.get("-y", "")))
+        """
+
+    if not gen_libs.help_func(args2.args_array, __version__, help_message) \
+       and args2.arg_cond_req_or(opt_con_or=opt_con_or) \
+       and args2.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
+       and args2.arg_valid_val(opt_valid_val=opt_valid_val):
+
+        print("Completed new code...")
+
+        """
+        try:
+            prog_lock = gen_class.ProgramLock(
+                cmdline.argv, args2.args_array.get("-y", ""))
+            run_program(args2.args_array)
+            del prog_lock
+
+        except gen_class.SingleInstanceException:
+            print("WARNING:  lock in place for check_log with id of: %s"
+                  % (args_array.get("-y", "")))
+        """
+
+    print(args_array)
+    print(args2.args_array)
 
 
 if __name__ == "__main__":
