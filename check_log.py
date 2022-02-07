@@ -308,7 +308,7 @@ def load_attributes(log, args_array):
         log.load_ignore(gen_libs.openfile(args_array["-i"]))
 
 
-def run_program(args_array):
+def run_program(args):
 
     """Function:  run_program
 
@@ -317,34 +317,32 @@ def run_program(args_array):
         output.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
+        (input) args -> ArgParser class instance.
 
     """
 
-    args_array = dict(args_array)
-
-    if "-c" in args_array and "-m" in args_array:
-        gen_libs.clear_file(args_array["-m"])
+    if "-c" in args.args_array and "-m" in args.args_array:
+        gen_libs.clear_file(args.args_array["-m"])
 
     else:
         log = gen_class.LogFile()
-        load_attributes(log, args_array)
+        load_attributes(log, args.args_array)
 
-        if "-f" in args_array:
-            fetch_log(log, args_array)
+        if "-f" in args.args_array:
+            fetch_log(log, args.args_array)
 
         elif not sys.stdin.isatty():
             fetch_log_stdin(log)
 
         if log.loglist:
-            if not full_chk(args_array):
+            if not full_chk(args.args_array):
                 find_marker(log)
 
             log.filter_keyword()
             log.filter_ignore()
             log.filter_regex()
-            log_2_output(log, args_array)
-            update_marker(args_array, log.lastline)
+            log_2_output(log, args.args_array)
+            update_marker(args.args_array, log.lastline)
 
 
 def main():
@@ -355,53 +353,58 @@ def main():
         line arguments and values.
 
     Variables:
-        file_chk_list -> contains the options which will have files included.
-        file_crt_list -> contains options which require files to be created.
-        opt_con_req_dict -> contains options requiring other options.
-        opt_multi_list -> contains the options that will have multiple values.
-        opt_val_list -> contains options which require values.
-        opt_valid_val -> contains options with their valid values.
+        defaults -> Dictionary of required options with their default values
+        file_chk -> List of options which will have files included
+        file_crt -> List of options which require files to be created
+        multi_val -> List of options that will have multiple values
+        opt_con_or -> Dictionary of options requiring other options
+        opt_def -> Dictionary of optional options with their default values
+        opt_req -> List of options that are required for default values
+        opt_val -> List of options which require values
+        opt_valid_val -> Dictionary of options with their valid values
 
     Arguments:
         (input) argv -> Arguments from the command line.
 
     """
 
-    file_chk_list = ["-f", "-i", "-m", "-F"]
-    file_crt_list = ["-m"]
-    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
-    opt_multi_list = ["-f", "-s", "-t", "-S"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+    defaults = {"-g": "w"}
+    file_chk = ["-f", "-i", "-m", "-F"]
+    file_crt = ["-m"]
+    multi_val = ["-f", "-s", "-t", "-S"]
+    opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
+    opt_def = {"-k": "or"}
+    opt_req = ["-g"]
+    opt_val = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
+
     cmdline = gen_libs.get_inst(sys)
 
     # Process argument list from command line.
-    args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list,
-                                       multi_val=opt_multi_list)
+    args = gen_class.ArgParser(
+        cmdline.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
 
     # Set default search logic.
-    if "-S" in args_array.keys() and "-k" not in args_array.keys():
-        args_array["-k"] = "or"
+    if "-S" in args.args_array.keys() and "-k" not in args.args_array.keys():
+        args.arg_default("-k", opt_def=opt_def)
 
     # Set default write file mode.
-    if "-g" not in args_array.keys():
-        args_array["-g"] = "w"
+    args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args_array, __version__, help_message) \
-       and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
-       and not arg_parser.arg_file_chk(args_array, file_chk_list,
-                                       file_crt_list) \
-       and arg_parser.arg_valid_val(args_array, opt_valid_val):
+    if not gen_libs.help_func(args.args_array, __version__, help_message) \
+       and args.arg_cond_req_or(opt_con_or=opt_con_or) \
+       and args.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
+       and args.arg_valid_val(opt_valid_val=opt_valid_val):
 
         try:
-            prog_lock = gen_class.ProgramLock(cmdline.argv,
-                                              args_array.get("-y", ""))
-            run_program(args_array)
+            prog_lock = gen_class.ProgramLock(
+                cmdline.argv, args.args_array.get("-y", ""))
+            run_program(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args_array.get("-y", "")))
+                  % (args.args_array.get("-y", "")))
 
 
 if __name__ == "__main__":
