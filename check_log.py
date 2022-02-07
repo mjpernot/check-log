@@ -322,7 +322,7 @@ def run_program(args):
     """
 
     if "-c" in args.args_array and "-m" in args.args_array:
-        gen_libs.clear_file(args_array["-m"])
+        gen_libs.clear_file(args.args_array["-m"])
 
     else:
         log = gen_class.LogFile()
