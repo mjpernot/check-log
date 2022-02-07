@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.0] - 2022-02-07
+Breaking Changes
+
+
 ## [3.1.4] - 2021-11-30
 -  Allow to override the default sendmail (postfix) and use mailx command.
 
