@@ -34,6 +34,30 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -60,8 +84,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.argspar = ArgParser()
         self.log = gen_class.LogFile()
-        self.args_array = {}
+        self.ign_file = "test/unit/check_log/testfiles/loadignore.txt"
+        self.filter_file = "test/unit/check_log/testfiles/loadregex.txt"
+        self.marker_file = "test/unit/check_log/testfiles/loadmarker.txt"
 
     def test_load_ignore(self):
 
@@ -73,8 +100,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-i"] = "test/unit/check_log/testfiles/loadignore.txt"
-        check_log.load_attributes(self.log, self.args_array)
+        self.argspar.args_array["-i"] = self.ign_file
+            
+        check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.ignore, ["this is a test ignore entry"])
 
@@ -88,8 +116,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-F"] = "test/unit/check_log/testfiles/loadregex.txt"
-        check_log.load_attributes(self.log, self.args_array)
+        self.argspar.args_array["-F"] = self.filter_file
+
+        check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.regex, "\\d{4}\\-\\d{2}\\-\\d{2}")
 
@@ -103,8 +132,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-m"] = "test/unit/check_log/testfiles/loadmarker.txt"
-        check_log.load_attributes(self.log, self.args_array)
+        self.argspar.args_array["-m"] = self.marker_file
+
+        check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.marker, "This is a test marker")
 
@@ -118,8 +148,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-k"] = "and"
-        check_log.load_attributes(self.log, self.args_array)
+        self.argspar.args_array["-k"] = "and"
+
+        check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.predicate, all)
 
@@ -133,8 +164,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-S"] = "testkeyword"
-        check_log.load_attributes(self.log, self.args_array)
+        self.argspar.args_array["-S"] = "testkeyword"
+
+        check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.keyword, ["testkeyword"])
 

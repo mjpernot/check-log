@@ -129,23 +129,22 @@ def help_message():
     print(__doc__)
 
 
-def full_chk(args_array):
+def full_chk(args):
 
     """Function:  full_chk
 
     Description:  Sets the full check flag depending on options selected.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) True|False -> Determine full check of log.
+        (input) args -> ArgParser class instance
+        (output) full_chk_flag -> True|False - Run a full check of log?
 
     """
 
-    args_array = dict(args_array)
     full_chk_flag = True
 
-    if "-m" in args_array and "-r" not in args_array \
-       and not gen_libs.is_empty_file(args_array["-m"]):
+    if "-m" in args.args_array and "-r" not in args.args_array \
+       and not gen_libs.is_empty_file(args.args_array["-m"]):
 
         full_chk_flag = False
 
@@ -159,7 +158,7 @@ def find_marker(log):
     Description:  Locates the marker.
 
     Arguments:
-        (input) log -> LogFile class instance.
+        (input) log -> LogFile class instance
 
     """
 
@@ -167,7 +166,7 @@ def find_marker(log):
         log.find_marker(update=True)
 
 
-def update_marker(args_array, line):
+def update_marker(args, line):
 
     """Function:  update_marker
 
@@ -175,18 +174,16 @@ def update_marker(args_array, line):
         marker option is selected and not the no_update option.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (input) line -> Last line of log.
+        (input) args -> ArgParser class instance
+        (input) line -> Last line of log
 
     """
 
-    args_array = dict(args_array)
-
-    if "-m" in args_array and "-n" not in args_array:
-        gen_libs.write_file(args_array["-m"], mode="w", data=line)
+    if "-m" in args.args_array and "-n" not in args.args_array:
+        gen_libs.write_file(args.args_array["-m"], mode="w", data=line)
 
 
-def log_2_output(log, args_array):
+def log_2_output(log, args):
 
     """Function:  log_2_output
 
@@ -194,38 +191,36 @@ def log_2_output(log, args_array):
         option.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    args_array = dict(args_array)
-
     # Send output to email.
-    if "-t" in args_array:
+    if "-t" in args.args_array:
         host = socket.gethostname()
         frm_line = getpass.getuser() + "@" + host
 
-        mail = gen_class.Mail(args_array["-t"],
-                              "".join(args_array.get("-s",
-                                                     "check_log: " + host)),
-                              frm_line)
+        mail = gen_class.Mail(
+            args.args_array["-t"], "".join(args.args_array.get(
+                "-s", "check_log: " + host)), frm_line)
         mail.add_2_msg("\n".join(log.loglist))
-        mail.send_mail(use_mailx=args_array.get("-u", False))
+        mail.send_mail(use_mailx=args.args_array.get("-u", False))
 
     # Write output to file.
-    if "-o" in args_array and (log.loglist or "-w" not in args_array):
-        with open(args_array["-o"], args_array["-g"]) as f_hdlr:
+    if "-o" in args.args_array and (
+       log.loglist or "-w" not in args.args_array):
+        with open(args.args_array["-o"], args.args_array["-g"]) as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 
     # Suppress standard out.
-    if "-z" not in args_array:
+    if "-z" not in args.args_array:
         for item in log.loglist:
             print(item, file=sys.stdout)
 
 
-def fetch_log(log, args_array):
+def fetch_log(log, args):
 
     """Function:  fetch_log
 
@@ -235,21 +230,20 @@ def fetch_log(log, args_array):
         passed to the calling function.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    args_array = dict(args_array)
-
     # Sort files from oldest to newest.
-    args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
-                              reverse=False)
+    args.args_array["-f"] = sorted(
+        args.args_array["-f"], key=os.path.getmtime, reverse=False)
 
-    log_file = gen_libs.openfile(args_array["-f"][0], "r")
+    log_file = gen_libs.openfile(args.args_array["-f"][0], "r")
 
     # Start with the log file returned by open_log function call.
-    for item in args_array["-f"][args_array["-f"].index(log_file.name):]:
+    for item in args.args_array["-f"][
+       args.args_array["-f"].index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:
@@ -268,8 +262,7 @@ def fetch_log_stdin(log):
         the array.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
 
     """
 
@@ -279,7 +272,7 @@ def fetch_log_stdin(log):
         log.load_loglist(str(item))
 
 
-def load_attributes(log, args_array):
+def load_attributes(log, args):
 
     """Function:  load_attributes
 
@@ -287,25 +280,25 @@ def load_attributes(log, args_array):
         LogFile class attributes.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    if "-S" in args_array.keys():
-        log.load_keyword(args_array["-S"])
+    if "-S" in args.args_array.keys():
+        log.load_keyword(args.args_array["-S"])
 
-    if "-k" in args_array.keys():
-        log.set_predicate(args_array["-k"])
+    if "-k" in args.args_array.keys():
+        log.set_predicate(args.args_array["-k"])
 
-    if "-m" in args_array.keys():
-        log.load_marker(gen_libs.openfile(args_array["-m"]))
+    if "-m" in args.args_array.keys():
+        log.load_marker(gen_libs.openfile(args.args_array["-m"]))
 
-    if "-F" in args_array.keys():
-        log.load_regex(gen_libs.openfile(args_array["-F"]))
+    if "-F" in args.args_array.keys():
+        log.load_regex(gen_libs.openfile(args.args_array["-F"]))
 
-    if "-i" in args_array.keys():
-        log.load_ignore(gen_libs.openfile(args_array["-i"]))
+    if "-i" in args.args_array.keys():
+        log.load_ignore(gen_libs.openfile(args.args_array["-i"]))
 
 
 def run_program(args):
@@ -317,7 +310,7 @@ def run_program(args):
         output.
 
     Arguments:
-        (input) args -> ArgParser class instance.
+        (input) args -> ArgParser class instance
 
     """
 
@@ -326,23 +319,23 @@ def run_program(args):
 
     else:
         log = gen_class.LogFile()
-        load_attributes(log, args.args_array)
+        load_attributes(log, args)
 
         if "-f" in args.args_array:
-            fetch_log(log, args.args_array)
+            fetch_log(log, args)
 
         elif not sys.stdin.isatty():
             fetch_log_stdin(log)
 
         if log.loglist:
-            if not full_chk(args.args_array):
+            if not full_chk(args):
                 find_marker(log)
 
             log.filter_keyword()
             log.filter_ignore()
             log.filter_regex()
-            log_2_output(log, args.args_array)
-            update_marker(args.args_array, log.lastline)
+            log_2_output(log, args)
+            update_marker(args, log.lastline)
 
 
 def main():
