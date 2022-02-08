@@ -35,6 +35,30 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -60,16 +84,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.argspar = ArgParser()
         self.log = gen_class.LogFile()
         self.file_0 = "test/unit/check_log/testfiles/fetch_log_file0.txt"
         self.file_1 = "test/unit/check_log/testfiles/fetch_log_file1.txt"
         self.file_2 = "test/unit/check_log/testfiles/fetch_log_file2.txt"
         self.file_3 = "test/unit/check_log/testfiles/fetch_log_file3.txt"
         self.args_array = {"-f": [self.file_1, self.file_2, self.file_3]}
-        self.args_array2 = {"-f": [self.file_1, self.file_2, self.file_3],
-                            "-S": ["a"], "-k": "and"}
-        self.args_array3 = {"-f": [self.file_1, self.file_2, self.file_3],
-                            "-S": ["a"], "-k": "or"}
+        self.argspar.args_array = self.args_array
         self.results0 = []
         self.results1 = ["This is line one of log", "This is line two of log",
                          "This is line three of log"]
@@ -93,11 +115,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_open.side_effect = [open(self.args_array["-f"][0], "r"),
-                                 open(self.args_array["-f"][1], "r"),
-                                 open(self.args_array["-f"][2], "r")]
+        mock_open.side_effect = [open(self.argspar.args_array["-f"][0], "r"),
+                                 open(self.argspar.args_array["-f"][1], "r"),
+                                 open(self.argspar.args_array["-f"][2], "r")]
 
-        check_log.fetch_log(self.log, self.args_array)
+        check_log.fetch_log(self.log, self.argspar)
+
         self.assertEqual(self.log.loglist, self.results3)
 
     @mock.patch("check_log.gen_libs.openfile")
@@ -111,10 +134,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_open.side_effect = [open(self.args_array["-f"][1], "r"),
-                                 open(self.args_array["-f"][2], "r")]
+        mock_open.side_effect = [open(self.argspar.args_array["-f"][1], "r"),
+                                 open(self.argspar.args_array["-f"][2], "r")]
 
-        check_log.fetch_log(self.log, self.args_array)
+        check_log.fetch_log(self.log, self.argspar)
+
         self.assertEqual(self.log.loglist, self.results2)
 
     @mock.patch("check_log.gen_libs.openfile")
@@ -128,10 +152,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-f": [self.file_0]}
-        mock_open.return_value = open(self.args_array["-f"][0], "r")
+        self.argspar.args_array = {"-f": [self.file_0]}
+        mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
 
-        check_log.fetch_log(self.log, self.args_array)
+        check_log.fetch_log(self.log, self.argspar)
+
         self.assertEqual(self.log.loglist, self.results0)
 
     @mock.patch("check_log.gen_libs.openfile")
@@ -145,10 +170,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-f": [self.file_1]}
-        mock_open.return_value = open(self.args_array["-f"][0], "r")
+        self.argspar.args_array = {"-f": [self.file_1]}
+        mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
 
-        check_log.fetch_log(self.log, self.args_array)
+        check_log.fetch_log(self.log, self.argspar)
+
         self.assertEqual(self.log.loglist, self.results1)
 
 
