@@ -34,6 +34,30 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -60,7 +84,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {}
+        self.argspar = ArgParser()
 
     def test_m_and_r_options(self):
 
@@ -72,9 +96,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-m": "test_file", "-r": True}
+        self.argspar.args_array = {"-m": "test_file", "-r": True}
 
-        self.assertEqual(check_log.full_chk(self.args_array), True)
+        self.assertEqual(check_log.full_chk(self.argspar), True)
 
     @mock.patch("check_log.gen_libs.is_empty_file")
     def test_m_option_selected2(self, mock_file):
@@ -87,11 +111,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-m": "test_file"}
+        self.argspar.args_array = {"-m": "test_file"}
 
         mock_file.return_value = False
 
-        self.assertEqual(check_log.full_chk(self.args_array), False)
+        self.assertEqual(check_log.full_chk(self.argspar), False)
 
     @mock.patch("check_log.gen_libs.is_empty_file")
     def test_m_option_selected(self, mock_file):
@@ -104,11 +128,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-m": "test_file"}
+        self.argspar.args_array = {"-m": "test_file"}
 
         mock_file.return_value = True
 
-        self.assertEqual(check_log.full_chk(self.args_array), True)
+        self.assertEqual(check_log.full_chk(self.argspar), True)
 
     def test_r_option_selected(self):
 
@@ -120,9 +144,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-r": True}
+        self.argspar.args_array = {"-r": True}
 
-        self.assertEqual(check_log.full_chk(self.args_array), True)
+        self.assertEqual(check_log.full_chk(self.argspar), True)
 
     def test_no_options_selected(self):
 
@@ -134,7 +158,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(check_log.full_chk(self.args_array), True)
+        self.assertEqual(check_log.full_chk(self.argspar), True)
 
 
 if __name__ == "__main__":
