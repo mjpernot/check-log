@@ -35,6 +35,30 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -61,7 +85,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {}
+        self.argspar = ArgParser()
         self.log = gen_class.LogFile()
         self.log.loglist = ["Testdata"]
         self.log_file = "/opt/local/check-log/logfile"
@@ -77,10 +101,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-c"] = True
-        self.args_array["-m"] = "/opt/local/check-log/markerfile"
+        self.argspar.args_array["-c"] = True
+        self.argspar.args_array["-m"] = "/opt/local/check-log/markerfile"
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
@@ -100,9 +124,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
@@ -121,9 +145,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.fetch_log_stdin", mock.Mock(return_value=True))
     @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
@@ -140,7 +164,7 @@ class UnitTest(unittest.TestCase):
 
         mock_sys.isatty.return_value = False
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
     @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
@@ -154,9 +178,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
 
 if __name__ == "__main__":
