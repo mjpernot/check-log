@@ -269,6 +269,7 @@ class UnitTest(unittest.TestCase):
         mock_arg.return_value = self.argspar
         mock_help.return_value = False
         mock_lock.return_value = self.proglock
+        mock_run.return_value = True
 
         self.assertFalse(check_log.main())
 
@@ -332,6 +333,7 @@ class UnitTest(unittest.TestCase):
         mock_arg.return_value = self.argspar
         mock_help.return_value = False
         mock_lock.return_value = self.proglock
+        mock_run.return_value = True
 
         self.assertFalse(check_log.main())
 

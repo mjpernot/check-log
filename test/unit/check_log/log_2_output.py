@@ -99,6 +99,7 @@ class UnitTest(unittest.TestCase):
         self.argspar = ArgParser()
         self.line1 = "first line of log"
         self.line2 = "second line of log"
+        self.line3 = "first line of log\nsecond line of log"
         self.outfile = "test/unit/check_log/testfiles/log_2_output_file.out"
         self.log = gen_class.LogFile()
         self.log.loglist = [self.line1, self.line2]
@@ -151,7 +152,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, self.line2)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line2)
 
     def test_g_option_append(self):
 
@@ -176,10 +177,10 @@ class UnitTest(unittest.TestCase):
             with open(self.argspar.args_array["-o"]) as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
-            self.assertEqual(out_str, "first line of log\nsecond line of log")
+            self.assertEqual(out_str, self.line3)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line3)
 
     def test_w_option_data_log(self):
 
@@ -377,9 +378,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if "-o" in self.argspar.args_array and os.path.isfile(
-           self.argspar.args_array["-o"]):
-            os.remove(self.argspar.args_array["-o"])
+        if os.path.isfile(self.outfile):
+            os.remove(self.outfile)
 
 
 if __name__ == "__main__":

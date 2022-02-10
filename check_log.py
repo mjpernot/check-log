@@ -107,7 +107,6 @@ import getpass
 # Third-party
 
 # Local
-import lib.arg_parser as arg_parser
 import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
@@ -208,8 +207,9 @@ def log_2_output(log, args):
         mail.send_mail(use_mailx=args.args_array.get("-u", False))
 
     # Write output to file.
-    if "-o" in args.args_array and (
-       log.loglist or "-w" not in args.args_array):
+    if "-o" in args.args_array and \
+       (log.loglist or "-w" not in args.args_array):
+
         with open(args.args_array["-o"], args.args_array["-g"]) as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
@@ -243,7 +243,7 @@ def fetch_log(log, args):
 
     # Start with the log file returned by open_log function call.
     for item in args.args_array["-f"][
-       args.args_array["-f"].index(log_file.name):]:
+            args.args_array["-f"].index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:

@@ -75,6 +75,12 @@ class UnitTest(unittest.TestCase):
                   % (self.file_name))
             self.skipTest("Pre-conditions not met.")
 
+        self.opt_val = [
+            "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+        self.argv = ["check_log.py", "-t", "user@domain.name", "-z", "-u"]
+        self.argv2 = ["check_log.py", "-t", "user@domain.name", "-z"]
+        self.argv3 = ["check_log.py", "-o", self.file_name, "-g", "w"]
+
     @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail2(self, mock_mail):
 
@@ -88,9 +94,10 @@ class UnitTest(unittest.TestCase):
 
         mock_mail.return_value = True
 
-        self.args_array = {"-t": "user@domain.name", "-z": True, "-u": True}
+        args = gen_class.ArgParser(
+            self.argv, opt_val=self.opt_val, do_parse=True)
 
-        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, args))
 
     @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail(self, mock_mail):
@@ -105,9 +112,10 @@ class UnitTest(unittest.TestCase):
 
         mock_mail.return_value = True
 
-        self.args_array = {"-t": "user@domain.name", "-z": True}
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, do_parse=True)
 
-        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, args))
 
     def test_write_to_log(self):
 
@@ -119,13 +127,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-o"] = self.file_name
-        self.args_array["-g"] = "w"
+        args = gen_class.ArgParser(
+            self.argv3, opt_val=self.opt_val, do_parse=True)
 
         with gen_libs.no_std_out():
-            check_log.log_2_output(self.log, self.args_array)
+            check_log.log_2_output(self.log, args)
 
-        self.assertTrue(os.path.isfile(self.args_array["-o"]))
+        self.assertTrue(os.path.isfile(args.args_array["-o"]))
 
     def tearDown(self):
 
@@ -137,8 +145,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if "-o" in self.args_array and os.path.isfile(self.args_array["-o"]):
-            os.remove(self.args_array["-o"])
+        if os.path.isfile(self.file_name):
+            os.remove(self.file_name)
 
 
 if __name__ == "__main__":
