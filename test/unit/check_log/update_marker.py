@@ -85,6 +85,7 @@ class UnitTest(unittest.TestCase):
         self.argspar = ArgParser()
 
         self.marker_line = "This is the first line"
+        self.file_name = "test/unit/check_log/testfiles/update_marker_file.txt"
 
     def test_m_option_not_set(self):
 
@@ -109,13 +110,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argspar.args_array = \
-            {"-m": "test/unit/check_log/testfiles/update_marker_file.txt"}
-        self.args_array["-n"] = True
+        self.argspar.args_array = {"-m": self.file_name}
+        self.argspar.args_array["-n"] = True
 
-        check_log.update_marker(self.args, self.marker_line)
+        check_log.update_marker(self.argspar, self.marker_line)
 
-        if os.path.isfile(self.args.args_array["-m"]):
+        if os.path.isfile(self.argspar.args_array["-m"]):
             status = False
 
         else:
@@ -133,12 +133,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argspar.args_array = \
-            {"-m": "test/unit/check_log/testfiles/update_marker_file.txt"}
+        self.argspar.args_array = {"-m": self.file_name}
 
-        check_log.update_marker(self.args, self.marker_line)
+        check_log.update_marker(self.argspar, self.marker_line)
 
-        with open(self.args.args_array["-m"], "r") as f_hdlr:
+        with open(self.argspar.args_array["-m"], "r") as f_hdlr:
             marker_str = f_hdlr.readline().strip("\n")
 
         self.assertEqual(marker_str, self.marker_line)
@@ -153,9 +152,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if "-m" in self.args.args_array and \
-           os.path.isfile(self.args.args_array["-m"]):
-            os.remove(self.args.args_array["-m"])
+        if os.path.isfile(self.file_name):
+            os.remove(self.file_name)
 
 
 if __name__ == "__main__":
