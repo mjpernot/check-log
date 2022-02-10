@@ -85,16 +85,21 @@ class UnitTest(unittest.TestCase):
                   % (err_msg))
             self.skipTest("Pre-conditions not met.")
 
-        self.args_array = {"-f": [os.path.join(self.test_path, self.logname2),
-                                  os.path.join(self.test_path, self.logname1)]}
-        self.args_array2 = \
-            {"-f": [os.path.join(self.test_path, self.logname1)]}
         self.results = ["This is the first line", "This is the second line",
                         "This is the third line"]
         self.results2 = ["This is the first line", "This is the second line",
                          "This is the third line", "This is the fourth line",
                          "This is the fifth line", "This is the sixth line",
                          "This is the seventh line"]
+
+        self.argv = [
+            "check_log.py", "-f", os.path.join(self.test_path, self.logname2),
+            os.path.join(self.test_path, self.logname1)]
+        self.argv2 = [
+            "check_log.py", "-f", os.path.join(self.test_path, self.logname1)]
+        self.opt_val = [
+            "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+        self.multi_val = ["-f", "-s", "-t", "-S"]
 
         # Touch files to set correct time order, require sleep.
         gen_libs.touch(os.path.join(self.test_path, self.logname1))
@@ -111,7 +116,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.fetch_log(self.log, self.args_array)
+        args = gen_class.ArgParser(
+            self.argv, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.fetch_log(self.log, args)
+
         self.assertEqual(self.log.loglist, self.results2)
 
     def test_fetch_log(self):
@@ -124,7 +133,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.fetch_log(self.log, self.args_array2)
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.fetch_log(self.log, args)
+
         self.assertEqual(self.log.loglist, self.results)
 
     def tearDown(self):
