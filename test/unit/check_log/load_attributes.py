@@ -101,7 +101,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argspar.args_array["-i"] = self.ign_file
-            
+
         check_log.load_attributes(self.log, self.argspar)
 
         self.assertEqual(self.log.ignore, ["this is a test ignore entry"])
