@@ -371,7 +371,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(out_str, self.results3)
 
-### STOPPED HERE
     def test_file_g_option_write(self):
 
         """Function:  test_file_g_option_write
