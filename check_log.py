@@ -13,7 +13,7 @@
     Usage:
         check_log.py [-f {file* file1 file2 ...}] |
             -F file |
-            -S {keyword1 keyword2 ...} {-k "and"|"or"} |
+            -S {keyword1 keyword2 ...} {-k and|or} |
             -m file {-n} {-c} {-r} |
             -t email {email2 email3 ...} {-s subject_line} {-u} |
             -o file {-g {a|w}} {-w} |
@@ -35,7 +35,7 @@
 
         -S keyword(s) => Search for keywords.  List of keywords are
                 space-delimited and are case-insensitive.
-            -k "and"|"or" => Keyword search logic.  Default is "or".
+            -k and|or => Keyword search logic.  Default is "or".
 
         -m file => Name of the file that contains marker tag in file.
             -n => Flag option not to update the marker file.
@@ -47,7 +47,7 @@
             -u => Override the default mail command and use mailx.
 
         -o file => Name of the out file.
-            -g "a"|"w" => Append or write/overwrite to a log file. Default: w.
+            -g a|w => Append or write/overwrite to a log file. Default is "w".
             -w => No write if empty.  Do not write to a file if no data was
                 found.
 
@@ -154,7 +154,7 @@ def find_marker(log):
 
     """Function:  find_marker
 
-    Description:  Locates the marker.
+    Description:  Locates the file marker.
 
     Arguments:
         (input) log -> LogFile class instance
@@ -357,7 +357,7 @@ def main():
         opt_valid_val -> Dictionary of options with their valid values
 
     Arguments:
-        (input) argv -> Arguments from the command line.
+        (input) argv -> Arguments from the command line
 
     """
 
