@@ -159,25 +159,25 @@ class UnitTest(unittest.TestCase):
             "check_log.py", "-f", self.log_file1, self.log_file2, "-g", "w",
             "-z", "-m", self.file_marker]
         self.argv8 = [
-            "check_log.py", "-f", [self.log_file4], "-o", self.test_out, "-z",
+            "check_log.py", "-f", self.log_file4, "-o", self.test_out, "-z",
             "-g", "w"]
         self.argv9 = [
-            "check_log.py", "-f", [self.log_file5], "-o", self.test_out, "-z",
+            "check_log.py", "-f", self.log_file5, "-o", self.test_out, "-z",
             "-g", "w"]
         self.argv10 = [
-            "check_log.py", "-f", [self.log_file4], "-g", "a",
+            "check_log.py", "-f", self.log_file4, "-g", "a",
             "-o", self.test_out, "-z"]
         self.argv11 = [
-            "check_log.py", "-f", [self.log_file5], "-g", "a",
+            "check_log.py", "-f", self.log_file5, "-g", "a",
             "-o", self.test_out, "-z"]
         self.argv12 = [
-            "check_log.py", "-f", [self.log_file3], "-g", "w",
+            "check_log.py", "-f", self.log_file3, "-g", "w",
             "-o", self.test_out, "-z", "-w"]
         self.argv13 = [
-            "check_log.py", "-f", [self.log_file2], "-g", "w",
+            "check_log.py", "-f", self.log_file2, "-g", "w",
             "-o", self.test_out, "-z", "-w", "-g", "w"]
         self.argv14 = [
-            "check_log.py", "-f", [self.log_file2], "-g", "w",
+            "check_log.py", "-f", self.log_file2, "-g", "w",
             "-o", self.test_out]
         self.argv15 = ["check_log.py"]
         self.argv16 = [
