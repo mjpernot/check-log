@@ -42,6 +42,7 @@ class ArgParser(object):
 
     Methods:
         __init__
+        arg_exist
 
     """
 
@@ -56,6 +57,21 @@ class ArgParser(object):
         """
 
         self.args_array = dict()
+
+    def arg_exist(self, arg):
+
+        """Method:  arg_exist
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        if arg in self.args_array:
+            return True
+
+        return False 
 
 
 class UnitTest(unittest.TestCase):
