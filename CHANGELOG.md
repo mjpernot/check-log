@@ -7,6 +7,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [4.0.0] - 2022-02-07
 Breaking Changes
 
+- Set up instance of the gen_class.ArgParser class which replaces all manual operations of the args_array variable that contain the command line arguments.
+
 
 ## [3.1.4] - 2021-11-30
 -  Allow to override the default sendmail (postfix) and use mailx command.

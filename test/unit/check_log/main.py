@@ -43,9 +43,10 @@ class ArgParser(object):
 
     Methods:
         __init__
-        arg_default
         arg_add_def
         arg_cond_req_or
+        arg_default
+        arg_exist
         arg_file_chk
         arg_valid_val
 
@@ -77,19 +78,7 @@ class ArgParser(object):
         self.arg_cond_req_or2 = True
         self.arg_file_chk2 = True
         self.arg_valid_val2 = True
-
-    def arg_default(self, opt, opt_def):
-
-        """Method:  arg_default
-
-        Description:  Method stub holder for gen_class.ArgParser.arg_default.
-
-        Arguments:
-
-        """
-
-        self.opt = opt
-        self.opt_def = opt_def
+        self.arg = None
 
     def arg_add_def(self, defaults, opt_req):
 
@@ -118,6 +107,34 @@ class ArgParser(object):
         self.opt_con_or = opt_con_or
 
         return self.arg_cond_req_or2
+
+    def arg_default(self, opt, opt_def):
+
+        """Method:  arg_default
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        self.opt = opt
+        self.opt_def = opt_def
+
+    def arg_exist(self, arg):
+
+        """Method:  arg_exist
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        if arg in self.args_array:
+            return True
+
+        return False 
 
     def arg_file_chk(self, file_chk, file_crt):
 
@@ -184,6 +201,9 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_arg_exist3
+        test_arg_exist2
+        test_arg_exist
         test_search_logic_present
         test_search_logic_miss
         test_programlock_true
@@ -212,6 +232,62 @@ class UnitTest(unittest.TestCase):
 
         self.argspar = ArgParser()
         self.proglock = ProgramLock(["cmdline"], "FlavorID")
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.gen_class.ArgParser")
+    def test_arg_exist3(self, mock_arg, mock_help):
+
+        """Function:  test_arg_exist3
+
+        Description:  Test with no args -S or -k present.
+
+        Arguments:
+
+        """
+
+        mock_arg.return_value = self.argspar
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.gen_class.ArgParser")
+    def test_arg_exist2(self, mock_arg, mock_help):
+
+        """Function:  test_arg_exist2
+
+        Description:  Test with args -S only present.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-S"] = ["a"]
+
+        mock_arg.return_value = self.argspar
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
+
+    @mock.patch("check_log.gen_libs.help_func")
+    @mock.patch("check_log.gen_class.ArgParser")
+    def test_arg_exist(self, mock_arg, mock_help):
+
+        """Function:  test_arg_exist
+
+        Description:  Test with args -S and -k present.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-S"] = ["a"]
+        self.argspar.args_array["-k"] = "and"
+
+        mock_arg.return_value = self.argspar
+        mock_help.return_value = True
+
+        self.assertFalse(check_log.main())
 
     @mock.patch("check_log.gen_libs.help_func")
     @mock.patch("check_log.gen_class.ArgParser")

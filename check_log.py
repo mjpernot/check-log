@@ -142,7 +142,7 @@ def full_chk(args):
 
     full_chk_flag = True
 
-    if "-m" in args.args_array and "-r" not in args.args_array \
+    if args.arg_exist("-m") and not args.arg_exist("-r") \
        and not gen_libs.is_empty_file(args.args_array["-m"]):
 
         full_chk_flag = False
@@ -178,7 +178,7 @@ def update_marker(args, line):
 
     """
 
-    if "-m" in args.args_array and "-n" not in args.args_array:
+    if args.arg_exist("-m") and not args.arg_exist("-n"):
         gen_libs.write_file(args.args_array["-m"], mode="w", data=line)
 
 
@@ -196,7 +196,7 @@ def log_2_output(log, args):
     """
 
     # Send output to email.
-    if "-t" in args.args_array:
+    if args.arg_exist("-t"):
         host = socket.gethostname()
         frm_line = getpass.getuser() + "@" + host
 
@@ -207,15 +207,14 @@ def log_2_output(log, args):
         mail.send_mail(use_mailx=args.args_array.get("-u", False))
 
     # Write output to file.
-    if "-o" in args.args_array and \
-       (log.loglist or "-w" not in args.args_array):
+    if args.arg_exist("-o") and (log.loglist or not args.arg_exist("-w")):
 
         with open(args.args_array["-o"], args.args_array["-g"]) as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 
     # Suppress standard out.
-    if "-z" not in args.args_array:
+    if not args.arg_exist("-z"):
         for item in log.loglist:
             print(item, file=sys.stdout)
 
@@ -285,19 +284,19 @@ def load_attributes(log, args):
 
     """
 
-    if "-S" in args.args_array.keys():
+    if args.arg_exist("-S"):
         log.load_keyword(args.args_array["-S"])
 
-    if "-k" in args.args_array.keys():
+    if args.arg_exist("-k"):
         log.set_predicate(args.args_array["-k"])
 
-    if "-m" in args.args_array.keys():
+    if args.arg_exist("-m"):
         log.load_marker(gen_libs.openfile(args.args_array["-m"]))
 
-    if "-F" in args.args_array.keys():
+    if args.arg_exist("-F"):
         log.load_regex(gen_libs.openfile(args.args_array["-F"]))
 
-    if "-i" in args.args_array.keys():
+    if args.arg_exist("-i"):
         log.load_ignore(gen_libs.openfile(args.args_array["-i"]))
 
 
@@ -314,14 +313,14 @@ def run_program(args):
 
     """
 
-    if "-c" in args.args_array and "-m" in args.args_array:
+    if args.arg_exist("-c") and args.arg_exist("-m"):
         gen_libs.clear_file(args.args_array["-m"])
 
     else:
         log = gen_class.LogFile()
         load_attributes(log, args)
 
-        if "-f" in args.args_array:
+        if args.arg_exist("-f"):
             fetch_log(log, args)
 
         elif not sys.stdin.isatty():
@@ -378,7 +377,7 @@ def main():
         cmdline.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
 
     # Set default search logic.
-    if "-S" in args.args_array.keys() and "-k" not in args.args_array.keys():
+    if args.arg_exist("-S") and not args.arg_exist("-k"):
         args.arg_default("-k", opt_def=opt_def)
 
     # Set default write file mode.
