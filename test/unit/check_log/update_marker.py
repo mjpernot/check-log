@@ -70,7 +70,7 @@ class ArgParser(object):
         if arg in self.args_array:
             return True
 
-        return False 
+        return False
 
 
 class UnitTest(unittest.TestCase):
