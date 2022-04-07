@@ -60,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        p_name = "check_log.py"
+
         self.log = gen_class.LogFile()
         self.log.loglist = ["first line of log", "second line of log"]
         self.base_dir = "test/integration/check_log"
@@ -77,9 +79,9 @@ class UnitTest(unittest.TestCase):
 
         self.opt_val = [
             "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
-        self.argv = ["check_log.py", "-t", "user@domain.name", "-z", "-u"]
-        self.argv2 = ["check_log.py", "-t", "user@domain.name", "-z"]
-        self.argv3 = ["check_log.py", "-o", self.file_name, "-g", "w"]
+        self.argv = [p_name, "-t", "user@domain.name", "-z", "-u"]
+        self.argv2 = [p_name, "-t", "user@domain.name", "-z"]
+        self.argv3 = [p_name, "-o", self.file_name, "-g", "w"]
 
     @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail2(self, mock_mail):
