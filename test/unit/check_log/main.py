@@ -134,7 +134,7 @@ class ArgParser(object):
         if arg in self.args_array:
             return True
 
-        return False 
+        return False
 
     def arg_file_chk(self, file_chk, file_crt):
 

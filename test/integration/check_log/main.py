@@ -86,23 +86,23 @@ class UnitTest(unittest.TestCase):
         self.log_file2 = os.path.join(self.test_path, logname2)
         self.marker = os.path.join(self.test_path, base_marker)
         self.base_marker3 = "main_entry_file2.txt"
-        status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
-                                           self.test_path, marker_name)
+        status, err_msg = gen_libs.cp_file(
+            base_marker, self.test_path, self.test_path, marker_name)
 
         if not status:
             print(self.prt_format % (err_msg))
             self.skipTest(self.skip_msg)
 
-        status, err_msg = gen_libs.cp_file(filename1, self.test_path,
-                                           self.test_path, logname1)
+        status, err_msg = gen_libs.cp_file(
+            filename1, self.test_path, self.test_path, logname1)
 
         if not status:
             os.remove(self.file_marker)
             print(self.prt_format % (err_msg))
             self.skipTest(self.skip_msg)
 
-        status, err_msg = gen_libs.cp_file(filename2, self.test_path,
-                                           self.test_path, logname2)
+        status, err_msg = gen_libs.cp_file(
+            filename2, self.test_path, self.test_path, logname2)
 
         if not status:
             os.remove(self.file_marker)
@@ -122,8 +122,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argv_list.extend(["-f", self.log_file2, "-o", self.test_out,
-                               "-S", "sixth", "tenth", "-k", "or"])
+        self.argv_list.extend(
+            ["-f", self.log_file2, "-o", self.test_out, "-S", "sixth", "tenth",
+             "-k", "or"])
         cmdline = gen_libs.get_inst(sys)
         cmdline.argv = self.argv_list
 
