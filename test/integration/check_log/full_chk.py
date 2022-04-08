@@ -28,6 +28,7 @@ else:
 # Local
 sys.path.append(os.getcwd())
 import check_log
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -58,6 +59,14 @@ class UnitTest(unittest.TestCase):
 
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
+        self.opt_val = [
+            "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+        self.argv = [
+            "check_log.py", "-m",
+            os.path.join(self.test_path, "full_chk_not_empty.txt")]
+        self.argv2 = [
+            "check_log.py", "-m",
+            os.path.join(self.test_path, "full_chk_empty.txt")]
 
     def test_file_not_empty(self):
 
@@ -69,10 +78,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        args_array = {"-m": os.path.join(self.test_path,
-                                         "full_chk_not_empty.txt")}
+        args = gen_class.ArgParser(
+            self.argv, opt_val=self.opt_val, do_parse=True)
 
-        self.assertFalse(check_log.full_chk(args_array))
+        self.assertFalse(check_log.full_chk(args))
 
     def test_file_is_empty(self):
 
@@ -84,9 +93,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        args_array = {"-m": os.path.join(self.test_path, "full_chk_empty.txt")}
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, do_parse=True)
 
-        self.assertTrue(check_log.full_chk(args_array))
+        self.assertTrue(check_log.full_chk(args))
 
 
 if __name__ == "__main__":

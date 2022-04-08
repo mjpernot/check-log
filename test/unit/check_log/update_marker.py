@@ -33,6 +33,46 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+        arg_exist
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+    def arg_exist(self, arg):
+
+        """Method:  arg_exist
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        if arg in self.args_array:
+            return True
+
+        return False
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -58,10 +98,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = \
-            {"-m": "test/unit/check_log/testfiles/update_marker_file.txt"}
+        self.argspar = ArgParser()
 
         self.marker_line = "This is the first line"
+        self.file_name = "test/unit/check_log/testfiles/update_marker_file.txt"
 
     def test_m_option_not_set(self):
 
@@ -73,7 +113,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(check_log.update_marker({}, self.marker_line))
+        self.assertFalse(
+            check_log.update_marker(self.argspar, self.marker_line))
 
     def test_n_option_set(self):
 
@@ -85,11 +126,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-n"] = True
+        self.argspar.args_array = {"-m": self.file_name}
+        self.argspar.args_array["-n"] = True
 
-        check_log.update_marker(self.args_array, self.marker_line)
+        check_log.update_marker(self.argspar, self.marker_line)
 
-        if os.path.isfile(self.args_array["-m"]):
+        if os.path.isfile(self.argspar.args_array["-m"]):
             status = False
 
         else:
@@ -107,9 +149,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.update_marker(self.args_array, self.marker_line)
+        self.argspar.args_array = {"-m": self.file_name}
 
-        with open(self.args_array["-m"], "r") as f_hdlr:
+        check_log.update_marker(self.argspar, self.marker_line)
+
+        with open(self.argspar.args_array["-m"], "r") as f_hdlr:
             marker_str = f_hdlr.readline().strip("\n")
 
         self.assertEqual(marker_str, self.marker_line)
@@ -124,8 +168,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isfile(self.args_array["-m"]):
-            os.remove(self.args_array["-m"])
+        if os.path.isfile(self.file_name):
+            os.remove(self.file_name)
 
 
 if __name__ == "__main__":
