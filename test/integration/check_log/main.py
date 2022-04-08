@@ -139,7 +139,7 @@ class UnitTest(unittest.TestCase):
                 out_str, "This is the sixth line\n")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     def test_and_search(self):
 
@@ -167,7 +167,7 @@ class UnitTest(unittest.TestCase):
                 out_str, "This is the sixth line\nThis is the seventh line\n")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -196,7 +196,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, "Line two")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -226,7 +226,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, "Line one\nLine two")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -254,7 +254,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, "Line one\nLine two\n")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     def test_clear_marker(self):
 
@@ -272,13 +272,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.main()
 
-        if os.stat(self.file_marker).st_size == 0:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(os.stat(self.file_marker).st_size == 0)
 
     def test_marker(self):
 
@@ -305,7 +299,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, "This is the seventh line\n")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     def test_file(self):
 
@@ -332,7 +326,7 @@ class UnitTest(unittest.TestCase):
                 out_str, "This is the sixth line\nThis is the seventh line\n")
 
         else:
-            self.assertTrue(False)
+            self.assertTrue(os.path.isfile(self.test_out))
 
     def test_arg_file_chk(self):
 
