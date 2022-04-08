@@ -37,6 +37,46 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+        arg_exist
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+    def arg_exist(self, arg):
+
+        """Method:  arg_exist
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        if arg in self.args_array:
+            return True
+
+        return False
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -72,8 +112,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.argspar = ArgParser()
         self.line1 = "first line of log"
         self.line2 = "second line of log"
+        self.line3 = "first line of log\nsecond line of log"
         self.outfile = "test/unit/check_log/testfiles/log_2_output_file.out"
         self.log = gen_class.LogFile()
         self.log.loglist = [self.line1, self.line2]
@@ -96,9 +138,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": self.msg, "-z": True, "-u": True}
+        self.argspar.args_array = {"-t": self.msg, "-z": True, "-u": True}
 
-        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+        self.assertFalse(check_log.log_2_output(self.log, self.argspar))
 
     def test_g_option_write(self):
 
@@ -110,19 +152,23 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.argspar.args_array = self.args_array4
         self.log.loglist = [self.line1]
-        check_log.log_2_output(self.log, self.args_array4)
-        self.log.loglist = [self.line2]
-        check_log.log_2_output(self.log, self.args_array4)
 
-        if os.path.isfile(self.args_array4["-o"]):
-            with open(self.args_array4["-o"]) as f_hdlr:
+        check_log.log_2_output(self.log, self.argspar)
+
+        self.log.loglist = [self.line2]
+
+        check_log.log_2_output(self.log, self.argspar)
+
+        if os.path.isfile(self.argspar.args_array["-o"]):
+            with open(self.argspar.args_array["-o"]) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line2)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line2)
 
     def test_g_option_append(self):
 
@@ -134,20 +180,23 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.argspar.args_array = self.args_array3
         self.log.loglist = [self.line1]
-        check_log.log_2_output(self.log, self.args_array3)
-        self.log.loglist = [self.line2]
-        check_log.log_2_output(self.log, self.args_array3)
 
-        if os.path.isfile(self.args_array3["-o"]):
-            with open(self.args_array3["-o"]) as f_hdlr:
+        check_log.log_2_output(self.log, self.argspar)
+
+        self.log.loglist = [self.line2]
+
+        check_log.log_2_output(self.log, self.argspar)
+
+        if os.path.isfile(self.argspar.args_array["-o"]):
+            with open(self.argspar.args_array["-o"]) as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
-            self.assertEqual(out_str,
-                             "first line of log\nsecond line of log")
+            self.assertEqual(out_str, self.line3)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line3)
 
     def test_w_option_data_log(self):
 
@@ -159,8 +208,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.log_2_output(self.log, self.args_array2)
-        self.assertTrue(os.path.isfile(self.args_array2["-o"]))
+        self.argspar.args_array = self.args_array2
+
+        check_log.log_2_output(self.log, self.argspar)
+
+        self.assertTrue(os.path.isfile(self.argspar.args_array["-o"]))
 
     def test_w_option_empty_log(self):
 
@@ -173,8 +225,11 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = []
-        check_log.log_2_output(self.log, self.args_array2)
-        self.assertFalse(os.path.isfile(self.args_array2["-o"]))
+        self.argspar.args_array = self.args_array2
+
+        check_log.log_2_output(self.log, self.argspar)
+
+        self.assertFalse(os.path.isfile(self.argspar.args_array["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_z_options_set(self, mock_mail):
@@ -188,9 +243,11 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": self.msg, "-z": True}
 
-        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+        self.argspar.args_array = {"-t": self.msg, "-z": True}
+
+        self.assertFalse(
+            check_log.log_2_output(self.log, self.argspar))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_s_options_set(self, mock_mail):
@@ -204,10 +261,12 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": self.msg, "-s": "Subject Line"}
+
+        self.argspar.args_array = {"-t": self.msg, "-s": "Subject Line"}
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+            self.assertFalse(
+                check_log.log_2_output(self.log, self.argspar))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_o_options_set(self, mock_mail):
@@ -221,12 +280,14 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array["-t"] = self.msg
+
+        self.argspar.args_array = self.args_array
+        self.argspar.args_array["-t"] = self.msg
 
         with gen_libs.no_std_out():
-            check_log.log_2_output(self.log, self.args_array)
+            check_log.log_2_output(self.log, self.argspar)
 
-        self.assertTrue(os.path.isfile(self.args_array["-o"]))
+        self.assertTrue(os.path.isfile(self.argspar.args_array["-o"]))
 
     @mock.patch("check_log.gen_class.Mail")
     def test_t_option_set(self, mock_mail):
@@ -240,10 +301,11 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
-        self.args_array = {"-t": self.msg}
+
+        self.argspar.args_array = {"-t": self.msg}
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+            self.assertFalse(check_log.log_2_output(self.log, self.argspar))
 
     def test_z_option_set(self):
 
@@ -255,9 +317,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {"-z": True}
+        self.argspar.args_array = {"-z": True}
 
-        self.assertFalse(check_log.log_2_output(self.log, self.args_array))
+        self.assertFalse(
+            check_log.log_2_output(self.log, self.argspar))
 
     def test_write_to_log_empty_log(self):
 
@@ -270,10 +333,12 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = []
-        check_log.log_2_output(self.log, self.args_array)
+        self.argspar.args_array = self.args_array
 
-        self.assertTrue(os.path.isfile(self.args_array["-o"]) and
-                        os.stat(self.args_array["-o"]).st_size == 0)
+        check_log.log_2_output(self.log, self.argspar)
+
+        self.assertTrue(os.path.isfile(self.argspar.args_array["-o"]) and
+                        os.stat(self.argspar.args_array["-o"]).st_size == 0)
 
     def test_write_to_log(self):
 
@@ -285,10 +350,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        with gen_libs.no_std_out():
-            check_log.log_2_output(self.log, self.args_array)
+        self.argspar.args_array = self.args_array
 
-        self.assertTrue(os.path.isfile(self.args_array["-o"]))
+        with gen_libs.no_std_out():
+            check_log.log_2_output(self.log, self.argspar)
+
+        self.assertTrue(os.path.isfile(self.argspar.args_array["-o"]))
 
     def test_o_option_empty_log(self):
 
@@ -301,7 +368,8 @@ class UnitTest(unittest.TestCase):
         """
 
         self.log.loglist = []
-        self.assertFalse(check_log.log_2_output(self.log, {}))
+
+        self.assertFalse(check_log.log_2_output(self.log, self.argspar))
 
     def test_o_option_not_set(self):
 
@@ -314,7 +382,7 @@ class UnitTest(unittest.TestCase):
         """
 
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.log_2_output(self.log, {}))
+            self.assertFalse(check_log.log_2_output(self.log, self.argspar))
 
     def tearDown(self):
 
@@ -326,8 +394,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if "-o" in self.args_array and os.path.isfile(self.args_array["-o"]):
-            os.remove(self.args_array["-o"])
+        if os.path.isfile(self.outfile):
+            os.remove(self.outfile)
 
 
 if __name__ == "__main__":

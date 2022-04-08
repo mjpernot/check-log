@@ -30,6 +30,7 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import check_log
+import lib.gen_class as gen_class
 import lib.gen_libs as gen_libs
 import version
 
@@ -74,6 +75,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        p_name = "check_log.py"
+
         self.line3 = "This is the third line"
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
@@ -89,10 +92,10 @@ class UnitTest(unittest.TestCase):
         self.base_marker3 = "run_program_entry_file2.txt"
         marker_name = "run_program_marker.txt"
         self.test_out = os.path.join(self.test_path, "test_out.txt")
-        self.ignore_msgs = os.path.join(self.test_path,
-                                        "run_program_ignore_file.txt")
-        self.filter_data = os.path.join(self.test_path,
-                                        "run_program_filter_file.txt")
+        self.ignore_msgs = os.path.join(
+            self.test_path, "run_program_ignore_file.txt")
+        self.filter_data = os.path.join(
+            self.test_path, "run_program_filter_file.txt")
         self.file_marker = os.path.join(self.test_path, marker_name)
         self.file_marker2 = os.path.join(self.test_path, base_marker2)
         self.log_file1 = os.path.join(self.test_path, logname1)
@@ -100,8 +103,8 @@ class UnitTest(unittest.TestCase):
         self.log_file3 = os.path.join(self.test_path, filename3)
         self.log_file4 = os.path.join(self.test_path, filename4)
         self.log_file5 = os.path.join(self.test_path, filename5)
-        status, err_msg = gen_libs.cp_file(base_marker, self.test_path,
-                                           self.test_path, marker_name)
+        status, err_msg = gen_libs.cp_file(
+            base_marker, self.test_path, self.test_path, marker_name)
         self.prt_format = "ERROR:  Test environment setup failed. Message: %s"
         self.pre_cond = "Pre-conditions not met."
 
@@ -109,16 +112,16 @@ class UnitTest(unittest.TestCase):
             print(self.prt_format % (err_msg))
             self.skipTest(self.pre_cond)
 
-        status, err_msg = gen_libs.cp_file(filename1, self.test_path,
-                                           self.test_path, logname1)
+        status, err_msg = gen_libs.cp_file(
+            filename1, self.test_path, self.test_path, logname1)
 
         if not status:
             os.remove(self.file_marker)
             print(self.prt_format % (err_msg))
             self.skipTest(self.pre_cond)
 
-        status, err_msg = gen_libs.cp_file(filename2, self.test_path,
-                                           self.test_path, logname2)
+        status, err_msg = gen_libs.cp_file(
+            filename2, self.test_path, self.test_path, logname2)
 
         if not status:
             os.remove(self.file_marker)
@@ -126,13 +129,60 @@ class UnitTest(unittest.TestCase):
             print(self.prt_format % (err_msg))
             self.skipTest(self.pre_cond)
 
-        self.args_array = {"-f": [self.log_file1, self.log_file2], "-g": "w"}
-        self.args_array2 = {"-f": [self.log_file1, self.log_file2],
-                            "-S": ["third", "line"], "-k": "and",
-                            "-o": self.test_out, "-g": "w"}
-        self.args_array3 = {"-f": [self.log_file1, self.log_file2],
-                            "-S": ["sixth", "new"], "-k": "or",
-                            "-o": self.test_out, "-g": "w"}
+        self.argv = [p_name, "-f", self.log_file1, self.log_file2, "-g", "w"]
+        self.argv2 = [
+            p_name, "-f", self.log_file1, self.log_file2, "-S", "third",
+            "line", "-k", "and", "-o", self.test_out, "-g", "w"]
+        self.argv3 = [
+            p_name, "-f", self.log_file1, self.log_file2, "-S", "sixth", "new",
+            "-k", "or", "-o", self.test_out, "-g", "w"]
+        self.argv4 = [
+            p_name, "-o", self.test_out, "-n", "-z", "-m",
+            os.path.join(self.test_path, self.base_marker3), "-g", "w"]
+        self.argv5 = [
+            p_name, "-f", self.log_file1, self.log_file2, "-g", "w", "-F",
+            self.filter_data, "-o", self.test_out]
+        self.argv6 = [
+            p_name, "-f", self.log_file1, self.log_file2, "-g", "w", "-i",
+            self.ignore_msgs, "-o", self.test_out]
+        self.argv7 = [
+            p_name, "-f", self.log_file1, self.log_file2, "-g", "w", "-z",
+            "-m", self.file_marker]
+        self.argv8 = [
+            p_name, "-f", self.log_file4, "-o", self.test_out, "-z", "-g", "w"]
+        self.argv9 = [
+            p_name, "-f", self.log_file5, "-o", self.test_out, "-z", "-g", "w"]
+        self.argv10 = [
+            p_name, "-f", self.log_file4, "-g", "a", "-o", self.test_out, "-z"]
+        self.argv11 = [
+            p_name, "-f", self.log_file5, "-g", "a", "-o", self.test_out, "-z"]
+        self.argv12 = [
+            p_name, "-f", self.log_file3, "-g", "w", "-o", self.test_out, "-z",
+            "-w"]
+        self.argv13 = [
+            p_name, "-f", self.log_file2, "-g", "w", "-o", self.test_out, "-z",
+            "-w", "-g", "w"]
+        self.argv14 = [
+            p_name, "-f", self.log_file2, "-g", "w", "-o", self.test_out]
+        self.argv15 = [p_name]
+        self.argv16 = [
+            p_name, "-o", self.test_out, "-m", self.file_marker2, "-n", "-z",
+            "-g", "w"]
+        self.argv17 = [p_name, "-o", self.test_out, "-z", "-g", "w"]
+        self.argv18 = [p_name, "-c", "-m", self.file_marker]
+        self.opt_val = [
+            "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+        self.multi_val = ["-f", "-s", "-t", "-S"]
+
+        self.results = "This is the sixth line"
+        self.results2 = "Line one\nLine two"
+        self.results3 = "This is the seventh line"
+        self.results4 = "Line 2\n"
+        self.results5 = "Line 1\nLine 2\n"
+        self.results6 = "This is the sixth line\nThis is the seventh line\n"
+        self.results7 = "This is the sixth line\nThis is the seventh line\n"
+        self.results8 = "Line two"
+        self.results9 = "Line one\nLine two\n"
 
     def test_search_or(self):
 
@@ -144,17 +194,21 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        args = gen_class.ArgParser(
+            self.argv3, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+
         with gen_libs.no_std_out():
-            check_log.run_program(self.args_array3)
+            check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
-            self.assertEqual(out_str, "This is the sixth line")
+            self.assertEqual(out_str, self.results)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results)
 
     def test_search_and(self):
 
@@ -166,8 +220,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+
         with gen_libs.no_std_out():
-            check_log.run_program(self.args_array2)
+            check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
@@ -176,7 +234,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, self.line3)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line3)
 
     def test_file_suppress(self):
 
@@ -188,8 +246,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        args = gen_class.ArgParser(
+            self.argv, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+
         with gen_libs.no_std_out():
-            self.assertFalse(check_log.run_program(self.args_array))
+            self.assertFalse(check_log.run_program(args))
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -204,20 +266,21 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-        args_array = {"-o": self.test_out, "-n": True, "-z": True,
-                      "-m": os.path.join(self.test_path, self.base_marker3),
-                      "-g": "w"}
 
-        check_log.run_program(args_array)
+        args = gen_class.ArgParser(
+            self.argv4, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+
+        check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
-            self.assertEqual(out_str, "Line one\nLine two")
+            self.assertEqual(out_str, self.results2)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results2)
 
     def test_filter_data(self):
 
@@ -229,10 +292,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-F": self.filter_data, "-o": self.test_out})
+        args = gen_class.ArgParser(
+            self.argv5, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
 
         with gen_libs.no_std_out():
-            check_log.run_program(self.args_array)
+            check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
@@ -241,7 +306,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, self.line3)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line3)
 
     def test_ignore_msg(self):
 
@@ -253,10 +318,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-i": self.ignore_msgs, "-o": self.test_out})
+        args = gen_class.ArgParser(
+            self.argv6, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
 
         with gen_libs.no_std_out():
-            check_log.run_program(self.args_array)
+            check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
@@ -265,7 +332,7 @@ class UnitTest(unittest.TestCase):
             self.assertEqual(out_str, self.line3)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.line3)
 
     def test_marker(self):
 
@@ -277,14 +344,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-z": True, "-m": self.file_marker})
+        args = gen_class.ArgParser(
+            self.argv7, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
 
-        check_log.run_program(self.args_array)
+        check_log.run_program(args)
 
         with open(self.file_marker) as f_hdlr:
             out_str = f_hdlr.readline().rstrip()
 
-        self.assertEqual(out_str, "This is the seventh line")
+        self.assertEqual(out_str, self.results3)
 
     def test_file_g_option_write(self):
 
@@ -296,21 +365,24 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
-                                "-z": True, "-g": "w"})
-        check_log.run_program(self.args_array)
-        self.args_array["-f"] = [self.log_file5]
-        check_log.run_program(self.args_array)
+        args = gen_class.ArgParser(
+            self.argv8, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
+
+        args2 = gen_class.ArgParser(
+            self.argv9, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "Line 2\n")
+            self.assertEqual(out_str, self.results4)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results4)
 
     def test_file_g_option_append(self):
 
@@ -322,21 +394,24 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file4], "-o": self.test_out,
-                                "-z": True, "-g": "a"})
-        check_log.run_program(self.args_array)
-        self.args_array["-f"] = [self.log_file5]
-        check_log.run_program(self.args_array)
+        args = gen_class.ArgParser(
+            self.argv10, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
+
+        args2 = gen_class.ArgParser(
+            self.argv11, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "Line 1\nLine 2\n")
+            self.assertEqual(out_str, self.results5)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results5)
 
     def test_file_w_option_empty(self):
 
@@ -348,9 +423,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file3], "-o": self.test_out,
-                                "-z": True, "-w": True})
-        check_log.run_program(self.args_array)
+        args = gen_class.ArgParser(
+            self.argv12, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
 
         self.assertFalse(os.path.isfile(self.test_out))
 
@@ -364,19 +440,19 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file2], "-o": self.test_out,
-                                "-z": True, "-w": True, "-g": "w"})
-        check_log.run_program(self.args_array)
+        args = gen_class.ArgParser(
+            self.argv13, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results6)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results6)
 
     def test_file(self):
 
@@ -388,20 +464,21 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array.update({"-f": [self.log_file2], "-o": self.test_out})
+        args = gen_class.ArgParser(
+            self.argv14, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
 
         with gen_libs.no_std_out():
-            check_log.run_program(self.args_array)
+            check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results7)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results7)
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u""))
     @mock.patch("check_log.sys.stdin")
@@ -417,7 +494,11 @@ class UnitTest(unittest.TestCase):
 
         mock_atty.isatty.return_value = False
 
-        self.assertFalse(check_log.run_program({}))
+        args = gen_class.ArgParser(
+            self.argv15, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+
+        self.assertFalse(check_log.run_program(args))
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -432,19 +513,20 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-        args_array = {"-o": self.test_out, "-m": self.file_marker2, "-n": True,
-                      "-z": True, "-g": "w"}
 
-        check_log.run_program(args_array)
+        args = gen_class.ArgParser(
+            self.argv16, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
-            self.assertEqual(out_str, "Line two")
+            self.assertEqual(out_str, self.results8)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results8)
 
     @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
@@ -459,18 +541,20 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_atty.isatty.return_value = False
-        args_array = {"-o": self.test_out, "-z": True, "-g": "w"}
 
-        check_log.run_program(args_array)
+        args = gen_class.ArgParser(
+            self.argv17, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(out_str, "Line one\nLine two\n")
+            self.assertEqual(out_str, self.results9)
 
         else:
-            self.assertTrue(False)
+            self.assertEqual("", self.results9)
 
     def test_clear_marker(self):
 
@@ -482,9 +566,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        args_array = {"-c": True, "-m": self.file_marker}
+        args = gen_class.ArgParser(
+            self.argv18, opt_val=self.opt_val, multi_val=self.multi_val,
+            do_parse=True)
+        check_log.run_program(args)
 
-        check_log.run_program(args_array)
         self.assertTrue(os.stat(self.file_marker).st_size == 0)
 
     def tearDown(self):

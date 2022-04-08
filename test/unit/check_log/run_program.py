@@ -35,6 +35,46 @@ import version
 __version__ = version.__version__
 
 
+class ArgParser(object):
+
+    """Class:  ArgParser
+
+    Description:  Class stub holder for gen_class.ArgParser class.
+
+    Methods:
+        __init__
+        arg_exist
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.args_array = dict()
+
+    def arg_exist(self, arg):
+
+        """Method:  arg_exist
+
+        Description:  Method stub holder for gen_class.ArgParser.arg_default.
+
+        Arguments:
+
+        """
+
+        if arg in self.args_array:
+            return True
+
+        return False
+
+
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -43,10 +83,14 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_clear_option4
+        test_clear_option3
+        test_clear_option2
         test_clear_option
         test_full_chk
         test_loglist_data
         test_stdin
+        test_f_option_not_set
         test_f_option_set
 
     """
@@ -61,10 +105,77 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array = {}
+        self.argspar = ArgParser()
         self.log = gen_class.LogFile()
         self.log.loglist = ["Testdata"]
         self.log_file = "/opt/local/check-log/logfile"
+
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=True))
+    @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_clear_option4(self, mock_log):
+
+        """Function:  test_clear_option4
+
+        Description:  Test with no -c or -m arguments.
+
+        Arguments:
+
+        """
+
+        mock_log.return_value = self.log
+
+        self.assertFalse(check_log.run_program(self.argspar))
+
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=True))
+    @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_clear_option3(self, mock_log):
+
+        """Function:  test_clear_option3
+
+        Description:  Test with -m argument only.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-m"] = "/opt/local/check-log/markerfile"
+
+        mock_log.return_value = self.log
+
+        self.assertFalse(check_log.run_program(self.argspar))
+
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=True))
+    @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_clear_option2(self, mock_log):
+
+        """Function:  test_clear_option2
+
+        Description:  Test with -c argument only.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-c"] = True
+
+        mock_log.return_value = self.log
+
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.gen_libs.clear_file", mock.Mock(return_value=True))
     def test_clear_option(self):
@@ -77,10 +188,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-c"] = True
-        self.args_array["-m"] = "/opt/local/check-log/markerfile"
+        self.argspar.args_array["-c"] = True
+        self.argspar.args_array["-m"] = "/opt/local/check-log/markerfile"
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
@@ -100,9 +211,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
@@ -121,9 +232,9 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_log.return_value = self.log
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.fetch_log_stdin", mock.Mock(return_value=True))
     @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
@@ -140,7 +251,20 @@ class UnitTest(unittest.TestCase):
 
         mock_sys.isatty.return_value = False
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
+
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    def test_f_option_not_set(self):
+
+        """Function:  test_f_option_not_set
+
+        Description:  Test with -f option not in args_array.
+
+        Arguments:
+
+        """
+
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
     @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
@@ -154,9 +278,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.args_array["-f"] = self.log_file
+        self.argspar.args_array["-f"] = self.log_file
 
-        self.assertFalse(check_log.run_program(self.args_array))
+        self.assertFalse(check_log.run_program(self.argspar))
 
 
 if __name__ == "__main__":

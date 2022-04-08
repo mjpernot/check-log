@@ -13,7 +13,7 @@
     Usage:
         check_log.py [-f {file* file1 file2 ...}] |
             -F file |
-            -S {keyword1 keyword2 ...} {-k "and"|"or"} |
+            -S {keyword1 keyword2 ...} {-k and|or} |
             -m file {-n} {-c} {-r} |
             -t email {email2 email3 ...} {-s subject_line} {-u} |
             -o file {-g {a|w}} {-w} |
@@ -35,7 +35,7 @@
 
         -S keyword(s) => Search for keywords.  List of keywords are
                 space-delimited and are case-insensitive.
-            -k "and"|"or" => Keyword search logic.  Default is "or".
+            -k and|or => Keyword search logic.  Default is "or".
 
         -m file => Name of the file that contains marker tag in file.
             -n => Flag option not to update the marker file.
@@ -47,7 +47,7 @@
             -u => Override the default mail command and use mailx.
 
         -o file => Name of the out file.
-            -g "a"|"w" => Append or write/overwrite to a log file. Default: w.
+            -g a|w => Append or write/overwrite to a log file. Default is "w".
             -w => No write if empty.  Do not write to a file if no data was
                 found.
 
@@ -107,7 +107,6 @@ import getpass
 # Third-party
 
 # Local
-import lib.arg_parser as arg_parser
 import lib.gen_libs as gen_libs
 import lib.gen_class as gen_class
 import version
@@ -129,23 +128,22 @@ def help_message():
     print(__doc__)
 
 
-def full_chk(args_array):
+def full_chk(args):
 
     """Function:  full_chk
 
     Description:  Sets the full check flag depending on options selected.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (output) True|False -> Determine full check of log.
+        (input) args -> ArgParser class instance
+        (output) full_chk_flag -> True|False - Run a full check of log?
 
     """
 
-    args_array = dict(args_array)
     full_chk_flag = True
 
-    if "-m" in args_array and "-r" not in args_array \
-       and not gen_libs.is_empty_file(args_array["-m"]):
+    if args.arg_exist("-m") and not args.arg_exist("-r") \
+       and not gen_libs.is_empty_file(args.args_array["-m"]):
 
         full_chk_flag = False
 
@@ -156,10 +154,10 @@ def find_marker(log):
 
     """Function:  find_marker
 
-    Description:  Locates the marker.
+    Description:  Locates the file marker.
 
     Arguments:
-        (input) log -> LogFile class instance.
+        (input) log -> LogFile class instance
 
     """
 
@@ -167,7 +165,7 @@ def find_marker(log):
         log.find_marker(update=True)
 
 
-def update_marker(args_array, line):
+def update_marker(args, line):
 
     """Function:  update_marker
 
@@ -175,18 +173,16 @@ def update_marker(args_array, line):
         marker option is selected and not the no_update option.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
-        (input) line -> Last line of log.
+        (input) args -> ArgParser class instance
+        (input) line -> Last line of log
 
     """
 
-    args_array = dict(args_array)
-
-    if "-m" in args_array and "-n" not in args_array:
-        gen_libs.write_file(args_array["-m"], mode="w", data=line)
+    if args.arg_exist("-m") and not args.arg_exist("-n"):
+        gen_libs.write_file(args.args_array["-m"], mode="w", data=line)
 
 
-def log_2_output(log, args_array):
+def log_2_output(log, args):
 
     """Function:  log_2_output
 
@@ -194,38 +190,36 @@ def log_2_output(log, args_array):
         option.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    args_array = dict(args_array)
-
     # Send output to email.
-    if "-t" in args_array:
+    if args.arg_exist("-t"):
         host = socket.gethostname()
         frm_line = getpass.getuser() + "@" + host
 
-        mail = gen_class.Mail(args_array["-t"],
-                              "".join(args_array.get("-s",
-                                                     "check_log: " + host)),
-                              frm_line)
+        mail = gen_class.Mail(
+            args.args_array["-t"], "".join(args.args_array.get(
+                "-s", "check_log: " + host)), frm_line)
         mail.add_2_msg("\n".join(log.loglist))
-        mail.send_mail(use_mailx=args_array.get("-u", False))
+        mail.send_mail(use_mailx=args.args_array.get("-u", False))
 
     # Write output to file.
-    if "-o" in args_array and (log.loglist or "-w" not in args_array):
-        with open(args_array["-o"], args_array["-g"]) as f_hdlr:
+    if args.arg_exist("-o") and (log.loglist or not args.arg_exist("-w")):
+
+        with open(args.args_array["-o"], args.args_array["-g"]) as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 
     # Suppress standard out.
-    if "-z" not in args_array:
+    if not args.arg_exist("-z"):
         for item in log.loglist:
             print(item, file=sys.stdout)
 
 
-def fetch_log(log, args_array):
+def fetch_log(log, args):
 
     """Function:  fetch_log
 
@@ -235,21 +229,20 @@ def fetch_log(log, args_array):
         passed to the calling function.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    args_array = dict(args_array)
-
     # Sort files from oldest to newest.
-    args_array["-f"] = sorted(args_array["-f"], key=os.path.getmtime,
-                              reverse=False)
+    args.args_array["-f"] = sorted(
+        args.args_array["-f"], key=os.path.getmtime, reverse=False)
 
-    log_file = gen_libs.openfile(args_array["-f"][0], "r")
+    log_file = gen_libs.openfile(args.args_array["-f"][0], "r")
 
     # Start with the log file returned by open_log function call.
-    for item in args_array["-f"][args_array["-f"].index(log_file.name):]:
+    for item in args.args_array["-f"][
+            args.args_array["-f"].index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:
@@ -268,8 +261,7 @@ def fetch_log_stdin(log):
         the array.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
 
     """
 
@@ -279,7 +271,7 @@ def fetch_log_stdin(log):
         log.load_loglist(str(item))
 
 
-def load_attributes(log, args_array):
+def load_attributes(log, args):
 
     """Function:  load_attributes
 
@@ -287,28 +279,28 @@ def load_attributes(log, args_array):
         LogFile class attributes.
 
     Arguments:
-        (input) log -> LogFile class instance.
-        (input) args_array -> Dictionary of command line options and values.
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
 
     """
 
-    if "-S" in args_array.keys():
-        log.load_keyword(args_array["-S"])
+    if args.arg_exist("-S"):
+        log.load_keyword(args.args_array["-S"])
 
-    if "-k" in args_array.keys():
-        log.set_predicate(args_array["-k"])
+    if args.arg_exist("-k"):
+        log.set_predicate(args.args_array["-k"])
 
-    if "-m" in args_array.keys():
-        log.load_marker(gen_libs.openfile(args_array["-m"]))
+    if args.arg_exist("-m"):
+        log.load_marker(gen_libs.openfile(args.args_array["-m"]))
 
-    if "-F" in args_array.keys():
-        log.load_regex(gen_libs.openfile(args_array["-F"]))
+    if args.arg_exist("-F"):
+        log.load_regex(gen_libs.openfile(args.args_array["-F"]))
 
-    if "-i" in args_array.keys():
-        log.load_ignore(gen_libs.openfile(args_array["-i"]))
+    if args.arg_exist("-i"):
+        log.load_ignore(gen_libs.openfile(args.args_array["-i"]))
 
 
-def run_program(args_array):
+def run_program(args):
 
     """Function:  run_program
 
@@ -317,34 +309,32 @@ def run_program(args_array):
         output.
 
     Arguments:
-        (input) args_array -> Dictionary of command line options and values.
+        (input) args -> ArgParser class instance
 
     """
 
-    args_array = dict(args_array)
-
-    if "-c" in args_array and "-m" in args_array:
-        gen_libs.clear_file(args_array["-m"])
+    if args.arg_exist("-c") and args.arg_exist("-m"):
+        gen_libs.clear_file(args.args_array["-m"])
 
     else:
         log = gen_class.LogFile()
-        load_attributes(log, args_array)
+        load_attributes(log, args)
 
-        if "-f" in args_array:
-            fetch_log(log, args_array)
+        if args.arg_exist("-f"):
+            fetch_log(log, args)
 
         elif not sys.stdin.isatty():
             fetch_log_stdin(log)
 
         if log.loglist:
-            if not full_chk(args_array):
+            if not full_chk(args):
                 find_marker(log)
 
             log.filter_keyword()
             log.filter_ignore()
             log.filter_regex()
-            log_2_output(log, args_array)
-            update_marker(args_array, log.lastline)
+            log_2_output(log, args)
+            update_marker(args, log.lastline)
 
 
 def main():
@@ -355,53 +345,58 @@ def main():
         line arguments and values.
 
     Variables:
-        file_chk_list -> contains the options which will have files included.
-        file_crt_list -> contains options which require files to be created.
-        opt_con_req_dict -> contains options requiring other options.
-        opt_multi_list -> contains the options that will have multiple values.
-        opt_val_list -> contains options which require values.
-        opt_valid_val -> contains options with their valid values.
+        defaults -> Dictionary of required options with their default values
+        file_chk -> List of options which will have files included
+        file_crt -> List of options which require files to be created
+        multi_val -> List of options that will have multiple values
+        opt_con_or -> Dictionary of options requiring other options
+        opt_def -> Dictionary of optional options with their default values
+        opt_req -> List of options that are required for default values
+        opt_val -> List of options which require values
+        opt_valid_val -> Dictionary of options with their valid values
 
     Arguments:
-        (input) argv -> Arguments from the command line.
+        (input) argv -> Arguments from the command line
 
     """
 
-    file_chk_list = ["-f", "-i", "-m", "-F"]
-    file_crt_list = ["-m"]
-    opt_con_req_dict = {"-c": ["-m"], "-s": ["-t"]}
-    opt_multi_list = ["-f", "-s", "-t", "-S"]
-    opt_val_list = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+    defaults = {"-g": "w"}
+    file_chk = ["-f", "-i", "-m", "-F"]
+    file_crt = ["-m"]
+    multi_val = ["-f", "-s", "-t", "-S"]
+    opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
+    opt_def = {"-k": "or"}
+    opt_req = ["-g"]
+    opt_val = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
+
     cmdline = gen_libs.get_inst(sys)
 
     # Process argument list from command line.
-    args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list,
-                                       multi_val=opt_multi_list)
+    args = gen_class.ArgParser(
+        cmdline.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
 
     # Set default search logic.
-    if "-S" in args_array.keys() and "-k" not in args_array.keys():
-        args_array["-k"] = "or"
+    if args.arg_exist("-S") and not args.arg_exist("-k"):
+        args.arg_default("-k", opt_def=opt_def)
 
     # Set default write file mode.
-    if "-g" not in args_array.keys():
-        args_array["-g"] = "w"
+    args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args_array, __version__, help_message) \
-       and arg_parser.arg_cond_req_or(args_array, opt_con_req_dict) \
-       and not arg_parser.arg_file_chk(args_array, file_chk_list,
-                                       file_crt_list) \
-       and arg_parser.arg_valid_val(args_array, opt_valid_val):
+    if not gen_libs.help_func(args.args_array, __version__, help_message) \
+       and args.arg_cond_req_or(opt_con_or=opt_con_or) \
+       and args.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
+       and args.arg_valid_val(opt_valid_val=opt_valid_val):
 
         try:
-            prog_lock = gen_class.ProgramLock(cmdline.argv,
-                                              args_array.get("-y", ""))
-            run_program(args_array)
+            prog_lock = gen_class.ProgramLock(
+                cmdline.argv, args.args_array.get("-y", ""))
+            run_program(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args_array.get("-y", "")))
+                  % (args.args_array.get("-y", "")))
 
 
 if __name__ == "__main__":

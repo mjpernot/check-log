@@ -28,6 +28,7 @@ else:
 # Local
 sys.path.append(os.getcwd())
 import check_log
+import lib.gen_class as gen_class
 import version
 
 __version__ = version.__version__
@@ -58,10 +59,10 @@ class UnitTest(unittest.TestCase):
 
         self.base_dir = "test/integration/check_log"
         self.test_path = os.path.join(os.getcwd(), self.base_dir, "testfiles")
-
-        self.args_array = {"-m": os.path.join(self.test_path,
-                                              "update_marker_file.txt")}
-
+        self.file_name = os.path.join(self.test_path, "update_marker_file.txt")
+        self.argv = ["check_log.py", "-m", self.file_name]
+        self.opt_val = [
+            "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
         self.marker_line = "This is the last line"
 
     def test_update_marker(self):
@@ -74,9 +75,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        check_log.update_marker(self.args_array, self.marker_line)
+        args = gen_class.ArgParser(
+            self.argv, opt_val=self.opt_val, do_parse=True)
+        check_log.update_marker(args, self.marker_line)
 
-        with open(self.args_array["-m"], "r") as f_hdlr:
+        with open(args.args_array["-m"], "r") as f_hdlr:
             marker_str = f_hdlr.readline().strip("\n")
 
         self.assertEqual(marker_str, self.marker_line)
@@ -91,8 +94,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isfile(self.args_array["-m"]):
-            os.remove(self.args_array["-m"])
+        if os.path.isfile(self.file_name):
+            os.remove(self.file_name)
 
 
 if __name__ == "__main__":
