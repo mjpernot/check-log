@@ -5,6 +5,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [4.0.1] - 2022-05-06
+### Changed
+- main: Replaced main get from args_array with method call to get_val.
 
 
 ## [4.0.0] - 2022-02-07
