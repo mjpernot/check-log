@@ -49,6 +49,7 @@ class ArgParser(object):
         arg_exist
         arg_file_chk
         arg_valid_val
+        get_val
 
     """
 
@@ -79,6 +80,9 @@ class ArgParser(object):
         self.arg_file_chk2 = True
         self.arg_valid_val2 = True
         self.arg = None
+        self.get_value = None
+        self.key_val = None
+        self.def_val = None
 
     def arg_add_def(self, defaults, opt_req):
 
@@ -164,6 +168,21 @@ class ArgParser(object):
         self.opt_valid_val = opt_valid_val
 
         return self.arg_valid_val2
+
+    def get_val(self, key_val, def_val):
+
+        """Method:  get_val
+
+        Description:  Method stub holder for gen_class.ArgParser.get_val.
+
+        Arguments:
+
+        """
+
+        self.key_val = key_val
+        self.def_val = def_val
+
+        return self.get_value
 
 
 class ProgramLock(object):
@@ -363,7 +382,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argspar.args_array["-y"] = "FlavorID"
+        self.argspar.get_value = "FlavorID"
 
         mock_arg.return_value = self.argspar
         mock_help.return_value = False
