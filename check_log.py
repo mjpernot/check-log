@@ -143,7 +143,7 @@ def full_chk(args):
     full_chk_flag = True
 
     if args.arg_exist("-m") and not args.arg_exist("-r") \
-       and not gen_libs.is_empty_file(args.args_array["-m"]):
+       and not gen_libs.is_empty_file(args.get_val("-m")):
 
         full_chk_flag = False
 
@@ -179,7 +179,7 @@ def update_marker(args, line):
     """
 
     if args.arg_exist("-m") and not args.arg_exist("-n"):
-        gen_libs.write_file(args.args_array["-m"], mode="w", data=line)
+        gen_libs.write_file(args.get_val("-m"), mode="w", data=line)
 
 
 def log_2_output(log, args):
@@ -201,15 +201,15 @@ def log_2_output(log, args):
         frm_line = getpass.getuser() + "@" + host
 
         mail = gen_class.Mail(
-            args.args_array["-t"], "".join(args.args_array.get(
-                "-s", "check_log: " + host)), frm_line)
+            args.get_val("-t"), "".join(args.get_val(
+                "-s", def_val="check_log: " + host)), frm_line)
         mail.add_2_msg("\n".join(log.loglist))
-        mail.send_mail(use_mailx=args.args_array.get("-u", False))
+        mail.send_mail(use_mailx=args.get_val("-u", def_val=False))
 
     # Write output to file.
     if args.arg_exist("-o") and (log.loglist or not args.arg_exist("-w")):
 
-        with open(args.args_array["-o"], args.args_array["-g"]) as f_hdlr:
+        with open(args.get_val("-o"), args.get_val("-g")) as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 
@@ -236,13 +236,13 @@ def fetch_log(log, args):
 
     # Sort files from oldest to newest.
     args.args_array["-f"] = sorted(
-        args.args_array["-f"], key=os.path.getmtime, reverse=False)
+        args.get_val("-f"), key=os.path.getmtime, reverse=False)
 
-    log_file = gen_libs.openfile(args.args_array["-f"][0], "r")
+    log_file = gen_libs.openfile(args.get_val("-f")[0], "r")
 
     # Start with the log file returned by open_log function call.
-    for item in args.args_array["-f"][
-            args.args_array["-f"].index(log_file.name):]:
+    for item in args.get_val("-f")[
+            args.get_val("-f").index(log_file.name):]:
 
         # If file is closed, open up next one.
         if log_file.closed:
@@ -285,19 +285,19 @@ def load_attributes(log, args):
     """
 
     if args.arg_exist("-S"):
-        log.load_keyword(args.args_array["-S"])
+        log.load_keyword(args.get_val("-S"))
 
     if args.arg_exist("-k"):
-        log.set_predicate(args.args_array["-k"])
+        log.set_predicate(args.get_val("-k"))
 
     if args.arg_exist("-m"):
-        log.load_marker(gen_libs.openfile(args.args_array["-m"]))
+        log.load_marker(gen_libs.openfile(args.get_val("-m")))
 
     if args.arg_exist("-F"):
-        log.load_regex(gen_libs.openfile(args.args_array["-F"]))
+        log.load_regex(gen_libs.openfile(args.get_val("-F")))
 
     if args.arg_exist("-i"):
-        log.load_ignore(gen_libs.openfile(args.args_array["-i"]))
+        log.load_ignore(gen_libs.openfile(args.get_val("-i")))
 
 
 def run_program(args):
@@ -314,7 +314,7 @@ def run_program(args):
     """
 
     if args.arg_exist("-c") and args.arg_exist("-m"):
-        gen_libs.clear_file(args.args_array["-m"])
+        gen_libs.clear_file(args.get_val("-m"))
 
     else:
         log = gen_class.LogFile()
@@ -390,13 +390,13 @@ def main():
 
         try:
             prog_lock = gen_class.ProgramLock(
-                cmdline.argv, args.args_array.get("-y", ""))
+                cmdline.argv, args.get_val("-y", def_val=""))
             run_program(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args.args_array.get("-y", "")))
+                  % (args.get_val("-y", def_val="")))
 
 
 if __name__ == "__main__":

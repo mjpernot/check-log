@@ -46,6 +46,7 @@ class ArgParser(object):
     Methods:
         __init__
         arg_exist
+        get_val
 
     """
 
@@ -75,6 +76,18 @@ class ArgParser(object):
             return True
 
         return False
+
+    def get_val(self, skey, def_val=None):
+
+        """Method:  get_val
+
+        Description:  Method stub holder for gen_class.ArgParser.get_val.
+
+        Arguments:
+
+        """
+
+        return self.args_array.get(skey, def_val)
 
 
 class UnitTest(unittest.TestCase):
@@ -138,6 +151,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_mail.send_mail.return_value = True
+
         self.argspar.args_array = {"-t": self.msg, "-z": True, "-u": True}
 
         self.assertFalse(check_log.log_2_output(self.log, self.argspar))
