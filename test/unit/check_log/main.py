@@ -80,9 +80,6 @@ class ArgParser(object):
         self.arg_file_chk2 = True
         self.arg_valid_val2 = True
         self.arg = None
-        self.get_value = None
-        self.key_val = None
-        self.def_val = None
 
     def arg_add_def(self, defaults, opt_req):
 
@@ -169,7 +166,7 @@ class ArgParser(object):
 
         return self.arg_valid_val2
 
-    def get_val(self, key_val, def_val):
+    def get_val(self, skey, def_val):
 
         """Method:  get_val
 
@@ -179,10 +176,7 @@ class ArgParser(object):
 
         """
 
-        self.key_val = key_val
-        self.def_val = def_val
-
-        return self.get_value
+        return self.args_array.get(skey, def_val)
 
 
 class ProgramLock(object):
@@ -382,7 +376,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argspar.get_value = "FlavorID"
+        self.argspar.args_array["-y"] = "FlavorID"
 
         mock_arg.return_value = self.argspar
         mock_help.return_value = False
