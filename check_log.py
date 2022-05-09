@@ -390,13 +390,13 @@ def main():
 
         try:
             prog_lock = gen_class.ProgramLock(
-                cmdline.argv, args.get_val("-y", ""))
+                cmdline.argv, args.get_val("-y", def_val=""))
             run_program(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:
             print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args.get_val("-y", "")))
+                  % (args.get_val("-y", def_val="")))
 
 
 if __name__ == "__main__":
