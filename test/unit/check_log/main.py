@@ -50,6 +50,7 @@ class ArgParser(object):
         arg_file_chk
         arg_valid_val
         get_val
+        get_args
 
     """
 
@@ -177,6 +178,18 @@ class ArgParser(object):
         """
 
         return self.args_array.get(skey, def_val)
+
+    def get_args(self):
+
+        """Method:  get_args
+
+        Description:  Method stub holder for gen_class.ArgParser.get_args.
+
+        Arguments:
+
+        """
+
+        return self.args_array
 
 
 class ProgramLock(object):
