@@ -235,8 +235,9 @@ def fetch_log(log, args):
     """
 
     # Sort files from oldest to newest.
-    args.args_array["-f"] = sorted(
-        args.get_val("-f"), key=os.path.getmtime, reverse=False)
+    args.update_arg(
+        "-f", sorted(args.get_val("-f"), key=os.path.getmtime, reverse=False),
+        insert=True)
 
     log_file = gen_libs.openfile(args.get_val("-f")[0], "r")
 
