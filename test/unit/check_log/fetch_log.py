@@ -44,6 +44,7 @@ class ArgParser(object):
     Methods:
         __init__
         get_val
+        update_arg
 
     """
 
@@ -70,6 +71,19 @@ class ArgParser(object):
         """
 
         return self.args_array.get(skey, def_val)
+
+    def update_arg(self, skey, data, insert=False):
+
+        """Method:  update_arg
+
+        Description:  Method stub holder for gen_class.ArgParser.update_arg.
+
+        Arguments:
+
+        """
+
+        if insert:
+            self.args_array[skey] = data
 
 
 class UnitTest(unittest.TestCase):

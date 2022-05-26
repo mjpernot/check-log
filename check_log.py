@@ -235,8 +235,9 @@ def fetch_log(log, args):
     """
 
     # Sort files from oldest to newest.
-    args.args_array["-f"] = sorted(
-        args.get_val("-f"), key=os.path.getmtime, reverse=False)
+    args.update_arg(
+        "-f", sorted(args.get_val("-f"), key=os.path.getmtime, reverse=False),
+        insert=True)
 
     log_file = gen_libs.openfile(args.get_val("-f")[0], "r")
 
@@ -383,7 +384,7 @@ def main():
     # Set default write file mode.
     args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args.args_array, __version__, help_message) \
+    if not gen_libs.help_func(args.get_args(), __version__, help_message) \
        and args.arg_cond_req_or(opt_con_or=opt_con_or) \
        and args.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
        and args.arg_valid_val(opt_valid_val=opt_valid_val):

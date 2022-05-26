@@ -6,6 +6,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [4.0.1] - 2022-05-06
 ### Changed
+- main: Replaced direct access to args_array with get_args call.
+- fetch_log: Replaced direct update of args_array with update_arg call.
 - run_program, load_attributes, fetch_log, update_marker, full_chk: Replaced direct access of args_array with get_val call.
 - main, log_2_output: Replaced get call from args_array with method call to get_val.
 
