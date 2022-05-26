@@ -44,6 +44,7 @@ class ArgParser(object):
     Methods:
         __init__
         arg_exist
+        get_val
 
     """
 
@@ -73,6 +74,18 @@ class ArgParser(object):
             return True
 
         return False
+
+    def get_val(self, skey, def_val=None):
+
+        """Method:  get_val
+
+        Description:  Method stub holder for gen_class.ArgParser.get_val.
+
+        Arguments:
+
+        """
+
+        return self.args_array.get(skey, def_val)
 
 
 class UnitTest(unittest.TestCase):

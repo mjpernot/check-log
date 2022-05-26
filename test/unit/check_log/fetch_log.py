@@ -43,6 +43,8 @@ class ArgParser(object):
 
     Methods:
         __init__
+        get_val
+        update_arg
 
     """
 
@@ -57,6 +59,31 @@ class ArgParser(object):
         """
 
         self.args_array = dict()
+
+    def get_val(self, skey, def_val=None):
+
+        """Method:  get_val
+
+        Description:  Method stub holder for gen_class.ArgParser.get_val.
+
+        Arguments:
+
+        """
+
+        return self.args_array.get(skey, def_val)
+
+    def update_arg(self, skey, data, insert=False):
+
+        """Method:  update_arg
+
+        Description:  Method stub holder for gen_class.ArgParser.update_arg.
+
+        Arguments:
+
+        """
+
+        if insert:
+            self.args_array[skey] = data
 
 
 class UnitTest(unittest.TestCase):
@@ -153,6 +180,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argspar.args_array = {"-f": [self.file_0]}
+
         mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
 
         check_log.fetch_log(self.log, self.argspar)
@@ -171,6 +199,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argspar.args_array = {"-f": [self.file_1]}
+
         mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
 
         check_log.fetch_log(self.log, self.argspar)
