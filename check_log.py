@@ -95,10 +95,10 @@
 """
 
 # Libraries and Global Variables
+from __future__ import print_function
+from __future__ import absolute_import
 
 # Standard
-# For Python 2.6/2.7: Redirection of stdout in a print command.
-from __future__ import print_function
 import sys
 import os
 import socket
@@ -107,9 +107,15 @@ import getpass
 # Third-party
 
 # Local
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
+try:
+    from .lib import gen_libs
+    from .lib import gen_class
+    from . import version
+
+except (ValueError, ImportError) as err:
+    import lib.gen_libs as gen_libs
+    import lib.gen_class as gen_class
+    import version
 
 __version__ = version.__version__
 

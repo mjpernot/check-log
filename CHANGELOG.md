@@ -6,6 +6,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [4.0.2] - 2022-10-04
 - Updated to work in Python 3 too.
+- Upgraded python-lib to v2.9.4
+
+
+### Changed
+- Changed to use "from . import" or "import" for local modules depending on Python version and environment configuration. 
 
 
 ## [4.0.1] - 2022-05-06
