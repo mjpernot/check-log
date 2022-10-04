@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Classification (U)
 
 """Program:  log_2_output.py
@@ -13,9 +12,9 @@
 """
 
 # Libraries and Global Variables
+from __future__ import print_function
 
 # Standard
-from __future__ import print_function
 import sys
 import os
 

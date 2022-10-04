@@ -35,6 +35,17 @@ import version
 
 __version__ = version.__version__
 
+if sys.version_info < (3, 0):
+    data = u"Line one\nLine two\n"
+    data2 = u""
+    data3 = u"\n"
+    data4 = u"Line one\n"
+
+else:
+    data = "Line one\nLine two\n"
+    data2 = ""
+    data3 = "\n"
+    data4 = "Line one\n"
 
 class UnitTest(unittest.TestCase):
 
@@ -66,7 +77,7 @@ class UnitTest(unittest.TestCase):
         self.results1 = ["Line one"]
         self.results2 = ["Line one", "Line two"]
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u""))
+    @mock.patch("check_log.sys.stdin", io.StringIO(data2))
     def test_no_lines(self):
 
         """Function:  test_no_lines
@@ -81,7 +92,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(self.log.loglist, [])
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO(data))
     def test_multiple_lines(self):
 
         """Function:  test_multiple_lines
@@ -96,7 +107,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(self.log.loglist, self.results2)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO(data3))
     def test_single_line_empty_line(self):
 
         """Function:  test_single_line_empty_line
@@ -111,7 +122,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(self.log.loglist, self.results0)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO(data4))
     def test_single_line_found(self):
 
         """Function:  test_single_line_found
