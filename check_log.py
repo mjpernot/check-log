@@ -298,13 +298,19 @@ def load_attributes(log, args):
         log.set_predicate(args.get_val("-k"))
 
     if args.arg_exist("-m"):
-        log.load_marker(gen_libs.openfile(args.get_val("-m")))
+        fhdr = gen_libs.openfile(args.get_val("-m"))
+        log.load_marker(fhdr)
+        fhdr.close()
 
     if args.arg_exist("-F"):
-        log.load_regex(gen_libs.openfile(args.get_val("-F")))
+        fhdr = gen_libs.openfile(args.get_val("-F"))
+        log.load_regex(fhdr)
+        fhdr.close()
 
     if args.arg_exist("-i"):
-        log.load_ignore(gen_libs.openfile(args.get_val("-i")))
+        fhdr = gen_libs.openfile(args.get_val("-i"))
+        log.load_ignore(fhdr)
+        fhdr.close()
 
 
 def run_program(args):

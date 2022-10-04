@@ -11,6 +11,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ### Changed
 - Changed to use "from . import" or "import" for local modules depending on Python version and environment configuration. 
+- load_attributes: Explicitly closed open file handlers.
 
 
 ## [4.0.1] - 2022-05-06
