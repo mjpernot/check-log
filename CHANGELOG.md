@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.2] - 2022-10-04
+- Updated to work in Python 3 too.
+
+
 ## [4.0.1] - 2022-05-06
 ### Changed
 - main: Replaced direct access to args_array with get_args call.
