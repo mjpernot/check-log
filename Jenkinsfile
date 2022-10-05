@@ -15,16 +15,16 @@ pipeline {
                 virtualenv test_env
                 source test_env/bin/activate
                 pip2 install mock==2.0.0 --user
-                ./test/unit/check_log/fetch_log.py
-                ./test/unit/check_log/fetch_log_stdin.py
-                ./test/unit/check_log/find_marker.py
-                ./test/unit/check_log/full_chk.py
-                ./test/unit/check_log/help_message.py
-                ./test/unit/check_log/load_attributes.py
-                ./test/unit/check_log/log_2_output.py
-                ./test/unit/check_log/main.py
-                ./test/unit/check_log/run_program.py
-                ./test/unit/check_log/update_marker.py
+                /usr/bin/python2 ./test/unit/check_log/fetch_log.py
+                /usr/bin/python2 ./test/unit/check_log/fetch_log_stdin.py
+                /usr/bin/python2 ./test/unit/check_log/find_marker.py
+                /usr/bin/python2 ./test/unit/check_log/full_chk.py
+                /usr/bin/python2 ./test/unit/check_log/help_message.py
+                /usr/bin/python2 ./test/unit/check_log/load_attributes.py
+                /usr/bin/python2 ./test/unit/check_log/log_2_output.py
+                /usr/bin/python2 ./test/unit/check_log/main.py
+                /usr/bin/python2 ./test/unit/check_log/run_program.py
+                /usr/bin/python2 ./test/unit/check_log/update_marker.py
                 deactivate
                 rm -rf test_env
                 """
