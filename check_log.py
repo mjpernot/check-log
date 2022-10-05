@@ -359,8 +359,8 @@ def main():
 
     Variables:
         defaults -> Dictionary of required options with their default values
-        file_chk -> List of options which will have files included
         file_crt -> List of options which require files to be created
+        file_perm -> File check options with their perms in octal
         multi_val -> List of options that will have multiple values
         opt_con_or -> Dictionary of options requiring other options
         opt_def -> Dictionary of optional options with their default values
@@ -374,8 +374,8 @@ def main():
     """
 
     defaults = {"-g": "w"}
-    file_chk = ["-f", "-i", "-m", "-F"]
     file_crt = ["-m"]
+    file_perm = {"-f": 4, "-i": 4, "-m": 6, "-F": 4}
     multi_val = ["-f", "-s", "-t", "-S"]
     opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
     opt_def = {"-k": "or"}
@@ -396,9 +396,9 @@ def main():
     # Set default write file mode.
     args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args.get_args(), __version__, help_message) \
-       and args.arg_cond_req_or(opt_con_or=opt_con_or) \
-       and args.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
+    if not gen_libs.help_func(args.get_args(), __version__, help_message)   \
+       and args.arg_cond_req_or(opt_con_or=opt_con_or)                      \
+       and args.arg_file_chk(file_perm_chk=file_perm, file_crt=file_crt)    \
        and args.arg_valid_val(opt_valid_val=opt_valid_val):
 
         try:

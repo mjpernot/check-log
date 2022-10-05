@@ -8,6 +8,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Updated to work in Python 3 too.
 - Upgraded python-lib to v2.9.4
 
+### Fixed
+- main: Added file permissions to the parameter list for arg_file_chk call.
 
 ### Changed
 - Changed to use "from . import" or "import" for local modules depending on Python version and environment configuration. 
