@@ -17,11 +17,7 @@
 import sys
 import os
 import time
-
-if sys.version_info < (2, 7):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 # Local
 sys.path.append(os.getcwd())
