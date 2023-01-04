@@ -104,8 +104,6 @@ import os
 import socket
 import getpass
 
-# Third-party
-
 # Local
 try:
     from .lib import gen_libs
