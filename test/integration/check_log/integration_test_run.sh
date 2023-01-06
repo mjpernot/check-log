@@ -6,12 +6,12 @@
 
 echo ""
 echo "Integration test:  check_log.py"
-test/integration/check_log/fetch_log.py
-test/integration/check_log/fetch_log_stdin.py
-test/integration/check_log/find_marker.py
-test/integration/check_log/full_chk.py
-test/integration/check_log/log_2_output.py
-test/integration/check_log/main.py
-test/integration/check_log/run_program.py
-test/integration/check_log/update_marker.py
+/usr/bin/python ./test/integration/check_log/fetch_log.py
+/usr/bin/python ./test/integration/check_log/fetch_log_stdin.py
+/usr/bin/python ./test/integration/check_log/find_marker.py
+/usr/bin/python ./test/integration/check_log/full_chk.py
+/usr/bin/python ./test/integration/check_log/log_2_output.py
+/usr/bin/python ./test/integration/check_log/main.py
+/usr/bin/python ./test/integration/check_log/run_program.py
+/usr/bin/python ./test/integration/check_log/update_marker.py
 

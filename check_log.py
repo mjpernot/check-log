@@ -95,21 +95,25 @@
 """
 
 # Libraries and Global Variables
+from __future__ import print_function
+from __future__ import absolute_import
 
 # Standard
-# For Python 2.6/2.7: Redirection of stdout in a print command.
-from __future__ import print_function
 import sys
 import os
 import socket
 import getpass
 
-# Third-party
-
 # Local
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
+try:
+    from .lib import gen_libs
+    from .lib import gen_class
+    from . import version
+
+except (ValueError, ImportError) as err:
+    import lib.gen_libs as gen_libs
+    import lib.gen_class as gen_class
+    import version
 
 __version__ = version.__version__
 
@@ -292,13 +296,19 @@ def load_attributes(log, args):
         log.set_predicate(args.get_val("-k"))
 
     if args.arg_exist("-m"):
-        log.load_marker(gen_libs.openfile(args.get_val("-m")))
+        fhdr = gen_libs.openfile(args.get_val("-m"))
+        log.load_marker(fhdr)
+        fhdr.close()
 
     if args.arg_exist("-F"):
-        log.load_regex(gen_libs.openfile(args.get_val("-F")))
+        fhdr = gen_libs.openfile(args.get_val("-F"))
+        log.load_regex(fhdr)
+        fhdr.close()
 
     if args.arg_exist("-i"):
-        log.load_ignore(gen_libs.openfile(args.get_val("-i")))
+        fhdr = gen_libs.openfile(args.get_val("-i"))
+        log.load_ignore(fhdr)
+        fhdr.close()
 
 
 def run_program(args):
@@ -347,8 +357,8 @@ def main():
 
     Variables:
         defaults -> Dictionary of required options with their default values
-        file_chk -> List of options which will have files included
         file_crt -> List of options which require files to be created
+        file_perm -> File check options with their perms in octal
         multi_val -> List of options that will have multiple values
         opt_con_or -> Dictionary of options requiring other options
         opt_def -> Dictionary of optional options with their default values
@@ -362,8 +372,8 @@ def main():
     """
 
     defaults = {"-g": "w"}
-    file_chk = ["-f", "-i", "-m", "-F"]
     file_crt = ["-m"]
+    file_perm = {"-f": 4, "-i": 4, "-m": 6, "-F": 4}
     multi_val = ["-f", "-s", "-t", "-S"]
     opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
     opt_def = {"-k": "or"}
@@ -384,9 +394,9 @@ def main():
     # Set default write file mode.
     args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args.get_args(), __version__, help_message) \
-       and args.arg_cond_req_or(opt_con_or=opt_con_or) \
-       and args.arg_file_chk(file_chk=file_chk, file_crt=file_crt) \
+    if not gen_libs.help_func(args.get_args(), __version__, help_message)   \
+       and args.arg_cond_req_or(opt_con_or=opt_con_or)                      \
+       and args.arg_file_chk(file_perm_chk=file_perm, file_crt=file_crt)    \
        and args.arg_valid_val(opt_valid_val=opt_valid_val):
 
         try:
