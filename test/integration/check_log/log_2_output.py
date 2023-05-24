@@ -37,6 +37,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_mail_no_data
+        test_mail_data
         test_mail
         test_write_to_log
         tearDown
@@ -75,6 +77,41 @@ class UnitTest(unittest.TestCase):
         self.argv = [p_name, "-t", "user@domain.name", "-z", "-u"]
         self.argv2 = [p_name, "-t", "user@domain.name", "-z"]
         self.argv3 = [p_name, "-o", self.file_name, "-g", "w"]
+
+    def test_mail_no_data(self):
+
+        """Function:  test_mail_no_data
+
+        Description:  Test sending via mail with data.
+
+        Arguments:
+
+        """
+
+        self.log.loglist = list()
+
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, do_parse=True)
+
+        self.assertFalse(check_log.log_2_output(self.log, args))
+
+    @mock.patch("check_log.gen_class.Mail.send_mail")
+    def test_mail_data(self, mock_mail):
+
+        """Function:  test_mail_data
+
+        Description:  Test sending via mail with data.
+
+        Arguments:
+
+        """
+
+        mock_mail.return_value = True
+
+        args = gen_class.ArgParser(
+            self.argv2, opt_val=self.opt_val, do_parse=True)
+
+        self.assertFalse(check_log.log_2_output(self.log, args))
 
     @mock.patch("check_log.gen_class.Mail.send_mail")
     def test_mail2(self, mock_mail):
