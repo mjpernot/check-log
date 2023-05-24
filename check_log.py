@@ -200,7 +200,7 @@ def log_2_output(log, args):
     """
 
     # Send output to email.
-    if args.arg_exist("-t"):
+    if args.arg_exist("-t") and log.loglist:
         host = socket.gethostname()
         frm_line = getpass.getuser() + "@" + host
 

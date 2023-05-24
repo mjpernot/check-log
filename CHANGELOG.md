@@ -5,6 +5,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [4.0.3] - 2023-05-24
+### Fixed
+- log_2_output: Do not send emails with empty mail bodys.
 
 
 ## [4.0.2] - 2022-10-04
