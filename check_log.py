@@ -394,7 +394,7 @@ def main():
     # Set default write file mode.
     args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
-    if not gen_libs.help_func(args.get_args(), __version__, help_message)   \
+    if not gen_libs.help_func(args, __version__, help_message)              \
        and args.arg_cond_req_or(opt_con_or=opt_con_or)                      \
        and args.arg_file_chk(file_perm_chk=file_perm, file_crt=file_crt)    \
        and args.arg_valid_val(opt_valid_val=opt_valid_val):

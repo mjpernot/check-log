@@ -8,6 +8,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Fixed
 - log_2_output: Do not send emails with empty mail bodys.
 
+### Changed
+- main: Updated gen_libs.help_func call to the new version.
+
 
 ## [4.0.2] - 2022-10-04
 - Updated to work in Python 3 too.
