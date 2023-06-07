@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.4] - 2023-06-07
+- Updated python-lib to v2.10.1
+
+
 ## [4.0.3] - 2023-05-24
 ### Fixed
 - log_2_output: Do not send emails with empty mail bodys.
