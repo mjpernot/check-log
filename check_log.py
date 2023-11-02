@@ -270,9 +270,7 @@ def fetch_log_stdin(log):
 
     """
 
-    inst = gen_libs.get_inst(sys)
-
-    for item in inst.stdin:
+    for item in sys.stdin:
         log.load_loglist(str(item))
 
 
@@ -381,17 +379,15 @@ def main():
     opt_val = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
 
-    cmdline = gen_libs.get_inst(sys)
-
-    # Process argument list from command line.
+    # Process argument list from command line
     args = gen_class.ArgParser(
-        cmdline.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
+        sys.argv, opt_val=opt_val, multi_val=multi_val, do_parse=True)
 
-    # Set default search logic.
+    # Set default search logic
     if args.arg_exist("-S") and not args.arg_exist("-k"):
         args.arg_default("-k", opt_def=opt_def)
 
-    # Set default write file mode.
+    # Set default write file mode
     args.arg_add_def(defaults=defaults, opt_req=opt_req)
 
     if not gen_libs.help_func(args, __version__, help_message)              \
@@ -401,7 +397,7 @@ def main():
 
         try:
             prog_lock = gen_class.ProgramLock(
-                cmdline.argv, args.get_val("-y", def_val=""))
+                sys.argv, args.get_val("-y", def_val=""))
             run_program(args)
             del prog_lock
 
