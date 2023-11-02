@@ -6,6 +6,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [4.0.5] - 2023-11-02
 
+### Changed
+- main, fetch_log_stdin: Removed gen_libs.get_inst call.
+
 
 ## [4.0.4] - 2023-06-07
 - Updated python-lib to v2.10.1
