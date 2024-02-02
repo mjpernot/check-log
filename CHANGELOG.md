@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.6] - 2024-01-30
+- Updated to work in Red Hat 8
+- Updated python-lib to v3.0.1
+
+### Changed
+- Documentation updates.
+
+
 ## [4.0.5] - 2023-11-02
 
 ### Changed
