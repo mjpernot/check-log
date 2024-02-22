@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.7] - 2024-02-21
+- Updated module requirements for Python.
+- Updated python-lib to v3.0.3
+
+### Changed
+- Set simplejson to 3.12.0 for Python 3.
+- Set chardet to 3.0.4 for Python 2 and Python 3.
+
+
 ## [4.0.6] - 2024-01-30
 - Updated to work in Red Hat 8
 - Updated python-lib to v3.0.1
