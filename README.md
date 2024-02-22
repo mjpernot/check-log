@@ -28,7 +28,6 @@
 # Prerequisites:
 
   * List of Linux packages that need to be installed on the server.
-    - git
     - Centos 7 (Running Python 2.7):
       -> python-pip
     - Redhat 8 (Running Python 3.6):
@@ -100,7 +99,6 @@ test/unit/check_log/unit_test_run.sh
 ### Code Coverage:
 
 ```
-cd {Python_Project}/check-log
 test/unit/check_log/code_coverage.sh
 ```
 
@@ -121,7 +119,6 @@ test/integration/check_log/integration_test_run.sh
 ### Code Coverage:
 
 ```
-cd {Python_Project}/check-log
 test/integration/check_log/code_coverage.sh
 ```
 
