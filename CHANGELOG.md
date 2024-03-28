@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.1.0] - 2024-03-28
+- Added ability to use file offset instead of last line in a file.
+
+### Added
+- read_file: Finds the location of the offset and reads until the end off the file.
+- fetch_log2: Compares current inode in file to last inode to see if file was removed or renamed.
+
+### Changed
+- run_program: Determine if the lastline or offset option will be used.
+- main: Added -R option to determine if offset or lastline will be used in program.
+- Documnetation updated.
+
+
 ## [4.0.7] - 2024-02-21
 - Updated module requirements for Python.
 - Updated python-lib to v3.0.3

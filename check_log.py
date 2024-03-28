@@ -51,6 +51,14 @@
             -w => No write if empty.  Do not write to a file if no data was
                 found.
 
+        -R run_type => offset | lastline -> The offset option uses the inode of
+            the file and offset to determine the last location checked in a
+            file.  The lastline is the current method of checking a file by
+            recording the last line checked in a file.
+            NOTE:  When using the offset option, multiple files and wildcard
+                in the -f option is not allowed.
+                Default is lastline so as to be comptabile with older versions.
+
         -i file => Name of the file that contains entries to be ignored.  The
             entries are case-insensitive.
         -z => Suppress standard out.
@@ -103,6 +111,7 @@ import sys
 import os
 import socket
 import getpass
+import glob
 
 # Local
 try:
@@ -309,6 +318,121 @@ def load_attributes(log, args):
         fhdr.close()
 
 
+def read_file(log, fname, inode, offset):
+
+    """Function:  read_file
+
+    Description:  Locates the starting point in the file, reads data from file,
+        and updates the LogFile class with the data and ending offset.
+
+    Arguments:
+        (input) log -> LogFile class instance
+        (input) fname -> File name being read
+        (input) inode -> Inode of the file name
+        (input) offset -> Starting point in the file, value in bytes
+
+    """
+
+    f_hldr = open(fname, "r")
+    f_hldr.seek(0, os.SEEK_END)
+    file_size = f_hldr.tell()
+    f_hldr.seek(offset)
+    data = f_hldr.read(file_size - offset)
+    f_hldr.close()
+
+    if data:
+        log.load_loglist(data)
+
+    log.lastline = str(inode) + ":" + str(file_size)
+
+
+def fetch_log2(log, args):
+
+    """Function:  fetch_log2
+
+    Description:  Gets the inode and offset value, determines if the inode is
+        current log file.  Finds the amount to read in the log file by
+        checking log file size with current offset value and reads any
+        difference into the LogFile class.
+
+    Arguments:
+        (input) log -> LogFile class instance
+        (input) args -> ArgParser class instance
+
+    """
+
+    inode2 = os.stat(args.get_val("-f")[0]).st_ino
+    # Start with current inode and offset or with new inode and start of file
+    inode, offset = \
+        map(int, log.marker.split(":")) if log.marker else (inode2, 0)
+
+    if inode == inode2:
+        read_file(log, args.get_val("-f")[0], inode, offset)
+
+    else:
+        # Find old inode and read in remaining lines in old file
+        for t_file in glob.glob(args.get_val("-f")[0] + "*"):
+            if inode == os.stat(t_file).st_ino:
+                read_file(log, t_file, inode, offset)
+                break
+
+        read_file(log, args.get_val("-f")[0], inode2, 0)
+
+
+def run_program2(args):
+
+    """Function:  run_program
+
+    Description:  Controls the running of the program by fetching the log
+        entries, updating the file marker, and sending the log entries to
+        output.
+
+    Arguments:
+        (input) args -> ArgParser class instance
+
+    """
+
+    if args.arg_exist("-c") and args.arg_exist("-m"):
+        gen_libs.clear_file(args.get_val("-m"))
+
+    else:
+        log = gen_class.LogFile()
+        load_attributes(log, args)
+
+        if args.get_val("-R") == "offset":
+            fetch_log2(log, args)
+
+            if log.loglist:
+                #process_log(log, args)
+                #############################
+                log.filter_keyword()
+                log.filter_ignore()
+                log.filter_regex()
+                log_2_output(log, args)
+                update_marker(args, log.lastline)
+                #############################
+
+        else:
+            if args.arg_exist("-f"):
+                fetch_log(log, args)
+
+            elif not sys.stdin.isatty():
+                fetch_log_stdin(log)
+
+            if log.loglist:
+                if not full_chk(args):
+                    find_marker(log)
+
+                #process_log(log, args)
+                #############################
+                log.filter_keyword()
+                log.filter_ignore()
+                log.filter_regex()
+                log_2_output(log, args)
+                update_marker(args, log.lastline)
+                #############################
+
+
 def run_program(args):
 
     """Function:  run_program
@@ -369,14 +493,15 @@ def main():
 
     """
 
-    defaults = {"-g": "w"}
+    defaults = {"-g": "w", "-R": "lastline"}
     file_crt = ["-m"]
     file_perm = {"-f": 4, "-i": 4, "-m": 6, "-F": 4}
     multi_val = ["-f", "-s", "-t", "-S"]
     opt_con_or = {"-c": ["-m"], "-s": ["-t"]}
     opt_def = {"-k": "or"}
     opt_req = ["-g"]
-    opt_val = ["-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g"]
+    opt_val = [
+        "-i", "-m", "-o", "-s", "-t", "-y", "-F", "-S", "-k", "-g", "-R"]
     opt_valid_val = {"-k": ["and", "or"], "-g": ["a", "w"]}
 
     # Process argument list from command line
@@ -398,7 +523,7 @@ def main():
         try:
             prog_lock = gen_class.ProgramLock(
                 sys.argv, args.get_val("-y", def_val=""))
-            run_program(args)
+            run_program2(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:
