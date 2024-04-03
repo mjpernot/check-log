@@ -15,6 +15,7 @@ echo "Unit test:  check_log.py"
 /usr/bin/python3 ./test/unit/check_log/load_attributes.py
 /usr/bin/python3 ./test/unit/check_log/log_2_output.py
 /usr/bin/python3 ./test/unit/check_log/main.py
+/usr/bin/python3 ./test/unit/check_log/read_file.py
 /usr/bin/python3 ./test/unit/check_log/run_program.py
 /usr/bin/python3 ./test/unit/check_log/update_marker.py
 

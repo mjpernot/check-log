@@ -17,6 +17,7 @@ coverage run -a --source=check_log test/unit/check_log/help_message.py
 coverage run -a --source=check_log test/unit/check_log/load_attributes.py
 coverage run -a --source=check_log test/unit/check_log/log_2_output.py
 coverage run -a --source=check_log test/unit/check_log/main.py
+coverage run -a --source=check_log test/unit/check_log/read_file.py
 coverage run -a --source=check_log test/unit/check_log/run_program.py
 coverage run -a --source=check_log test/unit/check_log/update_marker.py
 

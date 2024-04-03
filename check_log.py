@@ -403,14 +403,11 @@ def run_program(args):
             fetch_log2(log, args)
 
             if log.loglist:
-                #process_log(log, args)
-                #############################
                 log.filter_keyword()
                 log.filter_ignore()
                 log.filter_regex()
                 log_2_output(log, args)
                 update_marker(args, log.lastline)
-                #############################
 
         else:
             if args.arg_exist("-f"):
@@ -423,14 +420,11 @@ def run_program(args):
                 if not full_chk(args):
                     find_marker(log)
 
-                #process_log(log, args)
-                #############################
                 log.filter_keyword()
                 log.filter_ignore()
                 log.filter_regex()
                 log_2_output(log, args)
                 update_marker(args, log.lastline)
-                #############################
 
 
 def main():
