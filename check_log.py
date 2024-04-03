@@ -379,7 +379,7 @@ def fetch_log2(log, args):
         read_file(log, args.get_val("-f")[0], inode2, 0)
 
 
-def run_program2(args):
+def run_program(args):
 
     """Function:  run_program
 
@@ -431,43 +431,6 @@ def run_program2(args):
                 log_2_output(log, args)
                 update_marker(args, log.lastline)
                 #############################
-
-
-def run_program(args):
-
-    """Function:  run_program
-
-    Description:  Controls the running of the program by fetching the log
-        entries, updating the file marker, and sending the log entries to
-        output.
-
-    Arguments:
-        (input) args -> ArgParser class instance
-
-    """
-
-    if args.arg_exist("-c") and args.arg_exist("-m"):
-        gen_libs.clear_file(args.get_val("-m"))
-
-    else:
-        log = gen_class.LogFile()
-        load_attributes(log, args)
-
-        if args.arg_exist("-f"):
-            fetch_log(log, args)
-
-        elif not sys.stdin.isatty():
-            fetch_log_stdin(log)
-
-        if log.loglist:
-            if not full_chk(args):
-                find_marker(log)
-
-            log.filter_keyword()
-            log.filter_ignore()
-            log.filter_regex()
-            log_2_output(log, args)
-            update_marker(args, log.lastline)
 
 
 def main():
@@ -523,7 +486,7 @@ def main():
         try:
             prog_lock = gen_class.ProgramLock(
                 sys.argv, args.get_val("-y", def_val=""))
-            run_program2(args)
+            run_program(args)
             del prog_lock
 
         except gen_class.SingleInstanceException:

@@ -89,6 +89,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_offset2
+        test_offset
         test_clear_option4
         test_clear_option3
         test_clear_option2
@@ -115,6 +117,48 @@ class UnitTest(unittest.TestCase):
         self.log = gen_class.LogFile()
         self.log.loglist = ["Testdata"]
         self.log_file = "/opt/local/check-log/logfile"
+
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.fetch_log2", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_offset2(self, mock_log):
+
+        """Function:  test_offset2
+
+        Description:  Test with offset option and log entries.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-R"] = "offset"
+
+        mock_log.return_value = self.log
+
+        self.assertFalse(check_log.run_program(self.argspar))
+
+    @mock.patch("check_log.fetch_log2", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_offset(self, mock_log):
+
+        """Function:  test_offset
+
+        Description:  Test with offset option.
+
+        Arguments:
+
+        """
+
+        self.argspar.args_array["-R"] = "offset"
+
+        mock_log.return_value = self.log
+
+        self.log.loglist = list()
+
+        self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
     @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))

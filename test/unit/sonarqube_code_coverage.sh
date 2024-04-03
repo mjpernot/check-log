@@ -9,6 +9,7 @@ coverage erase
 echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=check_log test/unit/check_log/fetch_log.py
+coverage run -a --source=check_log test/unit/check_log/fetch_log2.py
 coverage run -a --source=check_log test/unit/check_log/fetch_log_stdin.py
 coverage run -a --source=check_log test/unit/check_log/find_marker.py
 coverage run -a --source=check_log test/unit/check_log/full_chk.py

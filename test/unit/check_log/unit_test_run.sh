@@ -7,6 +7,7 @@
 echo ""
 echo "Unit test:  check_log.py"
 /usr/bin/python ./test/unit/check_log/fetch_log.py
+/usr/bin/python ./test/unit/check_log/fetch_log2.py
 /usr/bin/python ./test/unit/check_log/fetch_log_stdin.py
 /usr/bin/python ./test/unit/check_log/find_marker.py
 /usr/bin/python ./test/unit/check_log/full_chk.py
