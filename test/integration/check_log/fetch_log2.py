@@ -2,10 +2,10 @@
 
 """Program:  fetch_log2.py
 
-    Description:  Unit testing of fetch_log2 in check_log.py.
+    Description:  Integration testing of fetch_log2 in check_log.py.
 
     Usage:
-        test/unit/check_log/fetch_log2.py
+        test/integration/check_log/fetch_log2.py
 
     Arguments:
 

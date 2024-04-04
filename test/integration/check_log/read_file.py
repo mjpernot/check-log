@@ -2,10 +2,10 @@
 
 """Program:  read_file.py
 
-    Description:  Unit testing of read_file in check_log.py.
+    Description:  Integration testing of read_file in check_log.py.
 
     Usage:
-        test/unit/check_log/read_file.py
+        test/integration/check_log/read_file.py
 
     Arguments:
 

@@ -363,6 +363,7 @@ def fetch_log2(log, args):
 
     inode2 = os.stat(args.get_val("-f")[0]).st_ino
     # Start with current inode and offset or with new inode and start of file
+    # Note: Ignore the 2to3 warning for map(), results are parsed out
     inode, offset = \
         map(int, log.marker.split(":")) if log.marker else (inode2, 0)
 

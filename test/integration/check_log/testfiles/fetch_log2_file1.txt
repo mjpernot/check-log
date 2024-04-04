@@ -1,0 +1,3 @@
+This is line one of log
+This is line two of log
+This is line three of log
