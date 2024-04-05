@@ -108,6 +108,7 @@ class UnitTest(unittest.TestCase):
             self.skipTest(self.skip_msg)
 
         self.argv_list = [os.path.join(self.base_dir, "main.py")]
+        self.results = "This is the sixth line\nThis is the seventh line\n"
 
     def test_or_search_offset(self):
 
@@ -132,8 +133,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\n")
+            self.assertEqual(out_str, "This is the sixth line\n")
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -161,8 +161,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\n")
+            self.assertEqual(out_str, "This is the sixth line\n")
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -190,8 +189,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -219,8 +217,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -406,8 +403,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -433,8 +429,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -449,8 +444,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argv_list.extend(["-f", os.path.join(self.test_path,
-                                                  "main_dummy.txt")])
+        self.argv_list.extend(
+            ["-f", os.path.join(self.test_path, "main_dummy.txt")])
         cmdline = gen_libs.get_inst(sys)
         cmdline.argv = self.argv_list
 
