@@ -131,7 +131,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.fetch_log2(self.log, self.argspar)
 
-        inode, offset = self.log.lastline.split(":")
+        inode, _ = self.log.lastline.split(":")
         self.log.marker = inode + ":" + "25"
         self.log.loglist = list()
         self.argspar.args_array = {"-f": [self.file_4]}
@@ -154,7 +154,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.fetch_log2(self.log, self.argspar)
 
-        inode, offset = self.log.lastline.split(":")
+        inode, _ = self.log.lastline.split(":")
         self.log.marker = inode + ":" + "25"
         self.log.loglist = list()
 
