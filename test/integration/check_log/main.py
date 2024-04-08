@@ -37,12 +37,16 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_or_search_offset
         test_or_search
+        test_and_search_offset
         test_and_search
         test_stdin_marker
         test_stdin_marker_empty
         test_stdin
+        test_marker_offset
         test_marker
+        test_file_offset
         test_file
         test_arg_file_chk
         test_arg_cond_req_or
@@ -104,6 +108,35 @@ class UnitTest(unittest.TestCase):
             self.skipTest(self.skip_msg)
 
         self.argv_list = [os.path.join(self.base_dir, "main.py")]
+        self.results = "This is the sixth line\nThis is the seventh line\n"
+
+    def test_or_search_offset(self):
+
+        """Function:  test_or_search_offset
+
+        Description:  Test with or search clause and offset option.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(
+            ["-f", self.log_file2, "-o", self.test_out, "-S", "sixth", "tenth",
+             "-k", "or", "-R", "offset"])
+        cmdline = gen_libs.get_inst(sys)
+        cmdline.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(out_str, "This is the sixth line\n")
+
+        else:
+            self.assertTrue(os.path.isfile(self.test_out))
 
     def test_or_search(self):
 
@@ -128,8 +161,35 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\n")
+            self.assertEqual(out_str, "This is the sixth line\n")
+
+        else:
+            self.assertTrue(os.path.isfile(self.test_out))
+
+    def test_and_search_offset(self):
+
+        """Function:  test_and_search_offset
+
+        Description:  Test with and search clause and offset option.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(
+            ["-f", self.log_file2, "-o", self.test_out, "-S", "is", "line",
+             "-k", "and", "-R", "offset"])
+        cmdline = gen_libs.get_inst(sys)
+        cmdline.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -144,8 +204,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argv_list.extend(["-f", self.log_file2, "-o", self.test_out,
-                               "-S", "is", "line", "-k", "and"])
+        self.argv_list.extend(
+            ["-f", self.log_file2, "-o", self.test_out, "-S", "is", "line",
+             "-k", "and"])
         cmdline = gen_libs.get_inst(sys)
         cmdline.argv = self.argv_list
 
@@ -156,8 +217,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -267,6 +327,33 @@ class UnitTest(unittest.TestCase):
 
         self.assertTrue(os.stat(self.file_marker).st_size == 0)
 
+    def test_marker_offset(self):
+
+        """Function:  test_marker_offset
+
+        Description:  Test file log with marker and offset option.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(
+            ["-f", self.log_file1, "-m", self.test_out, "-R", "offset"])
+        cmdline = gen_libs.get_inst(sys)
+        cmdline.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        inode = os.stat(self.log_file1).st_ino
+        offset = 117
+
+        with open(self.test_out) as f_hdlr:
+            out_str = f_hdlr.read()
+
+        inode2, offset2 = map(int, out_str.split(":"))
+        self.assertEqual((inode, offset), (inode2, offset2))
+
     def test_marker(self):
 
         """Function:  test_marker
@@ -294,6 +381,33 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertTrue(os.path.isfile(self.test_out))
 
+    def test_file_offset(self):
+
+        """Function:  test_file_offset
+
+        Description:  Test file log with the offset option.
+
+        Arguments:
+
+        """
+
+        self.argv_list.extend(
+            ["-f", self.log_file2, "-o", self.test_out, "-R", "offset"])
+        cmdline = gen_libs.get_inst(sys)
+        cmdline.argv = self.argv_list
+
+        with gen_libs.no_std_out():
+            check_log.main()
+
+        if os.path.isfile(self.test_out):
+            with open(self.test_out) as f_hdlr:
+                out_str = f_hdlr.read()
+
+            self.assertEqual(out_str, self.results)
+
+        else:
+            self.assertTrue(os.path.isfile(self.test_out))
+
     def test_file(self):
 
         """Function:  test_file
@@ -315,8 +429,7 @@ class UnitTest(unittest.TestCase):
             with open(self.test_out) as f_hdlr:
                 out_str = f_hdlr.read()
 
-            self.assertEqual(
-                out_str, "This is the sixth line\nThis is the seventh line\n")
+            self.assertEqual(out_str, self.results)
 
         else:
             self.assertTrue(os.path.isfile(self.test_out))
@@ -331,8 +444,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.argv_list.extend(["-f", os.path.join(self.test_path,
-                                                  "main_dummy.txt")])
+        self.argv_list.extend(
+            ["-f", os.path.join(self.test_path, "main_dummy.txt")])
         cmdline = gen_libs.get_inst(sys)
         cmdline.argv = self.argv_list
 
