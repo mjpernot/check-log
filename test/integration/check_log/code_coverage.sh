@@ -9,11 +9,13 @@ coverage erase
 echo ""
 echo "Running integration test modules in conjunction with coverage"
 coverage run -a --source=check_log test/integration/check_log/fetch_log.py
+coverage run -a --source=check_log test/integration/check_log/fetch_log2.py
 coverage run -a --source=check_log test/integration/check_log/fetch_log_stdin.py
 coverage run -a --source=check_log test/integration/check_log/find_marker.py
 coverage run -a --source=check_log test/integration/check_log/full_chk.py
 coverage run -a --source=check_log test/integration/check_log/log_2_output.py
 coverage run -a --source=check_log test/integration/check_log/main.py
+coverage run -a --source=check_log test/integration/check_log/read_file.py
 coverage run -a --source=check_log test/integration/check_log/run_program.py
 coverage run -a --source=check_log test/integration/check_log/update_marker.py
 

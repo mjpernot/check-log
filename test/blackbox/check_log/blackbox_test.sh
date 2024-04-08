@@ -15,6 +15,16 @@ else
 fi
 rm test/blackbox/check_log/testfiles/test1.out
 
+printf "Full check with Offset option"
+./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -z -R offset
+$(cmp -s test/blackbox/check_log/basefiles/test1a_base.txt test/blackbox/check_log/testfiles/test1.out)
+if [ $? == 0 ] ; then
+    printf "\t\t\t\tTest Successful\n"
+else
+    printf "\t\t\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test1.out
+
 printf "Partial check"
 ./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -m test/blackbox/check_log/basefiles/test1b_marker.txt -n -z
 $(cmp -s test/blackbox/check_log/basefiles/test1b_base.txt test/blackbox/check_log/testfiles/test1.out)
@@ -45,6 +55,16 @@ else
 fi
 rm test/blackbox/check_log/testfiles/test1.out
 
+printf "Ignore Message check with Offset option"
+./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -i test/blackbox/check_log/basefiles/test1d_ignore.txt -z -R offset
+$(cmp -s test/blackbox/check_log/basefiles/test1d_base.txt test/blackbox/check_log/testfiles/test1.out)
+if [ $? == 0 ] ; then
+    printf "\t\t\tTest Successful\n"
+else
+    printf "\t\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test1.out
+
 printf "Regular Expression check"
 ./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -F test/blackbox/check_log/basefiles/test1e_filter.txt -z
 $(cmp -s test/blackbox/check_log/basefiles/test1e_base.txt test/blackbox/check_log/testfiles/test1.out)
@@ -52,6 +72,16 @@ if [ $? == 0 ] ; then
     printf "\t\t\t\tTest Successful\n"
 else
     printf "\t\t\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test1.out
+
+printf "Regular Expression check with Offset option"
+./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -F test/blackbox/check_log/basefiles/test1e_filter.txt -z -R offset
+$(cmp -s test/blackbox/check_log/basefiles/test1e_base.txt test/blackbox/check_log/testfiles/test1.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
 fi
 rm test/blackbox/check_log/testfiles/test1.out
 
@@ -64,6 +94,18 @@ else
     printf "\t\t\t\tTest Failure\n"
 fi
 rm test/blackbox/check_log/testfiles/test1.out
+
+printf "Recheck Entire Log check with Offset option"
+./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -m test/blackbox/check_log/testfiles/test1_marker.txt -n -z -R offset
+./check_log.py -f test/blackbox/check_log/logfiles/log1.txt -o test/blackbox/check_log/testfiles/test1.out -m test/blackbox/check_log/testfiles/test1_marker.txt -n -r -z -R offset
+$(cmp -s test/blackbox/check_log/basefiles/test1f_base.txt test/blackbox/check_log/testfiles/test1.out)
+if [ $? == 0 ] ; then
+    printf "\t\tTest Successful\n"
+else
+    printf "\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test1.out
+rm test/blackbox/check_log/testfiles/test1_marker.txt
 
 printf "\nScenario 2:  testing...Two file check\n"
 printf "Full check"
@@ -170,6 +212,16 @@ if [ $? == 0 ] ; then
     printf "\t\t\t\t\t\tTest Successful\n"
 else
     printf "\t\t\t\t\t\tTest Failure\n"
+fi
+rm test/blackbox/check_log/testfiles/test5.out
+
+printf "File check with Offset option"
+./check_log.py -f test/blackbox/check_log/logfiles/log5.txt -o test/blackbox/check_log/testfiles/test5.out -z -R offset
+$(cmp -s test/blackbox/check_log/basefiles/test5a_base.txt test/blackbox/check_log/testfiles/test5.out)
+if [ $? == 0 ] ; then
+    printf "\t\t\t\tTest Successful\n"
+else
+    printf "\t\t\t\tTest Failure\n"
 fi
 rm test/blackbox/check_log/testfiles/test5.out
 

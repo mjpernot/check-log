@@ -1,0 +1,2 @@
+This is line six of log
+This is line seven of log
