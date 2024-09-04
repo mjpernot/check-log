@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.2.0] - 2024-09-04
+- Updated python-lib to v3.0.4
+
+### Changed
+- run_program:  Can clear the log and also run check at the same time.
+
+
 ## [4.1.0] - 2024-03-28
 - Added ability to use file offset instead of last line in a file.
 
