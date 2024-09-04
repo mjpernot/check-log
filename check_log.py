@@ -396,36 +396,35 @@ def run_program(args):
     if args.arg_exist("-c") and args.arg_exist("-m"):
         gen_libs.clear_file(args.get_val("-m"))
 
+    log = gen_class.LogFile()
+    load_attributes(log, args)
+
+    if args.get_val("-R") == "offset":
+        fetch_log2(log, args)
+
+        if log.loglist:
+            log.filter_keyword()
+            log.filter_ignore()
+            log.filter_regex()
+            log_2_output(log, args)
+            update_marker(args, log.lastline)
+
     else:
-        log = gen_class.LogFile()
-        load_attributes(log, args)
+        if args.arg_exist("-f"):
+            fetch_log(log, args)
 
-        if args.get_val("-R") == "offset":
-            fetch_log2(log, args)
+        elif not sys.stdin.isatty():
+            fetch_log_stdin(log)
 
-            if log.loglist:
-                log.filter_keyword()
-                log.filter_ignore()
-                log.filter_regex()
-                log_2_output(log, args)
-                update_marker(args, log.lastline)
+        if log.loglist:
+            if not full_chk(args):
+                find_marker(log)
 
-        else:
-            if args.arg_exist("-f"):
-                fetch_log(log, args)
-
-            elif not sys.stdin.isatty():
-                fetch_log_stdin(log)
-
-            if log.loglist:
-                if not full_chk(args):
-                    find_marker(log)
-
-                log.filter_keyword()
-                log.filter_ignore()
-                log.filter_regex()
-                log_2_output(log, args)
-                update_marker(args, log.lastline)
+            log.filter_keyword()
+            log.filter_ignore()
+            log.filter_regex()
+            log_2_output(log, args)
+            update_marker(args, log.lastline)
 
 
 def main():

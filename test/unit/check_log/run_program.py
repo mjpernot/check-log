@@ -228,7 +228,14 @@ class UnitTest(unittest.TestCase):
         self.assertFalse(check_log.run_program(self.argspar))
 
     @mock.patch("check_log.gen_libs.clear_file", mock.Mock(return_value=True))
-    def test_clear_option(self):
+    @mock.patch("check_log.update_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.log_2_output", mock.Mock(return_value=True))
+    @mock.patch("check_log.find_marker", mock.Mock(return_value=True))
+    @mock.patch("check_log.full_chk", mock.Mock(return_value=True))
+    @mock.patch("check_log.fetch_log", mock.Mock(return_value=True))
+    @mock.patch("check_log.load_attributes", mock.Mock(return_value=True))
+    @mock.patch("check_log.gen_class.LogFile")
+    def test_clear_option(self, mock_log):
 
         """Function:  test_clear_option
 
