@@ -93,7 +93,7 @@ Install the project using the procedures in the Installation section.
 
 ```
 cd {Python_Project}/check-log
-test/unit/check_log/unit_test_run.sh
+test/unit/check_log/unit_test_run3.sh
 ```
 
 ### Code Coverage:
@@ -113,7 +113,7 @@ Install the project using the procedures in the Installation section.
 
 ```
 cd {Python_Project}/check-log
-test/integration/check_log/integration_test_run.sh
+test/integration/check_log/integration_test_run3.sh
 ```
 
 ### Code Coverage:
