@@ -123,8 +123,7 @@ class UnitTest(unittest.TestCase):
         self.argv_list.extend(
             ["-f", self.log_file2, "-o", self.test_out, "-S", "sixth", "tenth",
              "-k", "or", "-R", "offset"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -151,8 +150,7 @@ class UnitTest(unittest.TestCase):
         self.argv_list.extend(
             ["-f", self.log_file2, "-o", self.test_out, "-S", "sixth", "tenth",
              "-k", "or"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -179,8 +177,7 @@ class UnitTest(unittest.TestCase):
         self.argv_list.extend(
             ["-f", self.log_file2, "-o", self.test_out, "-S", "is", "line",
              "-k", "and", "-R", "offset"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -207,8 +204,7 @@ class UnitTest(unittest.TestCase):
         self.argv_list.extend(
             ["-f", self.log_file2, "-o", self.test_out, "-S", "is", "line",
              "-k", "and"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -237,8 +233,7 @@ class UnitTest(unittest.TestCase):
         mock_atty.isatty.return_value = False
         self.argv_list.extend(["-o", self.test_out, "-n", "-z",
                                "-m", self.file_marker2])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         check_log.main()
 
@@ -267,8 +262,7 @@ class UnitTest(unittest.TestCase):
         self.argv_list.extend(["-o", self.test_out, "-n", "-z",
                                "-m", os.path.join(self.test_path,
                                                   self.base_marker3)])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         check_log.main()
 
@@ -295,8 +289,7 @@ class UnitTest(unittest.TestCase):
 
         mock_atty.isatty.return_value = False
         self.argv_list.extend(["-o", self.test_out, "-z"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         check_log.main()
 
@@ -320,8 +313,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argv_list.extend(["-c", "-m", self.file_marker])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         check_log.main()
 
@@ -339,8 +331,7 @@ class UnitTest(unittest.TestCase):
 
         self.argv_list.extend(
             ["-f", self.log_file1, "-m", self.test_out, "-R", "offset"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -366,8 +357,7 @@ class UnitTest(unittest.TestCase):
 
         self.argv_list.extend(["-f", self.log_file1, self.log_file2, "-o",
                                self.test_out, "-m", self.file_marker])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -393,8 +383,7 @@ class UnitTest(unittest.TestCase):
 
         self.argv_list.extend(
             ["-f", self.log_file2, "-o", self.test_out, "-R", "offset"])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -419,8 +408,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argv_list.extend(["-f", self.log_file2, "-o", self.test_out])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             check_log.main()
@@ -446,8 +434,7 @@ class UnitTest(unittest.TestCase):
 
         self.argv_list.extend(
             ["-f", os.path.join(self.test_path, "main_dummy.txt")])
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             self.assertFalse(check_log.main())
@@ -463,8 +450,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argv_list.append("-c")
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             self.assertFalse(check_log.main())
@@ -480,8 +466,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.argv_list.append("-h")
-        cmdline = gen_libs.get_inst(sys)
-        cmdline.argv = self.argv_list
+        sys.argv = self.argv_list
 
         with gen_libs.no_std_out():
             self.assertFalse(check_log.main())
