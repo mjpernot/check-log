@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [5.0.0] - 2024-11-27
+Breaking Changes
+
+- Removed support for Python 2.7.
+- Updated python-lib v3.0.8
+
+### Removed
+- Removed "from \_\_future\_\_ import" library modules.
+- Removed "from import" for the local library modules.
+
+
 ## [4.2.3] - 2024-11-15
 
 ### Fixed
