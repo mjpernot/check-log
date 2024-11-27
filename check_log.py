@@ -103,8 +103,6 @@
 """
 
 # Libraries and Global Variables
-#from __future__ import print_function
-#from __future__ import absolute_import
 
 # Standard
 import sys
@@ -114,21 +112,9 @@ import getpass
 import glob
 
 # Local
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
-
-"""
-try:
-    from .lib import gen_libs
-    from .lib import gen_class
-    from . import version
-
-except (ValueError, ImportError) as err:
-    import lib.gen_libs as gen_libs
-    import lib.gen_class as gen_class
-    import version
-"""
+import lib.gen_libs as gen_libs     # pylint:disable=R0402,E0401
+import lib.gen_class as gen_class   # pylint:disable=R0402,E0401
+import version                      # pylint:disable=E0401
 
 __version__ = version.__version__
 
@@ -228,7 +214,8 @@ def log_2_output(log, args):
     # Write output to file.
     if args.arg_exist("-o") and (log.loglist or not args.arg_exist("-w")):
 
-        with open(args.get_val("-o"), args.get_val("-g")) as f_hdlr:
+        with open(args.get_val("-o"), mode=args.get_val("-g"),
+                  encoding="UTF-8") as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 

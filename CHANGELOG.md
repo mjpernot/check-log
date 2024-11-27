@@ -10,6 +10,9 @@ Breaking Changes
 - Removed support for Python 2.7.
 - Updated python-lib v3.0.8
 
+### Changed
+- log_2_output: Added "encoding" argument to open() command.
+
 ### Removed
 - Removed "from \_\_future\_\_ import" library modules.
 - Removed the Python 2.7 local library imports.
