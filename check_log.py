@@ -326,12 +326,11 @@ def read_file(log, fname, inode, offset):
 
     """
 
-    f_hldr = open(fname, "r")
-    f_hldr.seek(0, os.SEEK_END)
-    file_size = f_hldr.tell()
-    f_hldr.seek(offset)
-    data = f_hldr.read(file_size - offset)
-    f_hldr.close()
+    with open(fname, "r", encoding="UTF-8") as f_hldr:
+        f_hldr.seek(0, os.SEEK_END)
+        file_size = f_hldr.tell()
+        f_hldr.seek(offset)
+        data = f_hldr.read(file_size - offset)
 
     if data:
         log.load_loglist(data)
@@ -477,8 +476,8 @@ def main():
             del prog_lock
 
         except gen_class.SingleInstanceException:
-            print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args.get_val("-y", def_val="")))
+            print(f"WARNING:  lock in place for check_log with id of:"
+                  f" {args.get_val("-y", def_val="")}")
 
 
 if __name__ == "__main__":

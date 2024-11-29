@@ -11,6 +11,8 @@ Breaking Changes
 - Updated python-lib v3.0.8
 
 ### Changed
+- main: Converted print statement to a f-string.
+- read_file: Refactored open file code and added "encoding" argument to open() command.
 - log_2_output: Added "encoding" argument to open() command.
 
 ### Removed
