@@ -476,8 +476,8 @@ def main():
             del prog_lock
 
         except gen_class.SingleInstanceException:
-            print(f"WARNING:  lock in place for check_log with id of:"
-                  f" {args.get_val("-y", def_val="")}")
+            print(f'WARNING:  lock in place for check_log with id of:'
+                  f' {args.get_val("-y", def_val="")}')
 
 
 if __name__ == "__main__":
