@@ -21,14 +21,14 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class ArgParser(object):
+class ArgParser():
 
     """Class:  ArgParser
 
@@ -51,7 +51,7 @@ class ArgParser(object):
 
         """
 
-        self.args_array = dict()
+        self.args_array = {}
 
     def arg_exist(self, arg):
 
@@ -156,7 +156,7 @@ class UnitTest(unittest.TestCase):
 
         mock_log.return_value = self.log
 
-        self.log.loglist = list()
+        self.log.loglist = []
 
         self.assertFalse(check_log.run_program(self.argspar))
 
@@ -244,6 +244,8 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
+
+        mock_log.return_value = self.log
 
         self.argspar.args_array["-c"] = True
         self.argspar.args_array["-m"] = "/opt/local/check-log/markerfile"
