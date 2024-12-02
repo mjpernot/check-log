@@ -317,7 +317,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.main()
 
-        self.assertTrue(os.stat(self.file_marker).st_size == 0)
+        self.assertEqual(os.stat(self.file_marker).st_size, 0)
 
     def test_marker_offset(self):
 
