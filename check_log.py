@@ -103,8 +103,6 @@
 """
 
 # Libraries and Global Variables
-from __future__ import print_function
-from __future__ import absolute_import
 
 # Standard
 import sys
@@ -114,15 +112,9 @@ import getpass
 import glob
 
 # Local
-try:
-    from .lib import gen_libs
-    from .lib import gen_class
-    from . import version
-
-except (ValueError, ImportError) as err:
-    import lib.gen_libs as gen_libs
-    import lib.gen_class as gen_class
-    import version
+import lib.gen_libs as gen_libs     # pylint:disable=R0402,E0401
+import lib.gen_class as gen_class   # pylint:disable=R0402,E0401
+import version                      # pylint:disable=E0401
 
 __version__ = version.__version__
 
@@ -222,7 +214,8 @@ def log_2_output(log, args):
     # Write output to file.
     if args.arg_exist("-o") and (log.loglist or not args.arg_exist("-w")):
 
-        with open(args.get_val("-o"), args.get_val("-g")) as f_hdlr:
+        with open(args.get_val("-o"), mode=args.get_val("-g"),
+                  encoding="UTF-8") as f_hdlr:
             for item in log.loglist:
                 print(item, file=f_hdlr)
 
@@ -333,12 +326,11 @@ def read_file(log, fname, inode, offset):
 
     """
 
-    f_hldr = open(fname, "r")
-    f_hldr.seek(0, os.SEEK_END)
-    file_size = f_hldr.tell()
-    f_hldr.seek(offset)
-    data = f_hldr.read(file_size - offset)
-    f_hldr.close()
+    with open(fname, "r", encoding="UTF-8") as f_hldr:
+        f_hldr.seek(0, os.SEEK_END)
+        file_size = f_hldr.tell()
+        f_hldr.seek(offset)
+        data = f_hldr.read(file_size - offset)
 
     if data:
         log.load_loglist(data)
@@ -484,8 +476,8 @@ def main():
             del prog_lock
 
         except gen_class.SingleInstanceException:
-            print("WARNING:  lock in place for check_log with id of: %s"
-                  % (args.get_val("-y", def_val="")))
+            print(f"WARNING:  lock in place for check_log with id of:"
+                  f" {args.get_val("-y", def_val="")}")
 
 
 if __name__ == "__main__":

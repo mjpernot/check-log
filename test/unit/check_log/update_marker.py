@@ -20,13 +20,13 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class ArgParser(object):
+class ArgParser():
 
     """Class:  ArgParser
 
@@ -49,7 +49,7 @@ class ArgParser(object):
 
         """
 
-        self.args_array = dict()
+        self.args_array = {}
 
     def arg_exist(self, arg):
 
@@ -159,7 +159,8 @@ class UnitTest(unittest.TestCase):
 
         check_log.update_marker(self.argspar, self.marker_line)
 
-        with open(self.argspar.args_array["-m"], "r") as f_hdlr:
+        with open(self.argspar.args_array["-m"], "r",
+                  encoding="UTF-8") as f_hdlr:
             marker_str = f_hdlr.readline().strip("\n")
 
         self.assertEqual(marker_str, self.marker_line)

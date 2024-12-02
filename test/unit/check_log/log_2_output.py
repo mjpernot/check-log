@@ -22,15 +22,15 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_libs as gen_libs     # pylint:disable=E0401,R0402,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class ArgParser(object):
+class ArgParser():
 
     """Class:  ArgParser
 
@@ -53,7 +53,7 @@ class ArgParser(object):
 
         """
 
-        self.args_array = dict()
+        self.args_array = {}
 
     def arg_exist(self, arg):
 
@@ -83,7 +83,7 @@ class ArgParser(object):
         return self.args_array.get(skey, def_val)
 
 
-class UnitTest(unittest.TestCase):
+class UnitTest(unittest.TestCase):      # pylint:disable=R0902
 
     """Class:  UnitTest
 
@@ -144,7 +144,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.log.loglist = list()
+        self.log.loglist = []
 
         self.argspar.args_array = {"-t": self.msg}
 
@@ -205,7 +205,8 @@ class UnitTest(unittest.TestCase):
         check_log.log_2_output(self.log, self.argspar)
 
         if os.path.isfile(self.argspar.args_array["-o"]):
-            with open(self.argspar.args_array["-o"]) as f_hdlr:
+            with open(self.argspar.args_array["-o"],
+                      encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line2)
@@ -233,7 +234,8 @@ class UnitTest(unittest.TestCase):
         check_log.log_2_output(self.log, self.argspar)
 
         if os.path.isfile(self.argspar.args_array["-o"]):
-            with open(self.argspar.args_array["-o"]) as f_hdlr:
+            with open(self.argspar.args_array["-o"],
+                      encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str, self.line3)

@@ -13,6 +13,9 @@
 
 # Libraries and Global Variables
 
+# Pylint errors to ignore for entire file
+# pylint:disable=R1732
+
 # Standard
 import sys
 import os
@@ -21,14 +24,14 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class ArgParser(object):
+class ArgParser():
 
     """Class:  ArgParser
 
@@ -51,7 +54,7 @@ class ArgParser(object):
 
         """
 
-        self.args_array = dict()
+        self.args_array = {}
 
     def get_val(self, skey, def_val=None):
 
@@ -79,7 +82,7 @@ class ArgParser(object):
             self.args_array[skey] = data
 
 
-class UnitTest(unittest.TestCase):
+class UnitTest(unittest.TestCase):      # pylint:disable=R0902
 
     """Class:  UnitTest
 
@@ -135,9 +138,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_open.side_effect = [open(self.argspar.args_array["-f"][0], "r"),
-                                 open(self.argspar.args_array["-f"][1], "r"),
-                                 open(self.argspar.args_array["-f"][2], "r")]
+        mock_open.side_effect = [
+            open(self.argspar.args_array["-f"][0], "r", encoding="UTF-8"),
+            open(self.argspar.args_array["-f"][1], "r", encoding="UTF-8"),
+            open(self.argspar.args_array["-f"][2], "r", encoding="UTF-8")]
 
         check_log.fetch_log(self.log, self.argspar)
 
@@ -154,8 +158,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_open.side_effect = [open(self.argspar.args_array["-f"][1], "r"),
-                                 open(self.argspar.args_array["-f"][2], "r")]
+        mock_open.side_effect = [
+            open(self.argspar.args_array["-f"][1], "r", encoding="UTF-8"),
+            open(self.argspar.args_array["-f"][2], "r", encoding="UTF-8")]
 
         check_log.fetch_log(self.log, self.argspar)
 
@@ -174,7 +179,8 @@ class UnitTest(unittest.TestCase):
 
         self.argspar.args_array = {"-f": [self.file_0]}
 
-        mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
+        mock_open.return_value = open(
+            self.argspar.args_array["-f"][0], "r", encoding="UTF-8")
 
         check_log.fetch_log(self.log, self.argspar)
 
@@ -193,7 +199,8 @@ class UnitTest(unittest.TestCase):
 
         self.argspar.args_array = {"-f": [self.file_1]}
 
-        mock_open.return_value = open(self.argspar.args_array["-f"][0], "r")
+        mock_open.return_value = open(
+            self.argspar.args_array["-f"][0], "r", encoding="UTF-8")
 
         check_log.fetch_log(self.log, self.argspar)
 

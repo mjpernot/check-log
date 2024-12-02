@@ -899,7 +899,7 @@ class UnitTest(unittest.TestCase):
             do_parse=True)
         check_log.run_program(args)
 
-        self.assertTrue(os.stat(self.file_marker).st_size == 0)
+        self.assertEqual(os.stat(self.file_marker).st_size, 0)
 
     def tearDown(self):
 

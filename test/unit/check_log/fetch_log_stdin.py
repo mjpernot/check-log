@@ -23,23 +23,16 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
-if sys.version_info < (3, 0):
-    DATA = u"Line one\nLine two\n"
-    DATA2 = u""
-    DATA3 = u"\n"
-    DATA4 = u"Line one\n"
-
-else:
-    DATA = "Line one\nLine two\n"
-    DATA2 = ""
-    DATA3 = "\n"
-    DATA4 = "Line one\n"
+DATA = "Line one\nLine two\n"
+DATA2 = ""
+DATA3 = "\n"
+DATA4 = "Line one\n"
 
 
 class UnitTest(unittest.TestCase):

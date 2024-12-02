@@ -21,13 +21,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class ArgParser(object):
+class ArgParser():
 
     """Class:  ArgParser
 
@@ -50,7 +50,7 @@ class ArgParser(object):
 
         """
 
-        self.args_array = dict()
+        self.args_array = {}
 
     def arg_exist(self, arg):
 
@@ -120,7 +120,7 @@ class UnitTest(unittest.TestCase):
 
         self.argspar.args_array = {"-m": "test_file", "-r": True}
 
-        self.assertEqual(check_log.full_chk(self.argspar), True)
+        self.assertTrue(check_log.full_chk(self.argspar))
 
     @mock.patch("check_log.gen_libs.is_empty_file")
     def test_m_option_selected2(self, mock_file):
@@ -137,7 +137,7 @@ class UnitTest(unittest.TestCase):
 
         mock_file.return_value = False
 
-        self.assertEqual(check_log.full_chk(self.argspar), False)
+        self.assertFalse(check_log.full_chk(self.argspar))
 
     @mock.patch("check_log.gen_libs.is_empty_file")
     def test_m_option_selected(self, mock_file):
@@ -154,7 +154,7 @@ class UnitTest(unittest.TestCase):
 
         mock_file.return_value = True
 
-        self.assertEqual(check_log.full_chk(self.argspar), True)
+        self.assertTrue(check_log.full_chk(self.argspar))
 
     def test_r_option_selected(self):
 
@@ -168,7 +168,7 @@ class UnitTest(unittest.TestCase):
 
         self.argspar.args_array = {"-r": True}
 
-        self.assertEqual(check_log.full_chk(self.argspar), True)
+        self.assertTrue(check_log.full_chk(self.argspar))
 
     def test_no_options_selected(self):
 
@@ -180,7 +180,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(check_log.full_chk(self.argspar), True)
+        self.assertTrue(check_log.full_chk(self.argspar))
 
 
 if __name__ == "__main__":
