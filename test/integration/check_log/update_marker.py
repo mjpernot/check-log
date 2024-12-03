@@ -20,9 +20,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -72,7 +72,7 @@ class UnitTest(unittest.TestCase):
             self.argv, opt_val=self.opt_val, do_parse=True)
         check_log.update_marker(args, self.marker_line)
 
-        with open(args.args_array["-m"], "r") as f_hdlr:
+        with open(args.args_array["-m"], mode="r", encoding="UTF-8") as f_hdlr:
             marker_str = f_hdlr.readline().strip("\n")
 
         self.assertEqual(marker_str, self.marker_line)
