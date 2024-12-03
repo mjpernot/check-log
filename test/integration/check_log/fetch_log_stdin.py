@@ -22,9 +22,9 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -58,7 +58,7 @@ class UnitTest(unittest.TestCase):
         self.results1 = ["Line one"]
         self.results2 = ["Line one", "Line two"]
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u""))
+    @mock.patch("check_log.sys.stdin", io.StringIO(""))
     def test_no_lines(self):
 
         """Function:  test_no_lines
@@ -72,7 +72,7 @@ class UnitTest(unittest.TestCase):
         check_log.fetch_log_stdin(self.log)
         self.assertEqual(self.log.loglist, self.results0)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     def test_multiple_lines(self):
 
         """Function:  test_multiple_lines
@@ -86,7 +86,7 @@ class UnitTest(unittest.TestCase):
         check_log.fetch_log_stdin(self.log)
         self.assertEqual(self.log.loglist, self.results2)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\n"))
     def test_single_line(self):
 
         """Function:  test_single_line

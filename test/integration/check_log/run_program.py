@@ -22,10 +22,10 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_class as gen_class
-import lib.gen_libs as gen_libs
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_libs as gen_libs     # pylint:disable=E0401,R0402,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -260,7 +260,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.results)
@@ -286,7 +286,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.results)
@@ -312,7 +312,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -338,7 +338,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -381,7 +381,7 @@ class UnitTest(unittest.TestCase):
         with gen_libs.no_std_out():
             self.assertFalse(check_log.run_program(args))
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_marker_empty(self, mock_atty):
 
@@ -402,7 +402,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str, self.results2)
@@ -428,7 +428,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -454,7 +454,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -480,7 +480,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -506,7 +506,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.readline().rstrip()
 
             self.assertEqual(out_str, self.line3)
@@ -530,7 +530,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.run_program(args)
 
-        with open(self.file_marker) as f_hdlr:
+        with open(self.file_marker, encoding="UTF-8") as f_hdlr:
             out_str = f_hdlr.readline().rstrip()
 
         self.assertEqual(out_str, self.results3)
@@ -551,7 +551,7 @@ class UnitTest(unittest.TestCase):
 
         check_log.run_program(args)
 
-        with open(self.file_marker) as f_hdlr:
+        with open(self.file_marker, encoding="UTF-8") as f_hdlr:
             out_str = f_hdlr.readline().rstrip()
 
         self.assertEqual(out_str, self.results3)
@@ -578,7 +578,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results4)
@@ -607,7 +607,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results4)
@@ -637,7 +637,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results5)
@@ -666,7 +666,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args2)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results5)
@@ -724,7 +724,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results6)
@@ -748,7 +748,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results6)
@@ -774,7 +774,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results7)
@@ -800,7 +800,7 @@ class UnitTest(unittest.TestCase):
             check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results7)
@@ -808,7 +808,7 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertEqual("", self.results7)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u""))
+    @mock.patch("check_log.sys.stdin", io.StringIO(""))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_empty(self, mock_atty):
 
@@ -828,7 +828,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertFalse(check_log.run_program(args))
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_marker(self, mock_atty):
 
@@ -848,7 +848,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str, self.results8)
@@ -856,7 +856,7 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertEqual("", self.results8)
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin(self, mock_atty):
 
@@ -876,7 +876,7 @@ class UnitTest(unittest.TestCase):
         check_log.run_program(args)
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results9)
