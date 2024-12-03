@@ -21,10 +21,10 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_libs as gen_libs     # pylint:disable=E0401,R0402,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -68,8 +68,8 @@ class UnitTest(unittest.TestCase):
             os.remove(self.file_name)
 
         elif os.path.isfile(self.file_name):
-            print("ERROR:  Test environment not clean - file: %s exists"
-                  % (self.file_name))
+            print(f'ERROR:  Test environment not clean - file:'
+                  f' {self.file_name} exists')
             self.skipTest("Pre-conditions not met.")
 
         self.opt_val = [
@@ -88,7 +88,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.log.loglist = list()
+        self.log.loglist = []
 
         args = gen_class.ArgParser(
             self.argv2, opt_val=self.opt_val, do_parse=True)

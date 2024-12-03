@@ -21,10 +21,10 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_libs as gen_libs
-import lib.gen_class as gen_class
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_libs as gen_libs     # pylint:disable=E0401,R0402,C0413
+import lib.gen_class as gen_class   # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -65,8 +65,8 @@ class UnitTest(unittest.TestCase):
                                            self.test_path, self.logname1)
 
         if not status:
-            print("ERROR:  Test environment setup failed. Message: %s"
-                  % (err_msg))
+            print(f'ERROR:  Test environment setup failed. Message:'
+                  f' {err_msg}')
             self.skipTest("Pre-conditions not met.")
 
         status, err_msg = gen_libs.cp_file(filename2, self.test_path,
@@ -74,8 +74,8 @@ class UnitTest(unittest.TestCase):
 
         if not status:
             os.remove(os.path.join(self.test_path, self.logname1))
-            print("ERROR:  Test environment setup failed. Message: %s"
-                  % (err_msg))
+            print(f'ERROR:  Test environment setup failed. Message:'
+                  f' {err_msg}')
             self.skipTest("Pre-conditions not met.")
 
         self.results = ["This is the first line", "This is the second line",

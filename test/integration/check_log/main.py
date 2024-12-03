@@ -22,9 +22,9 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import check_log
-import lib.gen_libs as gen_libs
-import version
+import check_log                    # pylint:disable=E0401,C0413
+import lib.gen_libs as gen_libs     # pylint:disable=E0401,R0402,C0413
+import version                      # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -129,7 +129,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, "This is the sixth line\n")
@@ -156,7 +156,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, "This is the sixth line\n")
@@ -183,7 +183,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results)
@@ -210,7 +210,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results)
@@ -218,7 +218,7 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertTrue(os.path.isfile(self.test_out))
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_marker(self, mock_atty):
 
@@ -238,7 +238,7 @@ class UnitTest(unittest.TestCase):
         check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str, "Line two")
@@ -246,7 +246,7 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertTrue(os.path.isfile(self.test_out))
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin_marker_empty(self, mock_atty):
 
@@ -267,7 +267,7 @@ class UnitTest(unittest.TestCase):
         check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read().rstrip()
 
             self.assertEqual(out_str, "Line one\nLine two")
@@ -275,7 +275,7 @@ class UnitTest(unittest.TestCase):
         else:
             self.assertTrue(os.path.isfile(self.test_out))
 
-    @mock.patch("check_log.sys.stdin", io.StringIO(u"Line one\nLine two\n"))
+    @mock.patch("check_log.sys.stdin", io.StringIO("Line one\nLine two\n"))
     @mock.patch("check_log.sys.stdin")
     def test_stdin(self, mock_atty):
 
@@ -294,7 +294,7 @@ class UnitTest(unittest.TestCase):
         check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, "Line one\nLine two\n")
@@ -339,7 +339,7 @@ class UnitTest(unittest.TestCase):
         inode = os.stat(self.log_file1).st_ino
         offset = 117
 
-        with open(self.test_out) as f_hdlr:
+        with open(self.test_out, encoding="UTF-8") as f_hdlr:
             out_str = f_hdlr.read()
 
         inode2, offset2 = map(int, out_str.split(":"))
@@ -363,7 +363,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, "This is the seventh line\n")
@@ -389,7 +389,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results)
@@ -414,7 +414,7 @@ class UnitTest(unittest.TestCase):
             check_log.main()
 
         if os.path.isfile(self.test_out):
-            with open(self.test_out) as f_hdlr:
+            with open(self.test_out, encoding="UTF-8") as f_hdlr:
                 out_str = f_hdlr.read()
 
             self.assertEqual(out_str, self.results)
