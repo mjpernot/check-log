@@ -112,9 +112,15 @@ import getpass
 import glob
 
 # Local
-import lib.gen_libs as gen_libs     # pylint:disable=R0402,E0401
-import lib.gen_class as gen_class   # pylint:disable=R0402,E0401
-import version                      # pylint:disable=E0401
+try:
+    from .lib import gen_libs
+    from .lib import gen_class
+    from . import version
+
+except (ValueError, ImportError) as err:
+    import lib.gen_libs as gen_libs                     # pylint:disable=R0402
+    import lib.gen_class as gen_class                   # pylint:disable=R0402
+    import version
 
 __version__ = version.__version__
 
