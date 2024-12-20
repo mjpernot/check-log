@@ -17,7 +17,6 @@ Breaking Changes
 
 ### Removed
 - Removed "from \_\_future\_\_ import" library modules.
-- Removed the Python 2.7 local library imports.
 
 
 ## [4.2.3] - 2024-11-15
