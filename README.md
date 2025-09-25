@@ -76,11 +76,6 @@ Install the project using the procedures in the Installation section.
 
 ```
 test/unit/check_log/unit_test_run.sh
-```
-
-### Code Coverage:
-
-```
 test/unit/check_log/code_coverage.sh
 ```
 
@@ -95,11 +90,6 @@ Install the project using the procedures in the Installation section.
 
 ```
 test/integration/check_log/integration_test_run.sh
-```
-
-### Code Coverage:
-
-```
 test/integration/check_log/code_coverage.sh
 ```
 
